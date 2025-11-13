@@ -1,0 +1,20 @@
+{
+  "navigation": [
+    {
+      "type": "group",
+      "label": "navigation.schedule",
+      "children": [
+        {
+          "type": "page",
+          "label": "navigation.schedule.all_activities",
+          "path": "/activities.html"
+        },
+        {
+          "type": "page",
+          "label": "navigation.schedule.my_schedule",
+          "path": "/my.html"
+        }
+      ]
+    }
+  ]
+}
