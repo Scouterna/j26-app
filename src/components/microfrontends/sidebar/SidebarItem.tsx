@@ -17,7 +17,7 @@ export function SidebarItem({ to, labelKey }: Props) {
           flex justify-start items-center px-2
           h-8
           rounded
-          [&.active]:bg-slate-200
+          [&.active]:bg-blue-50
           [&.active]:border-blue-500
         `}
       >

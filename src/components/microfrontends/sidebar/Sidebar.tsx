@@ -46,7 +46,7 @@ const items: RootItem[] = [
 export function Sidebar() {
   return (
     <aside className="w-48 p-4 border-r">
-      <h1 className="font-bold text-lg mb-4">
+      <h1 className="font-bold text-heading-xs mb-4">
         <T keyName="sidebar.header" />
       </h1>
 
