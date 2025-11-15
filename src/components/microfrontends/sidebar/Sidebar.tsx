@@ -1,4 +1,4 @@
-import { T } from "@tolgee/react";
+import { T, useTranslate } from "@tolgee/react";
 import { SidebarItem } from "./SidebarItem";
 
 type SubItem = {
@@ -44,6 +44,8 @@ const items: RootItem[] = [
 ];
 
 export function Sidebar() {
+  const { t } = useTranslate();
+
   return (
     <aside className="w-48 p-4 border-r">
       <h1 className="font-bold text-heading-xs mb-4">

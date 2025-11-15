@@ -10,7 +10,7 @@ export const tolgee = Tolgee()
   .use(FormatSimple())
   .init({
     language: "sv",
-    ns: ["app", "sidebar"],
+    ns: ["app", "navigation"],
 
     // for development
     apiUrl: import.meta.env.VITE_APP_TOLGEE_API_URL,
