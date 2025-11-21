@@ -17,7 +17,7 @@ import { useCallback } from "react";
 const menuItems = [
   {
     icon: CalendarIcon,
-    label: "page.calendar.lOabel",
+    label: "page.calendar.label",
     path: "/schedule/my.html",
   },
   {
