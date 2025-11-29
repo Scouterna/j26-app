@@ -1,10 +1,10 @@
 import { ScoutBottomBar, ScoutBottomBarItem } from "@scouterna/ui-react";
 import {
+  createLink,
   createRootRoute,
   Outlet,
   useLocation,
   useMatchRoute,
-  useNavigate,
 } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 
@@ -12,7 +12,13 @@ import BonfireIcon from "iconoir/icons/bonfire.svg?raw";
 import CalendarIcon from "iconoir/icons/calendar.svg?raw";
 import MapIcon from "iconoir/icons/map.svg?raw";
 import MoreHorizIcon from "iconoir/icons/more-horiz.svg?raw";
-import { useCallback } from "react";
+import { type ComponentProps, useCallback } from "react";
+
+export const ScoutBottomBarItemLink = createLink(
+  ({ ref, ...props }: ComponentProps<typeof ScoutBottomBarItem>) => {
+    return <ScoutBottomBarItem ref={ref} type="link" {...props} />;
+  },
+);
 
 const menuItems = [
   {
@@ -39,7 +45,6 @@ const menuItems = [
 
 const RootLayout = () => {
   const { t } = useTranslate("navigation");
-  const navigate = useNavigate();
   const matchRoute = useMatchRoute();
   const location = useLocation();
 
@@ -60,28 +65,16 @@ const RootLayout = () => {
 
         <ScoutBottomBar>
           {menuItems.map((item) => (
-            <ScoutBottomBarItem
+            <ScoutBottomBarItemLink
               key={item.path}
               icon={item.icon}
               label={t(item.label)}
-              type="link"
-              // We're handing onClick but also providing href for accessibility
-              href={item.path}
+              to={item.path}
               active={
                 !!reactiveMatchRoute({
                   to: item.path,
                 })
               }
-              onClick={(e) => {
-                // Let ctrl+click open in new tab
-                if (e.ctrlKey || e.metaKey) {
-                  return;
-                }
-                e.preventDefault();
-                navigate({
-                  to: item.path,
-                });
-              }}
             />
           ))}
         </ScoutBottomBar>
