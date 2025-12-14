@@ -1,0 +1,10 @@
+{
+  "navigation": [
+    {
+      "type": "page",
+      "label": "map.map.label",
+      "icon": "map",
+      "path": "/"
+    }
+  ]
+}

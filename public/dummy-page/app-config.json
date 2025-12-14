@@ -2,16 +2,18 @@
   "navigation": [
     {
       "type": "group",
-      "label": "navigation.schedule",
+      "label": "booking.schedule.label",
       "children": [
         {
           "type": "page",
-          "label": "navigation.schedule.all_activities",
+          "label": "booking.all_activities.label",
+          "icon": "campfire",
           "path": "/activities.html"
         },
         {
           "type": "page",
-          "label": "navigation.schedule.my_schedule",
+          "label": "booking.my_schedule.label",
+          "icon": "calendar-event",
           "path": "/my.html"
         }
       ]

@@ -1,3 +1,5 @@
+import "./index.css";
+
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { TolgeeProvider } from "@tolgee/react";
 import { StrictMode } from "react";
@@ -5,13 +7,13 @@ import ReactDOM from "react-dom/client";
 
 import "@scouterna/ui-webc/dist/ui-webc/ui-webc.css";
 
+import { ScoutLoader } from "@scouterna/ui-react";
+import { NotFound } from "./components/NotFound";
+import { DynamicRoutesProvider } from "./dynamic-routes/dynamic-routes-context";
+import { IconProvider } from "./icons/icons";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-
-import "./index.css";
 import { tolgee } from "./tolgee";
-import { NotFound } from "./components/NotFound";
-import { ScoutLoader } from "@scouterna/ui-react";
 
 // Create a new router instance
 const router = createRouter({ routeTree, defaultNotFoundComponent: NotFound });
@@ -30,6 +32,14 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
+      {/* FIXME: For now we rely on Tolgee's internal Suspense component. We don't want to do this: https://github.com/tolgee/tolgee-js/issues/3487 */}
+      {/* <Suspense
+        fallback={
+          <div className="flex items-center justify-center h-screen w-screen">
+            <ScoutLoader />
+          </div>
+        }
+      > */}
       <TolgeeProvider
         tolgee={tolgee}
         fallback={
@@ -38,8 +48,13 @@ if (!rootElement.innerHTML) {
           </div>
         }
       >
-        <RouterProvider router={router} />
+        <DynamicRoutesProvider>
+          <IconProvider>
+            <RouterProvider router={router} />
+          </IconProvider>
+        </DynamicRoutesProvider>
       </TolgeeProvider>
+      {/* </Suspense> */}
     </StrictMode>,
   );
 }
