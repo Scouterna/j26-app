@@ -11,6 +11,7 @@ import { routeTree } from "./routeTree.gen";
 import "./index.css";
 import { tolgee } from "./tolgee";
 import { NotFound } from "./components/NotFound";
+import { ScoutLoader } from "@scouterna/ui-react";
 
 // Create a new router instance
 const router = createRouter({ routeTree, defaultNotFoundComponent: NotFound });
@@ -29,7 +30,14 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <TolgeeProvider tolgee={tolgee} fallback="Loading...">
+      <TolgeeProvider
+        tolgee={tolgee}
+        fallback={
+          <div className="flex items-center justify-center h-screen w-screen">
+            <ScoutLoader />
+          </div>
+        }
+      >
         <RouterProvider router={router} />
       </TolgeeProvider>
     </StrictMode>,

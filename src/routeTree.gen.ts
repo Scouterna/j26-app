@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MoreRouteImport } from './routes/more'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ScheduleSplatRouteImport } from './routes/schedule.$'
 
+const MoreRoute = MoreRouteImport.update({
+  id: '/more',
+  path: '/more',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -32,35 +38,46 @@ const ScheduleSplatRoute = ScheduleSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/more': typeof MoreRoute
   '/schedule/$': typeof ScheduleSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/more': typeof MoreRoute
   '/schedule/$': typeof ScheduleSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/more': typeof MoreRoute
   '/schedule/$': typeof ScheduleSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/schedule/$'
+  fullPaths: '/' | '/about' | '/more' | '/schedule/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/schedule/$'
-  id: '__root__' | '/' | '/about' | '/schedule/$'
+  to: '/' | '/about' | '/more' | '/schedule/$'
+  id: '__root__' | '/' | '/about' | '/more' | '/schedule/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  MoreRoute: typeof MoreRoute
   ScheduleSplatRoute: typeof ScheduleSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/more': {
+      id: '/more'
+      path: '/more'
+      fullPath: '/more'
+      preLoaderRoute: typeof MoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  MoreRoute: MoreRoute,
   ScheduleSplatRoute: ScheduleSplatRoute,
 }
 export const routeTree = rootRouteImport

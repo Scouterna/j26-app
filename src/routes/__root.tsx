@@ -1,4 +1,8 @@
 import { ScoutBottomBar, ScoutBottomBarItem } from "@scouterna/ui-react";
+import CalendarEventIcon from "@tabler/icons/outline/calendar-event.svg?raw";
+import CampfireIcon from "@tabler/icons/outline/campfire.svg?raw";
+import DotsIcon from "@tabler/icons/outline/dots.svg?raw";
+import MapIcon from "@tabler/icons/outline/map.svg?raw";
 import {
   createLink,
   createRootRoute,
@@ -7,11 +11,6 @@ import {
   useMatchRoute,
 } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
-
-import BonfireIcon from "iconoir/icons/bonfire.svg?raw";
-import CalendarIcon from "iconoir/icons/calendar.svg?raw";
-import MapIcon from "iconoir/icons/map.svg?raw";
-import MoreHorizIcon from "iconoir/icons/more-horiz.svg?raw";
 import { type ComponentProps, useCallback } from "react";
 
 export const ScoutBottomBarItemLink = createLink(
@@ -22,7 +21,7 @@ export const ScoutBottomBarItemLink = createLink(
 
 const menuItems = [
   {
-    icon: CalendarIcon,
+    icon: CalendarEventIcon,
     label: "page.calendar.label",
     path: "/schedule/my.html",
   },
@@ -32,12 +31,12 @@ const menuItems = [
     path: "/map",
   },
   {
-    icon: BonfireIcon,
+    icon: CampfireIcon,
     label: "page.activities.label",
     path: "/schedule/activities.html",
   },
   {
-    icon: MoreHorizIcon,
+    icon: DotsIcon,
     label: "page.more.label",
     path: "/more",
   },

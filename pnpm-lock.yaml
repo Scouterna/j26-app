@@ -25,6 +25,9 @@ importers:
       '@scouterna/ui-webc':
         specifier: link:../../../../.local/share/pnpm/global/5/node_modules/@scouterna/ui-webc
         version: link:../../../../.local/share/pnpm/global/5/node_modules/@scouterna/ui-webc
+      '@tabler/icons':
+        specifier: ^3.35.0
+        version: 3.35.0
       '@tailwindcss/vite':
         specifier: ^4.1.17
         version: 4.1.17(rolldown-vite@7.2.10(esbuild@0.25.10)(jiti@2.6.1)(tsx@4.20.5))
@@ -578,6 +581,9 @@ packages:
 
   '@rolldown/pluginutils@1.0.0-beta.53':
     resolution: {integrity: sha512-vENRlFU4YbrwVqNDZ7fLvy+JR1CRkyr01jhSiDpE1u6py3OMzQfztQU2jxykW3ALNxO4kSlqIDeYyD0Y9RcQeQ==}
+
+  '@tabler/icons@3.35.0':
+    resolution: {integrity: sha512-yYXe+gJ56xlZFiXwV9zVoe3FWCGuZ/D7/G4ZIlDtGxSx5CGQK110wrnT29gUj52kEZoxqF7oURTk97GQxELOFQ==}
 
   '@tailwindcss/node@4.1.17':
     resolution: {integrity: sha512-csIkHIgLb3JisEFQ0vxr2Y57GUNYh447C8xzwj89U/8fdW8LhProdxvnVH6U8M2Y73QKiTIH+LWbK3V2BBZsAg==}
@@ -1719,6 +1725,8 @@ snapshots:
   '@rolldown/pluginutils@1.0.0-beta.47': {}
 
   '@rolldown/pluginutils@1.0.0-beta.53': {}
+
+  '@tabler/icons@3.35.0': {}
 
   '@tailwindcss/node@4.1.17':
     dependencies:
