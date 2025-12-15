@@ -1,9 +1,21 @@
 import { createContext, use, useContext } from "react";
 import { type AppConfig, loadAppConfigs } from "./dynamic-routes";
 
-const context = createContext<Record<string, AppConfig> | null>(null);
+type DynamicRoutesContext = {
+  configs: Record<string, AppConfig>;
+  bottomNavItems: string[];
+};
 
-const appConfigUrls = (import.meta.env.VITE_APP_APP_CONFIGS ?? "").split(",");
+const context = createContext<DynamicRoutesContext | null>(null);
+
+const appConfigUrls = ((import.meta.env.VITE_APP_CONFIGS ?? "") as string)
+  .split(",")
+  .map((item) => item.trim());
+
+const bottomNavItems = ((import.meta.env.VITE_BOTTOM_NAV_ITEMS ?? "") as string)
+  .split(",")
+  .map((item) => item.trim());
+
 const appConfigsPromise = loadAppConfigs(appConfigUrls);
 
 export function DynamicRoutesProvider({
@@ -11,11 +23,24 @@ export function DynamicRoutesProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const appConfigs = use(appConfigsPromise);
-
-  return <context.Provider value={appConfigs}>{children}</context.Provider>;
+  return (
+    <context.Provider
+      value={{
+        configs: use(appConfigsPromise),
+        bottomNavItems,
+      }}
+    >
+      {children}
+    </context.Provider>
+  );
 }
 
 export function useDynamicRoutes() {
-  return useContext(context);
+  const ctx = useContext(context);
+  if (!ctx) {
+    throw new Error(
+      "useDynamicRoutes must be used within a DynamicRoutesProvider",
+    );
+  }
+  return ctx;
 }

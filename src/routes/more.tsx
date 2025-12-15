@@ -19,6 +19,7 @@ export const ScoutListViewItemLink = createLink(
 
 type Page = typeof appConfig.Page.infer;
 type Group = typeof appConfig.Group.infer;
+type NavigationItem = typeof appConfig.NavigationItem.infer;
 
 export const Route = createFileRoute("/more")({
   component: More,
@@ -46,15 +47,51 @@ function DynamicGroupItem({ group }: { group: Group }) {
   );
 }
 
+function filterOutPagesById(
+  items: NavigationItem[],
+  idsToFilter: string[],
+): NavigationItem[] {
+  return items
+    .map((item) => {
+      if (item.type === "page") {
+        if (idsToFilter.includes(item.id)) {
+          return null;
+        }
+        return item;
+      } else if (item.type === "group") {
+        const filteredChildren = item.children.filter(
+          (child) => !idsToFilter.includes(child.id),
+        );
+        if (filteredChildren.length === 0) {
+          return null;
+        }
+        return {
+          ...item,
+          children: filteredChildren,
+        };
+      }
+      return null;
+    })
+    .filter((item) => item != null);
+}
+
 function More() {
-  const dynamicRoutes = useDynamicRoutes();
-  const routeEntries = Object.entries(dynamicRoutes ?? {});
+  const { configs, bottomNavItems } = useDynamicRoutes();
+  const routeEntries = Object.entries(configs);
+
+  const filteredRouteEntries = routeEntries.map(([url, config]) => {
+    const filteredNavigation = filterOutPagesById(
+      config.navigation,
+      bottomNavItems,
+    );
+    return [url, { ...config, navigation: filteredNavigation }] as const;
+  });
 
   return (
     <>
       <h1 className="text-heading-xs mb-2 px-4 py-2">Genvägar</h1>
 
-      {routeEntries.map(([url, config], index) => (
+      {filteredRouteEntries.map(([url, config], index) => (
         <>
           <ScoutListView key={`${url}_item`}>
             {config.navigation.map((navItem) => {

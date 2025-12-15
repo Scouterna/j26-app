@@ -1,0 +1,11 @@
+{
+  "navigation": [
+    {
+      "type": "page",
+      "id": "page_more",
+      "label": "app.more.label",
+      "icon": "dots",
+      "path": "/more"
+    }
+  ]
+}
