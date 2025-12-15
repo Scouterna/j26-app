@@ -2,7 +2,7 @@ import {
   ScoutDivider,
   ScoutListView,
   ScoutListViewItem,
-  ScoutListViewSubheading,
+  ScoutListViewSubheader,
 } from "@scouterna/ui-react";
 import { createFileRoute, createLink } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
@@ -37,7 +37,7 @@ function DynamicGroupItem({ group }: { group: Group }) {
 
   return (
     <>
-      <ScoutListViewSubheading text={t(group.label)} />
+      <ScoutListViewSubheader text={t(group.label)} />
 
       {group.children.map((page) => (
         <DynamicPageItem key={`${page.label}_${page.path}`} page={page} />
