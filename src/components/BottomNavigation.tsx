@@ -1,11 +1,16 @@
-import { ScoutBottomBar } from "@scouterna/ui-react";
-import { useLocation, useMatchRoute } from "@tanstack/react-router";
+import { ScoutBottomBar, ScoutBottomBarItem } from "@scouterna/ui-react";
+import { createLink, useLocation, useMatchRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
-import { useCallback } from "react";
+import { type ComponentProps, useCallback } from "react";
 import type { appConfig } from "../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIcon } from "../icons/icons";
-import { ScoutBottomBarItemLink } from "../routes/__root";
+
+export const ScoutBottomBarItemLink = createLink(
+  ({ ref, ...props }: ComponentProps<typeof ScoutBottomBarItem>) => {
+    return <ScoutBottomBarItem ref={ref} type="link" {...props} />;
+  },
+);
 
 type Page = typeof appConfig.Page.infer;
 

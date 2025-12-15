@@ -14,6 +14,8 @@ import { IconProvider } from "./icons/icons";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 import { tolgee } from "./tolgee";
+import { Provider as JotaiProvider } from "jotai";
+import { languageStore } from "./language/language";
 
 // Create a new router instance
 const router = createRouter({ routeTree, defaultNotFoundComponent: NotFound });
@@ -32,29 +34,31 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      {/* FIXME: For now we rely on Tolgee's internal Suspense component. We don't want to do this: https://github.com/tolgee/tolgee-js/issues/3487 */}
-      {/* <Suspense
+      <JotaiProvider store={languageStore}>
+        {/* FIXME: For now we rely on Tolgee's internal Suspense component. We don't want to do this: https://github.com/tolgee/tolgee-js/issues/3487 */}
+        {/* <Suspense
         fallback={
           <div className="flex items-center justify-center h-screen w-screen">
             <ScoutLoader />
           </div>
         }
       > */}
-      <TolgeeProvider
-        tolgee={tolgee}
-        fallback={
-          <div className="flex items-center justify-center h-screen w-screen">
-            <ScoutLoader />
-          </div>
-        }
-      >
-        <DynamicRoutesProvider>
-          <IconProvider>
-            <RouterProvider router={router} />
-          </IconProvider>
-        </DynamicRoutesProvider>
-      </TolgeeProvider>
-      {/* </Suspense> */}
+        <TolgeeProvider
+          tolgee={tolgee}
+          fallback={
+            <div className="flex items-center justify-center h-screen w-screen">
+              <ScoutLoader />
+            </div>
+          }
+        >
+          <DynamicRoutesProvider>
+            <IconProvider>
+              <RouterProvider router={router} />
+            </IconProvider>
+          </DynamicRoutesProvider>
+        </TolgeeProvider>
+        {/* </Suspense> */}
+      </JotaiProvider>
     </StrictMode>,
   );
 }

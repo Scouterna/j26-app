@@ -1,4 +1,10 @@
-import { BackendFetch, DevTools, FormatSimple, Tolgee } from "@tolgee/react";
+import {
+  BackendFetch,
+  DevTools,
+  FormatSimple,
+  LanguageDetector,
+  Tolgee,
+} from "@tolgee/react";
 
 export const tolgee = Tolgee()
   .use(
@@ -8,9 +14,11 @@ export const tolgee = Tolgee()
   )
   .use(DevTools())
   .use(FormatSimple())
+  .use(LanguageDetector())
   .init({
     language: "sv",
     ns: ["app", "navigation"],
+    availableLanguages: ["sv", "en"],
 
     // for development
     apiUrl: import.meta.env.VITE_TOLGEE_API_URL,

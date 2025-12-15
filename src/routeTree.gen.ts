@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MoreRouteImport } from './routes/more'
+import { Route as LanguageRouteImport } from './routes/language'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ScheduleSplatRouteImport } from './routes/schedule.$'
@@ -17,6 +18,11 @@ import { Route as ScheduleSplatRouteImport } from './routes/schedule.$'
 const MoreRoute = MoreRouteImport.update({
   id: '/more',
   path: '/more',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LanguageRoute = LanguageRouteImport.update({
+  id: '/language',
+  path: '/language',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -38,12 +44,14 @@ const ScheduleSplatRoute = ScheduleSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/language': typeof LanguageRoute
   '/more': typeof MoreRoute
   '/schedule/$': typeof ScheduleSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/language': typeof LanguageRoute
   '/more': typeof MoreRoute
   '/schedule/$': typeof ScheduleSplatRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/language': typeof LanguageRoute
   '/more': typeof MoreRoute
   '/schedule/$': typeof ScheduleSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/more' | '/schedule/$'
+  fullPaths: '/' | '/about' | '/language' | '/more' | '/schedule/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/more' | '/schedule/$'
-  id: '__root__' | '/' | '/about' | '/more' | '/schedule/$'
+  to: '/' | '/about' | '/language' | '/more' | '/schedule/$'
+  id: '__root__' | '/' | '/about' | '/language' | '/more' | '/schedule/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  LanguageRoute: typeof LanguageRoute
   MoreRoute: typeof MoreRoute
   ScheduleSplatRoute: typeof ScheduleSplatRoute
 }
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/more'
       fullPath: '/more'
       preLoaderRoute: typeof MoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/language': {
+      id: '/language'
+      path: '/language'
+      fullPath: '/language'
+      preLoaderRoute: typeof LanguageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  LanguageRoute: LanguageRoute,
   MoreRoute: MoreRoute,
   ScheduleSplatRoute: ScheduleSplatRoute,
 }

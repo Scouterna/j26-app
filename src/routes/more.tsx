@@ -4,8 +4,9 @@ import {
   ScoutListViewItem,
   ScoutListViewSubheader,
 } from "@scouterna/ui-react";
+import LanguageIcon from "@tabler/icons/outline/language.svg?raw";
 import { createFileRoute, createLink } from "@tanstack/react-router";
-import { useTranslate } from "@tolgee/react";
+import { useTolgee, useTranslate } from "@tolgee/react";
 import type { ComponentProps } from "react";
 import type { appConfig } from "../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
@@ -30,7 +31,9 @@ function DynamicPageItem({ page }: { page: Page }) {
 
   const icon = useIcon(page.icon);
 
-  return <ScoutListViewItem primary={t(page.label)} icon={icon} />;
+  return (
+    <ScoutListViewItemLink primary={t(page.label)} icon={icon} to={page.path} />
+  );
 }
 
 function DynamicGroupItem({ group }: { group: Group }) {
@@ -75,6 +78,21 @@ function filterOutPagesById(
     .filter((item) => item != null);
 }
 
+function LanguageItem() {
+  const { t } = useTranslate("app");
+  const tolgee = useTolgee();
+  const language = tolgee.getLanguage();
+
+  return (
+    <ScoutListViewItemLink
+      primary={t("language_selector.title")}
+      secondary={t(`language.${language}`, { language })}
+      icon={LanguageIcon}
+      to="/language"
+    />
+  );
+}
+
 function More() {
   const { configs, bottomNavItems } = useDynamicRoutes();
   const routeEntries = Object.entries(configs);
@@ -114,6 +132,10 @@ function More() {
           )}
         </>
       ))}
+
+      <ScoutListView>
+        <LanguageItem />
+      </ScoutListView>
     </>
   );
 }

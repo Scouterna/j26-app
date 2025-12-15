@@ -24,6 +24,7 @@
     "arktype": "^2.1.29",
     "iconoir": "^7.11.0",
     "iconoir-react": "^7.11.0",
+    "jotai": "^2.16.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "tailwindcss": "^4.1.17"
