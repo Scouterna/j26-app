@@ -23,16 +23,10 @@ export function useIcon(
   }
 
   if (!iconMap.has(iconName)) {
-    const url = `/icons/${variant}/${iconName}.svg`;
-
-    const promise = fetch(url)
-      .then(async (res) => {
-        const text = await res.text();
-        if (!text.includes("<svg")) {
-          throw new Error(`Content did not look like an SVG for URL ${url}`);
-        }
-        return text;
-      })
+    const promise = import(
+      `../../node_modules/@tabler/icons/icons/${variant}/${iconName}.svg?raw`
+    )
+      .then((module) => module.default)
       .catch(() => {
         console.warn(`Failed to load icon: ${iconName}`);
         return HelpSquareIcon;
