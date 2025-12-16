@@ -6,6 +6,12 @@ import {
   Tolgee,
 } from "@tolgee/react";
 
+function getLanguageName(lang: string): string {
+  const dn = new Intl.DisplayNames([lang], { type: "language" });
+  const name = dn.of(lang);
+  return name || lang;
+}
+
 export const tolgee = Tolgee()
   .use(
     BackendFetch({
@@ -25,3 +31,8 @@ export const tolgee = Tolgee()
     apiKey: import.meta.env.VITE_TOLGEE_API_KEY,
     projectId: import.meta.env.VITE_TOLGEE_PROJECT_ID,
   });
+
+export const languageNames: Record<string, string> = {};
+for (const lang of tolgee.getInitialOptions().availableLanguages ?? []) {
+  languageNames[lang] = getLanguageName(lang);
+}

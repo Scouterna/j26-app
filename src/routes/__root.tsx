@@ -1,19 +1,18 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { AppBar } from "../components/AppBar";
 import { BottomNavigation } from "../components/BottomNavigation";
 
 const RootLayout = () => {
   return (
-    <>
-      <div className="flex flex-col h-screen w-screen">
-        <main className="flex-1">
-          <Outlet />
-        </main>
+    <div className="flex flex-col h-screen w-screen">
+      <AppBar />
 
-        <BottomNavigation />
-      </div>
+      <main className="flex-1">
+        <Outlet />
+      </main>
 
-      {/* <TanStackRouterDevtools /> */}
-    </>
+      <BottomNavigation />
+    </div>
   );
 };
 

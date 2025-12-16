@@ -1,13 +1,5 @@
-import { ScoutButton } from "@scouterna/ui-react";
-import { createLink } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
-import type { ComponentProps } from "react";
-
-export const ScoutButtonLink = createLink(
-  ({ ref, ...props }: ComponentProps<typeof ScoutButton>) => {
-    return <ScoutButton ref={ref} type="link" {...props} />;
-  },
-);
+import { ScoutButtonLink } from "./links";
 
 export function NotFound() {
   return (
@@ -20,7 +12,7 @@ export function NotFound() {
         <T keyName="not_found.message" ns="app" />
       </p>
 
-      <ScoutButtonLink to="/map" variant="primary">
+      <ScoutButtonLink to="/" variant="primary">
         <T keyName="not_found.go_to_map.label" ns="app" />
       </ScoutButtonLink>
     </div>
