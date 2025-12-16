@@ -24,7 +24,7 @@ export const tolgee = Tolgee()
   .init({
     language: "sv",
     ns: ["app", "navigation"],
-    availableLanguages: ["sv", "en"],
+    availableLanguages: ["sv", "en", "uk"],
 
     // for development
     apiUrl: import.meta.env.VITE_TOLGEE_API_URL,

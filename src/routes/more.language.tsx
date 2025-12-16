@@ -28,33 +28,20 @@ function RouteComponent() {
   }
 
   return (
-    // <div className="p-4">
-    //   <ScoutStack direction="column" gapSize="xs">
-    //     {availableLanguages.map((language) => (
-    //       <ScoutButton
-    //         key={language}
-    //         variant={language === currentLanguage ? "primary" : "outlined"}
-    //         onScoutClick={() => {
-    //           tolgee.changeLanguage(language);
-    //         }}
-    //       >
-    //         {t(`language.${language}`, { language })}
-    //       </ScoutButton>
-    //     ))}
-    //   </ScoutStack>
-    // </div>
-
     <ScoutListView>
       {availableLanguages.map((language) => (
         <ScoutListViewItem
           key={language}
+          type="radio"
+          name="language"
+          value={language}
+          checked={language === currentLanguage}
           primary={languageNames[language] || language}
           onScoutClick={() => {
             tolgee.changeLanguage(language);
           }}
-          // selected={language === currentLanguage}
         />
       ))}
     </ScoutListView>
-  )
+  );
 }
