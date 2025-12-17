@@ -6,6 +6,9 @@ import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    dedupe: ["react", "react-dom"],
+  },
   plugins: [
     nitro(),
     tailwindcss(),
