@@ -5,6 +5,7 @@ import {
   LanguageDetector,
   Tolgee,
 } from "@tolgee/react";
+import { configPromise } from "./config";
 
 function getLanguageName(lang: string): string {
   const dn = new Intl.DisplayNames([lang], { type: "language" });
@@ -12,27 +13,42 @@ function getLanguageName(lang: string): string {
   return name || lang;
 }
 
-export const tolgee = Tolgee()
-  .use(
-    BackendFetch({
-      prefix: import.meta.env.VITE_TOLGEE_BACKEND_FETCH_PREFIX,
-    }),
-  )
-  .use(DevTools())
-  .use(FormatSimple())
-  .use(LanguageDetector())
-  .init({
-    language: "sv",
-    ns: ["app", "navigation"],
-    availableLanguages: ["sv", "en", "uk"],
+const createTolgee = async () => {
+  const config = await configPromise;
 
-    // for development
-    apiUrl: import.meta.env.VITE_TOLGEE_API_URL,
-    apiKey: import.meta.env.VITE_TOLGEE_API_KEY,
-    projectId: import.meta.env.VITE_TOLGEE_PROJECT_ID,
-  });
+  const tolgee = Tolgee()
+    .use(
+      BackendFetch({
+        prefix: config.tolgeeBackendFetchPrefix,
+      }),
+    )
+    .use(DevTools())
+    .use(FormatSimple())
+    .use(LanguageDetector())
+    .init({
+      language: "sv",
+      ns: ["app", "navigation"],
+      availableLanguages: ["sv", "en", "uk"],
 
-export const languageNames: Record<string, string> = {};
-for (const lang of tolgee.getInitialOptions().availableLanguages ?? []) {
-  languageNames[lang] = getLanguageName(lang);
-}
+      // for development
+      apiUrl: config.tolgeeApiUrl,
+      apiKey: config.tolgeeApiKey,
+      projectId: config.tolgeeProjectId,
+    });
+  return tolgee;
+};
+
+export const tolgeePromise = createTolgee();
+
+const createLanguageNames = async () => {
+  const tolgee = await tolgeePromise;
+
+  const languageNames: Record<string, string> = {};
+  for (const lang of tolgee.getInitialOptions().availableLanguages ?? []) {
+    languageNames[lang] = getLanguageName(lang);
+  }
+
+  return languageNames;
+};
+
+export const languageNamesPromise = createLanguageNames();

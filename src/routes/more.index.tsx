@@ -10,7 +10,8 @@ import { ScoutListViewItemLink } from "../components/links";
 import type { appConfig } from "../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIcon } from "../icons/icons";
-import { languageNames } from "../tolgee";
+import { languageNamesPromise } from "../tolgee";
+import { use } from "react";
 
 type Page = typeof appConfig.Page.infer;
 type Group = typeof appConfig.Group.infer;
@@ -79,6 +80,7 @@ function LanguageItem() {
   const { t } = useTranslate("app");
   const tolgee = useTolgee();
   const language = tolgee.getLanguage();
+  const languageNames = use(languageNamesPromise);
 
   return (
     <ScoutListViewItemLink

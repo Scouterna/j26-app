@@ -2,9 +2,9 @@ import { ScoutListView, ScoutListViewItem } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTolgee } from "@tolgee/react";
 import { useAtomValue } from "jotai";
-import { useMemo } from "react";
+import { use, useMemo } from "react";
 import { languageAtom } from "../language/language";
-import { languageNames } from "../tolgee";
+import { languageNamesPromise } from "../tolgee";
 
 export const Route = createFileRoute("/more/language")({
   component: RouteComponent,
@@ -17,6 +17,7 @@ function RouteComponent() {
   const tolgee = useTolgee();
 
   const currentLanguage = useAtomValue(languageAtom);
+  const languageNames = use(languageNamesPromise);
 
   const { availableLanguages } = useMemo(
     () => tolgee.getInitialOptions(),

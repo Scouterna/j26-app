@@ -1,4 +1,4 @@
-import { ScoutAppBar, ScoutButton } from "@scouterna/ui-react";
+import { ScoutAppBar } from "@scouterna/ui-react";
 import ArrowLeftIcon from "@tabler/icons/outline/arrow-left.svg?raw";
 import { useMatches, useRouter } from "@tanstack/react-router";
 import { T, useTranslate } from "@tolgee/react";

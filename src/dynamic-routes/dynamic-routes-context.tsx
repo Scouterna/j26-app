@@ -1,5 +1,6 @@
 import { createContext, use, useContext } from "react";
 import { type AppConfig, loadAppConfigs } from "./dynamic-routes";
+import { configPromise } from "../config";
 
 type DynamicRoutesContext = {
   configs: Record<string, AppConfig>;
@@ -8,15 +9,10 @@ type DynamicRoutesContext = {
 
 const context = createContext<DynamicRoutesContext | null>(null);
 
-const appConfigUrls = ((import.meta.env.VITE_APP_CONFIGS ?? "") as string)
-  .split(",")
-  .map((item) => item.trim());
-
-const bottomNavItems = ((import.meta.env.VITE_BOTTOM_NAV_ITEMS ?? "") as string)
-  .split(",")
-  .map((item) => item.trim());
-
-const appConfigsPromise = loadAppConfigs(appConfigUrls);
+const appConfigsPromise = (async () => {
+  const config = await configPromise;
+  return await loadAppConfigs(config.appConfigs);
+})();
 
 export function DynamicRoutesProvider({
   children,
@@ -27,7 +23,7 @@ export function DynamicRoutesProvider({
     <context.Provider
       value={{
         configs: use(appConfigsPromise),
-        bottomNavItems,
+        bottomNavItems: use(configPromise).bottomNavItems,
       }}
     >
       {children}
