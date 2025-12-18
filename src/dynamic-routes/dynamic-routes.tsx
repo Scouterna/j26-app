@@ -11,7 +11,9 @@ function remapPageUrl(page: Page, configUrl: string) {
   const absoluteConfigUrl = new URL(configUrl, window.location.href);
   const newUrl = new URL(page.path, absoluteConfigUrl);
 
-  const urlWithoutDomain = newUrl.pathname + newUrl.search + newUrl.hash;
+  let urlWithoutDomain = newUrl.pathname + newUrl.search + newUrl.hash;
+
+  urlWithoutDomain = urlWithoutDomain.replace(/^\/_services\//, "/app/");
 
   return {
     ...page,

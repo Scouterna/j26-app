@@ -2,12 +2,13 @@ import { useNavigate } from "@tanstack/react-router";
 import type { SyntheticEvent } from "react";
 
 export type Props = {
+  route: string;
   baseUrl: string;
   path: string;
   name: string;
 };
 
-export function IframeRouter({ baseUrl, path, name }: Props) {
+export function IframeRouter({ route, baseUrl, path, name }: Props) {
   const navigate = useNavigate();
 
   const url = new URL(path, new URL(baseUrl, window.location.href)).toString();
@@ -25,7 +26,7 @@ export function IframeRouter({ baseUrl, path, name }: Props) {
     );
 
     navigate({
-      to: "/schedule/$",
+      to: route,
       params: {
         _splat: relativePath,
       },

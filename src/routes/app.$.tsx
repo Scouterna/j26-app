@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { IframeRouter } from "../components/microfrontends/IframeRouter";
 
-export const Route = createFileRoute("/schedule/$")({
+export const Route = createFileRoute("/app/$")({
   component: RouteComponent,
 });
 
@@ -10,9 +10,10 @@ function RouteComponent() {
 
   return (
     <IframeRouter
-      baseUrl="/dummy-page/"
+      route="/app/$"
+      baseUrl="/_services/"
       path={`./${path ?? ""}`}
-      name="Schedule"
+      name="REPLACE ME LOL"
     />
   );
 }
