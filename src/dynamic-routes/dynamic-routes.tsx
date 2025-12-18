@@ -9,11 +9,13 @@ const parseAppConfigJson = type("string.json.parse").to(appConfig.AppConfig);
 
 function remapPageUrl(page: Page, configUrl: string) {
   const absoluteConfigUrl = new URL(configUrl, window.location.href);
-  const path = new URL(page.path, absoluteConfigUrl);
+  const newUrl = new URL(page.path, absoluteConfigUrl);
+
+  const urlWithoutDomain = newUrl.pathname + newUrl.search + newUrl.hash;
 
   return {
     ...page,
-    path: path.href,
+    path: urlWithoutDomain,
   };
 }
 
@@ -57,8 +59,6 @@ export async function loadAppConfigs(urls: string[]) {
   const configs: Record<string, AppConfig> = {};
 
   const results = await Promise.all(urls.map(fetchAppConfig));
-
-  console.log(results);
 
   for (let i = 0; i < urls.length; i++) {
     const config = results[i];
