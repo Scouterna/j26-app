@@ -1,6 +1,6 @@
 import { createContext, use, useContext } from "react";
-import { type AppConfig, loadAppConfigs } from "./dynamic-routes";
 import { configPromise } from "../config";
+import { type AppConfig, loadAppConfigs } from "./dynamic-routes";
 
 type DynamicRoutesContext = {
   configs: Record<string, AppConfig>;

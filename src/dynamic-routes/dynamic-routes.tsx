@@ -1,7 +1,7 @@
 import { type } from "arktype";
 import { appConfig } from "./app-config";
 
-type AppConfig = typeof appConfig.AppConfig.infer;
+export type AppConfig = typeof appConfig.AppConfig.infer;
 type Page = typeof appConfig.Page.infer;
 type NavigationItem = typeof appConfig.NavigationItem.infer;
 
