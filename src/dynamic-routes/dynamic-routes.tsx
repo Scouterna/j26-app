@@ -2,8 +2,8 @@ import { type } from "arktype";
 import { appConfig } from "./app-config";
 
 export type AppConfig = typeof appConfig.AppConfig.infer;
-type Page = typeof appConfig.Page.infer;
-type NavigationItem = typeof appConfig.NavigationItem.infer;
+export type Page = typeof appConfig.Page.infer;
+export type NavigationItem = typeof appConfig.NavigationItem.infer;
 
 const parseAppConfigJson = type("string.json.parse").to(appConfig.AppConfig);
 

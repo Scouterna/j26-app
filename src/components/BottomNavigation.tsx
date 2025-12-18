@@ -43,15 +43,7 @@ export function BottomNavigation() {
     [location],
   );
 
-  const dynamicRoutes = useDynamicRoutes();
-  const allPages = Object.values(dynamicRoutes.configs).flatMap((config) =>
-    config.navigation.flatMap((navItem) => {
-      if (navItem.type === "group") {
-        return navItem.children;
-      }
-      return navItem;
-    }),
-  );
+  const { allPages } = useDynamicRoutes();
 
   const pages = bottomNavItems
     .map((pageId) => allPages.find((page) => page.id === pageId))
