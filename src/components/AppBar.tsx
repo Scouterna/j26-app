@@ -22,8 +22,8 @@ export function AppBar() {
     const bottomPages = allPages.filter((page) =>
       bottomNavItems.includes(page.id),
     );
-    const bottomPaths = bottomPages.map((page) => page.path);
-    return bottomPaths.includes(location.pathname);
+    const bottomPaths = bottomPages.map((page) => page.path.replace(/\/$/, ""));
+    return bottomPaths.includes(location.pathname.replace(/\/$/, ""));
   }, [allPages, bottomNavItems, location]);
 
   const title = matches
