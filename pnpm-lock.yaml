@@ -63,6 +63,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.3.8
         version: 2.3.8
+      '@scouterna/tailwind-theme':
+        specifier: 0.0.4
+        version: 0.0.4
       '@tanstack/router-plugin':
         specifier: ^1.139.14
         version: 1.139.14(@tanstack/react-router@1.139.14(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(rolldown-vite@7.2.10(esbuild@0.25.10)(jiti@2.6.1)(tsx@4.20.5))
@@ -850,6 +853,12 @@ packages:
 
   '@scouterna/design-tokens@0.0.3':
     resolution: {integrity: sha512-oIxRKDssun48pqcba7xetCHEQPTRz5dt5GAKM6BXSaz0VgH7zPlkcxOb5CI2x0IPqmNlB52X/UmCGst8woMWUw==}
+
+  '@scouterna/design-tokens@0.0.5':
+    resolution: {integrity: sha512-gZ72hGch5tBi+yItQ52S8uDimQ/m8LvSe42tLyfE9tdHUYYCRrQ60vnYS4y2K1Yymxy7K6SDKHBu/pPDLxahAw==}
+
+  '@scouterna/tailwind-theme@0.0.4':
+    resolution: {integrity: sha512-RIDYKRWYxDfmwEoIEbGc1zyIaanjCdw9ehrJEfahZjqyBtHq5nWTyrPMiTBBO1lh4z7c53Ymwr2rYAUOrf5AXQ==}
 
   '@scouterna/ui-react@2.2.0':
     resolution: {integrity: sha512-LGfkKsHxIKPCTz0PLUVgWhDyHqDFYNpgq+QV2eUfIBOluTBiycBSRdHRLwaeXy/CuIrTdnF+DxDhSX9NrtKz0Q==}
@@ -2601,6 +2610,14 @@ snapshots:
   '@scouterna/design-tokens@0.0.3':
     dependencies:
       glob: 13.0.0
+
+  '@scouterna/design-tokens@0.0.5':
+    dependencies:
+      glob: 13.0.0
+
+  '@scouterna/tailwind-theme@0.0.4':
+    dependencies:
+      '@scouterna/design-tokens': 0.0.5
 
   '@scouterna/ui-react@2.2.0(@stencil/core@4.39.0)(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)':
     dependencies:
