@@ -39,34 +39,52 @@ function remapNavigationItems(
 }
 
 async function fetchAppConfig(url: string) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch app config from ${url}`);
-  }
-  const body = await response.text();
-  const out = parseAppConfigJson(body);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Non-ok status code returned from app config: ${url}`);
+    }
+    const body = await response.text();
+    const out = parseAppConfigJson(body);
 
-  if (out instanceof type.errors) {
-    console.warn(`Failed to parse app config for URL ${url}:`, out);
-    return null;
-  }
+    if (out instanceof type.errors) {
+      console.warn(`Failed to parse app config for URL ${url}:`, out);
+      return null;
+    }
 
-  return {
-    ...out,
-    navigation: remapNavigationItems(out.navigation, url),
-  };
+    return {
+      ...out,
+      navigation: remapNavigationItems(out.navigation, url),
+    };
+  } catch (e) {
+    throw new Error(`Error loading app config from ${url}: ${e}`);
+  }
 }
 
 export async function loadAppConfigs(urls: string[]) {
   const configs: Record<string, AppConfig> = {};
 
-  const results = await Promise.all(urls.map(fetchAppConfig));
+  const results = await Promise.allSettled(urls.map(fetchAppConfig));
 
   for (let i = 0; i < urls.length; i++) {
-    const config = results[i];
-    if (config) {
-      configs[urls[i]] = config;
+    const result = results[i];
+
+    if (result.status === "rejected") {
+      console.error(
+        `Failed to load app config from ${urls[i]}:`,
+        result.reason,
+      );
+      continue;
     }
+
+    const config = result.value;
+
+    if (!config) {
+      console.warn(`App config from ${urls[i]} is null, skipping.`);
+      continue;
+    }
+
+    configs[urls[i]] = config;
   }
 
   return configs;
