@@ -10,10 +10,11 @@ import "@scouterna/ui-webc/dist/ui-webc/ui-webc.css";
 import { ScoutLoader } from "@scouterna/ui-react";
 // Import the generated route tree
 import { Provider as JotaiProvider } from "jotai";
+import { UserLoader } from "./auth/auth";
 import { NotFound } from "./components/NotFound";
 import { DynamicRoutesProvider } from "./dynamic-routes/dynamic-routes-context";
 import { IconProvider } from "./icons/icons";
-import { languageStore } from "./language/language";
+import { jotaiStore } from "./jotai";
 import { routeTree } from "./routeTree.gen";
 import { tolgeePromise } from "./tolgee";
 
@@ -29,7 +30,7 @@ declare module "@tanstack/react-router" {
 
 function App() {
   return (
-    <JotaiProvider store={languageStore}>
+    <JotaiProvider store={jotaiStore}>
       {/* FIXME: For now we rely on Tolgee's internal Suspense component. We don't want to do this: https://github.com/tolgee/tolgee-js/issues/3487 */}
       {/* <Suspense
         fallback={
@@ -38,6 +39,8 @@ function App() {
           </div>
         }
       > */}
+      <UserLoader />
+
       <TolgeeProvider
         tolgee={use(tolgeePromise)}
         fallback={

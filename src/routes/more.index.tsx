@@ -1,17 +1,22 @@
 import {
   ScoutDivider,
   ScoutListView,
+  ScoutListViewItem,
   ScoutListViewSubheader,
 } from "@scouterna/ui-react";
 import LanguageIcon from "@tabler/icons/outline/language.svg?raw";
+import LogoutIcon from "@tabler/icons/outline/logout.svg?raw";
+import UserIcon from "@tabler/icons/outline/user.svg?raw";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTolgee, useTranslate } from "@tolgee/react";
+import { useAtomValue } from "jotai";
+import { use } from "react";
+import { userAtom } from "../auth/auth";
 import { ScoutListViewItemLink } from "../components/links";
 import type { appConfig } from "../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIcon } from "../icons/icons";
 import { languageNamesPromise } from "../tolgee";
-import { use } from "react";
 
 type Page = typeof appConfig.Page.infer;
 type Group = typeof appConfig.Group.infer;
@@ -92,6 +97,34 @@ function LanguageItem() {
   );
 }
 
+function UserItem() {
+  const { t } = useTranslate("app");
+
+  const user = useAtomValue(userAtom);
+
+  if (!user) {
+    return (
+      <ScoutListViewItem
+        type="link"
+        primary={t("current_user_item.sign_in")}
+        icon={UserIcon}
+        href="https://app.dev.j26.se/auth/login?redirect_uri=https://app.dev.j26.se/more&silent=false"
+      />
+    );
+  }
+
+  return (
+    <ScoutListViewItem
+      primary={t("current_user_item.sign_out")}
+      secondary={t("current_user_item.signed_in_as", {
+        name: user.name,
+      })}
+      icon={LogoutIcon}
+      onScoutClick={() => alert("Not implemented yet")}
+    />
+  );
+}
+
 function More() {
   const { configs, bottomNavItems } = useDynamicRoutes();
   const routeEntries = Object.entries(configs);
@@ -134,6 +167,7 @@ function More() {
 
       <ScoutListView>
         <LanguageItem />
+        <UserItem />
       </ScoutListView>
     </>
   );

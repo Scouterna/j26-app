@@ -1,12 +1,11 @@
-import { atom, createStore } from "jotai";
+import { atom } from "jotai";
+import { jotaiStore } from "../jotai";
 import { tolgeePromise } from "../tolgee";
-
-export const languageStore = createStore();
 
 export const languageAtom = atom();
 
 const tolgee = await tolgeePromise;
-languageStore.set(languageAtom, tolgee.getLanguage());
+jotaiStore.set(languageAtom, tolgee.getLanguage());
 tolgee.on("language", ({ value }) => {
-  languageStore.set(languageAtom, value);
+  jotaiStore.set(languageAtom, value);
 });

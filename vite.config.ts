@@ -80,15 +80,21 @@ export default defineConfig({
       publicAppConfigs: "",
       publicBottomNavItems: "",
     },
-  },
-  // dev server options
-  server: {
-    allowedHosts: [".ngrok-free.app"],
-    proxy: {
-      // "/_services/booking": {
-      //   target: "http://localhost:8000",
-      //   rewrite: (path) => path.replace(/^\/_services\/booking/, ""),
-      // },
+    devProxy: {
+      "/auth/**": {
+        target: "https://app.dev.j26.se/",
+        changeOrigin: true,
+      },
     },
   },
+  // dev server options
+  // server: {
+  //   allowedHosts: [".ngrok-free.app"],
+  //   proxy: {
+  //     // "/_services/booking": {
+  //     //   target: "http://localhost:8000",
+  //     //   rewrite: (path) => path.replace(/^\/_services\/booking/, ""),
+  //     // },
+  //   },
+  // },
 });
