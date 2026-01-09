@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@fontsource-variable/source-sans-3": "^5.2.9",
-    "@scouterna/design-tokens": "0.0.3",
-    "@scouterna/ui-react": "2.2.0",
-    "@scouterna/ui-webc": "2.2.0",
+    "@scouterna/design-tokens": "0.0.5",
+    "@scouterna/ui-react": "2.2.5",
+    "@scouterna/ui-webc": "2.2.5",
     "@tabler/icons": "^3.35.0",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/react-query": "^5.90.16",
