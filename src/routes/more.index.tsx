@@ -122,7 +122,7 @@ function More() {
 
   return (
     <>
-      {filteredRouteEntries.map(([url, config], index) => (
+      {filteredRouteEntries.map(([url, config]) => (
         <>
           <ScoutListView key={`${url}_item`}>
             {config.navigation.map((navItem) => {
@@ -140,14 +140,12 @@ function More() {
               return null;
             })}
           </ScoutListView>
-          {index < routeEntries.length - 1 && (
-            <ScoutDivider key={`${url}_divider`} />
-          )}
+
+          <ScoutDivider key={`${url}_divider`} />
         </>
       ))}
 
       <ScoutListView>
-        <ScoutDivider />
         <UserItem />
       </ScoutListView>
     </>

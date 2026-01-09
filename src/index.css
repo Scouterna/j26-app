@@ -9,3 +9,13 @@ body {
   line-height: 1.5;
   color: var(--color-text-base);
 }
+
+.app-container {
+  width: 100dvw;
+  height: 100dvh;
+
+  @media (display-mode: standalone) {
+    width: 100vw;
+    height: 100vh;
+  }
+}

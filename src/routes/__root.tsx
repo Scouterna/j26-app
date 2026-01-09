@@ -5,7 +5,7 @@ import { InstallBanner } from "../components/InstallBanner";
 
 const RootLayout = () => {
   return (
-    <div className="flex flex-col h-dvh w-screen">
+    <div className="flex flex-col app-container">
       <InstallBanner />
 
       <AppBar />
