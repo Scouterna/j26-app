@@ -1,15 +1,13 @@
 import "./index.css";
-
-import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { TolgeeProvider } from "@tolgee/react";
-import { StrictMode, use } from "react";
-import ReactDOM from "react-dom/client";
-
 import "@scouterna/ui-webc/dist/ui-webc/ui-webc.css";
 
 import { ScoutLoader } from "@scouterna/ui-react";
-// Import the generated route tree
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { TolgeeProvider } from "@tolgee/react";
 import { Provider as JotaiProvider } from "jotai";
+import { StrictMode, use } from "react";
+import ReactDOM from "react-dom/client";
 import { UserLoader } from "./auth/auth";
 import { NotFound } from "./components/NotFound";
 import { DynamicRoutesProvider } from "./dynamic-routes/dynamic-routes-context";
@@ -28,34 +26,38 @@ declare module "@tanstack/react-router" {
   }
 }
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <JotaiProvider store={jotaiStore}>
-      {/* FIXME: For now we rely on Tolgee's internal Suspense component. We don't want to do this: https://github.com/tolgee/tolgee-js/issues/3487 */}
-      {/* <Suspense
+      <QueryClientProvider client={queryClient}>
+        {/* FIXME: For now we rely on Tolgee's internal Suspense component. We don't want to do this: https://github.com/tolgee/tolgee-js/issues/3487 */}
+        {/* <Suspense
         fallback={
           <div className="flex items-center justify-center h-screen w-screen">
             <ScoutLoader />
           </div>
         }
       > */}
-      <UserLoader />
+        <UserLoader />
 
-      <TolgeeProvider
-        tolgee={use(tolgeePromise)}
-        fallback={
-          <div className="flex items-center justify-center h-screen w-screen">
-            <ScoutLoader />
-          </div>
-        }
-      >
-        <DynamicRoutesProvider>
-          <IconProvider>
-            <RouterProvider router={router} />
-          </IconProvider>
-        </DynamicRoutesProvider>
-      </TolgeeProvider>
-      {/* </Suspense> */}
+        <TolgeeProvider
+          tolgee={use(tolgeePromise)}
+          fallback={
+            <div className="flex items-center justify-center h-screen w-screen">
+              <ScoutLoader />
+            </div>
+          }
+        >
+          <DynamicRoutesProvider>
+            <IconProvider>
+              <RouterProvider router={router} />
+            </IconProvider>
+          </DynamicRoutesProvider>
+        </TolgeeProvider>
+        {/* </Suspense> */}
+      </QueryClientProvider>
     </JotaiProvider>
   );
 }

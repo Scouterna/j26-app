@@ -5,6 +5,7 @@ type Config = {
   tolgeeBackendFetchPrefix: string;
   appConfigs: string[];
   bottomNavItems: string[];
+  notificationsTenant: string;
 };
 
 function parseConfigArray(configString: string): string[] {

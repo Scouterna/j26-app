@@ -1,3 +1,4 @@
+// import { FormatIcu } from "@tolgee/format-icu";
 import {
   BackendFetch,
   DevTools,
@@ -24,6 +25,7 @@ const createTolgee = async () => {
     )
     .use(DevTools())
     .use(FormatSimple())
+    // .use(FormatIcu())
     .use(LanguageDetector())
     .init({
       language: "sv",

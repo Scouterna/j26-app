@@ -6,6 +6,20 @@
       "label": "app.more.label",
       "icon": "dots",
       "path": "/more"
+    },
+    {
+      "type": "page",
+      "id": "page_notifications",
+      "label": "app.notifications.label",
+      "icon": "bell",
+      "path": "/notifs"
+    },
+    {
+      "type": "page",
+      "id": "page_settings",
+      "label": "app.settings.label",
+      "icon": "settings",
+      "path": "/settings"
     }
   ]
 }

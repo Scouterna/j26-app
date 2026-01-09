@@ -9,7 +9,27 @@ import {
 import { T, useTranslate } from "@tolgee/react";
 import { useMemo } from "react";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
+import type { AppBarAction } from "../route-types";
+import { ScoutButtonLink } from "./links";
 
+const Action = ({ action }: { action: AppBarAction }) => {
+  const Tag = "to" in action ? ScoutButtonLink : ScoutButton;
+
+  const props =
+    "to" in action
+      ? {
+          to: action.to,
+        }
+      : {
+          onClick: action.onClick,
+        };
+
+  return (
+    <Tag slot="suffix" icon={action.icon} iconOnly variant="text" {...props}>
+      <T ns="app" keyName={action.label} />
+    </Tag>
+  );
+};
 export function AppBar() {
   const { t } = useTranslate("app");
   const router = useRouter();
@@ -31,6 +51,11 @@ export function AppBar() {
     .filter((match) => match !== undefined)
     .pop();
 
+  const appBarAction = matches
+    .map((match) => match.staticData?.appBarAction)
+    .filter((match) => match !== undefined)
+    .pop();
+
   return (
     <ScoutAppBar titleText={title ? t(title) : undefined}>
       {!isOnRootPage && canGoBack && (
@@ -46,6 +71,8 @@ export function AppBar() {
           <T ns="app" keyName="appBar.back.label" />
         </ScoutButton>
       )}
+
+      {appBarAction && <Action action={appBarAction} />}
     </ScoutAppBar>
   );
 }

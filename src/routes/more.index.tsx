@@ -4,19 +4,16 @@ import {
   ScoutListViewItem,
   ScoutListViewSubheader,
 } from "@scouterna/ui-react";
-import LanguageIcon from "@tabler/icons/outline/language.svg?raw";
 import LogoutIcon from "@tabler/icons/outline/logout.svg?raw";
 import UserIcon from "@tabler/icons/outline/user.svg?raw";
 import { createFileRoute } from "@tanstack/react-router";
-import { useTolgee, useTranslate } from "@tolgee/react";
+import { useTranslate } from "@tolgee/react";
 import { useAtomValue } from "jotai";
-import { use } from "react";
 import { userAtom } from "../auth/auth";
 import { ScoutListViewItemLink } from "../components/links";
 import type { appConfig } from "../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIcon } from "../icons/icons";
-import { languageNamesPromise } from "../tolgee";
 
 type Page = typeof appConfig.Page.infer;
 type Group = typeof appConfig.Group.infer;
@@ -79,22 +76,6 @@ function filterOutPagesById(
       return null;
     })
     .filter((item) => item != null);
-}
-
-function LanguageItem() {
-  const { t } = useTranslate("app");
-  const tolgee = useTolgee();
-  const language = tolgee.getLanguage();
-  const languageNames = use(languageNamesPromise);
-
-  return (
-    <ScoutListViewItemLink
-      primary={t("language_selector.title")}
-      secondary={language ? languageNames[language] : undefined}
-      icon={LanguageIcon}
-      to="/more/language"
-    />
-  );
 }
 
 function UserItem() {
@@ -166,7 +147,7 @@ function More() {
       ))}
 
       <ScoutListView>
-        <LanguageItem />
+        <ScoutDivider />
         <UserItem />
       </ScoutListView>
     </>

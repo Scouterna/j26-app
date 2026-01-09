@@ -3,7 +3,7 @@ import { ScoutButtonLink } from "./links";
 
 export function NotFound() {
   return (
-    <div className="px-4">
+    <div className="px-4 py-3">
       <h1 className="scout-type-heading-base">
         <T keyName="not_found.title" ns="app" />
       </h1>

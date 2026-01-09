@@ -79,9 +79,14 @@ export default defineConfig({
       publicTolgeeBackendFetchPrefix: "",
       publicAppConfigs: "",
       publicBottomNavItems: "",
+      publicNotificationsTenant: "",
     },
     devProxy: {
       "/auth/**": {
+        target: "https://app.dev.j26.se/",
+        changeOrigin: true,
+      },
+      "/notifications/**": {
         target: "https://app.dev.j26.se/",
         changeOrigin: true,
       },

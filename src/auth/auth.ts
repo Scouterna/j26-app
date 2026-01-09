@@ -1,6 +1,6 @@
 import { type } from "arktype";
 import { atom, useAtom } from "jotai";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 const User = type({
   name: "string",

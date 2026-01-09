@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MoreRouteImport } from './routes/more'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as NotifsIndexRouteImport } from './routes/notifs/index'
 import { Route as MoreIndexRouteImport } from './routes/more.index'
-import { Route as MoreLanguageRouteImport } from './routes/more.language'
+import { Route as SettingsNotificationsRouteImport } from './routes/settings/notifications'
+import { Route as SettingsLanguageRouteImport } from './routes/settings/language'
 import { Route as AppSplatRouteImport } from './routes/app.$'
 
 const MoreRoute = MoreRouteImport.update({
@@ -31,15 +34,30 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotifsIndexRoute = NotifsIndexRouteImport.update({
+  id: '/notifs/',
+  path: '/notifs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MoreIndexRoute = MoreIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => MoreRoute,
 } as any)
-const MoreLanguageRoute = MoreLanguageRouteImport.update({
-  id: '/language',
-  path: '/language',
-  getParentRoute: () => MoreRoute,
+const SettingsNotificationsRoute = SettingsNotificationsRouteImport.update({
+  id: '/settings/notifications',
+  path: '/settings/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsLanguageRoute = SettingsLanguageRouteImport.update({
+  id: '/settings/language',
+  path: '/settings/language',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppSplatRoute = AppSplatRouteImport.update({
   id: '/app/$',
@@ -52,15 +70,21 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/more': typeof MoreRouteWithChildren
   '/app/$': typeof AppSplatRoute
-  '/more/language': typeof MoreLanguageRoute
+  '/settings/language': typeof SettingsLanguageRoute
+  '/settings/notifications': typeof SettingsNotificationsRoute
   '/more/': typeof MoreIndexRoute
+  '/notifs': typeof NotifsIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/app/$': typeof AppSplatRoute
-  '/more/language': typeof MoreLanguageRoute
+  '/settings/language': typeof SettingsLanguageRoute
+  '/settings/notifications': typeof SettingsNotificationsRoute
   '/more': typeof MoreIndexRoute
+  '/notifs': typeof NotifsIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,22 +92,45 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/more': typeof MoreRouteWithChildren
   '/app/$': typeof AppSplatRoute
-  '/more/language': typeof MoreLanguageRoute
+  '/settings/language': typeof SettingsLanguageRoute
+  '/settings/notifications': typeof SettingsNotificationsRoute
   '/more/': typeof MoreIndexRoute
+  '/notifs/': typeof NotifsIndexRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/more' | '/app/$' | '/more/language' | '/more/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/more'
+    | '/app/$'
+    | '/settings/language'
+    | '/settings/notifications'
+    | '/more/'
+    | '/notifs'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/app/$' | '/more/language' | '/more'
+  to:
+    | '/'
+    | '/about'
+    | '/app/$'
+    | '/settings/language'
+    | '/settings/notifications'
+    | '/more'
+    | '/notifs'
+    | '/settings'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/more'
     | '/app/$'
-    | '/more/language'
+    | '/settings/language'
+    | '/settings/notifications'
     | '/more/'
+    | '/notifs/'
+    | '/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -91,6 +138,10 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   MoreRoute: typeof MoreRouteWithChildren
   AppSplatRoute: typeof AppSplatRoute
+  SettingsLanguageRoute: typeof SettingsLanguageRoute
+  SettingsNotificationsRoute: typeof SettingsNotificationsRoute
+  NotifsIndexRoute: typeof NotifsIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +167,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifs/': {
+      id: '/notifs/'
+      path: '/notifs'
+      fullPath: '/notifs'
+      preLoaderRoute: typeof NotifsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/more/': {
       id: '/more/'
       path: '/'
@@ -123,12 +188,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoreIndexRouteImport
       parentRoute: typeof MoreRoute
     }
-    '/more/language': {
-      id: '/more/language'
-      path: '/language'
-      fullPath: '/more/language'
-      preLoaderRoute: typeof MoreLanguageRouteImport
-      parentRoute: typeof MoreRoute
+    '/settings/notifications': {
+      id: '/settings/notifications'
+      path: '/settings/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof SettingsNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/language': {
+      id: '/settings/language'
+      path: '/settings/language'
+      fullPath: '/settings/language'
+      preLoaderRoute: typeof SettingsLanguageRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/$': {
       id: '/app/$'
@@ -141,12 +213,10 @@ declare module '@tanstack/react-router' {
 }
 
 interface MoreRouteChildren {
-  MoreLanguageRoute: typeof MoreLanguageRoute
   MoreIndexRoute: typeof MoreIndexRoute
 }
 
 const MoreRouteChildren: MoreRouteChildren = {
-  MoreLanguageRoute: MoreLanguageRoute,
   MoreIndexRoute: MoreIndexRoute,
 }
 
@@ -157,6 +227,10 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   MoreRoute: MoreRouteWithChildren,
   AppSplatRoute: AppSplatRoute,
+  SettingsLanguageRoute: SettingsLanguageRoute,
+  SettingsNotificationsRoute: SettingsNotificationsRoute,
+  NotifsIndexRoute: NotifsIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

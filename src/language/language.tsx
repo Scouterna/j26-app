@@ -1,4 +1,5 @@
-import { atom } from "jotai";
+import { enGB, sv, uk } from "date-fns/locale";
+import { atom, useAtomValue } from "jotai";
 import { jotaiStore } from "../jotai";
 import { tolgeePromise } from "../tolgee";
 
@@ -9,3 +10,17 @@ jotaiStore.set(languageAtom, tolgee.getLanguage());
 tolgee.on("language", ({ value }) => {
   jotaiStore.set(languageAtom, value);
 });
+
+export const useDateFnsLocale = () => {
+  const currentLanguage = useAtomValue(languageAtom);
+  console.log(currentLanguage);
+
+  switch (currentLanguage) {
+    case "en":
+      return enGB;
+    case "uk":
+      return uk;
+    default:
+      return sv;
+  }
+};

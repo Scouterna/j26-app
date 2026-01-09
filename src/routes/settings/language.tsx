@@ -3,10 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTolgee } from "@tolgee/react";
 import { useAtomValue } from "jotai";
 import { use, useMemo } from "react";
-import { languageAtom } from "../language/language";
-import { languageNamesPromise } from "../tolgee";
+import { languageAtom } from "../../language/language";
+import { languageNamesPromise } from "../../tolgee";
 
-export const Route = createFileRoute("/more/language")({
+export const Route = createFileRoute("/settings/language")({
   component: RouteComponent,
   staticData: {
     pageName: "page.language.title",
