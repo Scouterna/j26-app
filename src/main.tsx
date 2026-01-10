@@ -66,6 +66,7 @@ function App() {
 // biome-ignore lint/style/noNonNullAssertion: It's there.
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
+  console.log("Rendering app...");
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>

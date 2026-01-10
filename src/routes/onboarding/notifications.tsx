@@ -4,7 +4,6 @@ import { T } from "@tolgee/react";
 import { useCallback, useState } from "react";
 import { ScoutButtonLink } from "../../components/links";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
-import { OnboardingLayout } from "../../components/onboarding/OnboardingLayout";
 
 export const Route = createFileRoute("/onboarding/notifications")({
   component: RouteComponent,
@@ -23,8 +22,8 @@ function RouteComponent() {
   }, []);
 
   return (
-    <OnboardingLayout>
-      <div className="flex-1 p-4">
+    <>
+      <div className="flex-1 px-4">
         <h1 className="text-heading-base">
           <T keyName="onboarding.notifications.title" />
         </h1>
@@ -68,9 +67,9 @@ function RouteComponent() {
 
       <OnboardingFooter
         back="/onboarding/signin"
-        next="/onboarding/language"
+        next="/onboarding/finished"
         nextSuppressed={status === "default"}
       />
-    </OnboardingLayout>
+    </>
   );
 }

@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
-import { OnboardingLayout } from "../../components/onboarding/OnboardingLayout";
 
 export const Route = createFileRoute("/onboarding/language")({
   component: RouteComponent,
@@ -10,8 +9,8 @@ export const Route = createFileRoute("/onboarding/language")({
 
 function RouteComponent() {
   return (
-    <OnboardingLayout>
-      <div className="p-4">
+    <>
+      <div className="px-4">
         <h1 className="text-heading-base">
           <T keyName="onboarding.language.title" />
         </h1>
@@ -26,6 +25,6 @@ function RouteComponent() {
       </div>
 
       <OnboardingFooter next="/onboarding/signin" />
-    </OnboardingLayout>
+    </>
   );
 }

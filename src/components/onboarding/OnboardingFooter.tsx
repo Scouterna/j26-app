@@ -9,8 +9,16 @@ export type Props = {
   back?: string;
   next?: string;
   nextSuppressed?: boolean;
+  lastPage?: boolean;
+  onNextClick?: () => void;
 };
-export function OnboardingFooter({ back, next, nextSuppressed }: Props) {
+export function OnboardingFooter({
+  back,
+  next,
+  nextSuppressed,
+  lastPage,
+  onNextClick,
+}: Props) {
   const router = useRouter();
 
   useEffect(() => {
@@ -54,8 +62,15 @@ export function OnboardingFooter({ back, next, nextSuppressed }: Props) {
           variant={nextSuppressed ? "outlined" : "primary"}
           to={next}
           viewTransition={{ types: ["slide-left"] }}
+          onScoutClick={onNextClick}
         >
-          <T keyName="onboarding.button.next.label" />
+          {nextSuppressed ? (
+            <T keyName="onboarding.button.skip.label" />
+          ) : lastPage ? (
+            <T keyName="onboarding.button.finish.label" />
+          ) : (
+            <T keyName="onboarding.button.next.label" />
+          )}
         </ScoutButtonLink>
       ) : (
         <div />

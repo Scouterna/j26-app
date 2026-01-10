@@ -1,10 +1,9 @@
+import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
-import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
-import { OnboardingLayout } from "../../components/onboarding/OnboardingLayout";
-import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../auth/auth";
+import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 
 export const Route = createFileRoute("/onboarding/signin")({
   component: RouteComponent,
@@ -14,8 +13,8 @@ function RouteComponent() {
   const user = useAtomValue(userAtom);
 
   return (
-    <OnboardingLayout>
-      <div className="p-4 flex-1 flex flex-col">
+    <>
+      <div className="px-4 flex-1 flex flex-col">
         <h1 className="text-heading-base">
           <T keyName="onboarding.signin.title" />
         </h1>
@@ -52,6 +51,6 @@ function RouteComponent() {
         next="/onboarding/notifications"
         nextSuppressed={!user}
       />
-    </OnboardingLayout>
+    </>
   );
 }

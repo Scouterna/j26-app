@@ -4,6 +4,7 @@ import {
   DevTools,
   FormatSimple,
   LanguageDetector,
+  LanguageStorage,
   Tolgee,
 } from "@tolgee/react";
 import { configPromise } from "./config";
@@ -27,6 +28,7 @@ const createTolgee = async () => {
     .use(FormatSimple())
     // .use(FormatIcu())
     .use(LanguageDetector())
+    .use(LanguageStorage())
     .init({
       ns: ["app", "navigation"],
       availableLanguages: ["sv", "en", "uk"],

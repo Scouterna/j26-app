@@ -9,12 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding/index'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as OnboardingSigninRouteImport } from './routes/onboarding/signin'
 import { Route as OnboardingNotificationsRouteImport } from './routes/onboarding/notifications'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding/language'
+import { Route as OnboardingFinishedRouteImport } from './routes/onboarding/finished'
 import { Route as AppMoreRouteImport } from './routes/_app/more'
 import { Route as AppAboutRouteImport } from './routes/_app/about'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
@@ -24,14 +26,19 @@ import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/sett
 import { Route as AppSettingsLanguageRouteImport } from './routes/_app/settings/language'
 import { Route as AppAppSplatRouteImport } from './routes/_app/app.$'
 
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
-  id: '/onboarding/',
-  path: '/onboarding/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
@@ -39,19 +46,24 @@ const AppIndexRoute = AppIndexRouteImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 const OnboardingSigninRoute = OnboardingSigninRouteImport.update({
-  id: '/onboarding/signin',
-  path: '/onboarding/signin',
-  getParentRoute: () => rootRouteImport,
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const OnboardingNotificationsRoute = OnboardingNotificationsRouteImport.update({
-  id: '/onboarding/notifications',
-  path: '/onboarding/notifications',
-  getParentRoute: () => rootRouteImport,
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
-  id: '/onboarding/language',
-  path: '/onboarding/language',
-  getParentRoute: () => rootRouteImport,
+  id: '/language',
+  path: '/language',
+  getParentRoute: () => OnboardingRoute,
+} as any)
+const OnboardingFinishedRoute = OnboardingFinishedRouteImport.update({
+  id: '/finished',
+  path: '/finished',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const AppMoreRoute = AppMoreRouteImport.update({
   id: '/more',
@@ -96,13 +108,15 @@ const AppAppSplatRoute = AppAppSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/onboarding': typeof OnboardingRouteWithChildren
   '/about': typeof AppAboutRoute
   '/more': typeof AppMoreRouteWithChildren
+  '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
   '/': typeof AppIndexRoute
-  '/onboarding': typeof OnboardingIndexRoute
+  '/onboarding/': typeof OnboardingIndexRoute
   '/app/$': typeof AppAppSplatRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -112,6 +126,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/about': typeof AppAboutRoute
+  '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
@@ -127,8 +142,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/onboarding': typeof OnboardingRouteWithChildren
   '/_app/about': typeof AppAboutRoute
   '/_app/more': typeof AppMoreRouteWithChildren
+  '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
@@ -144,13 +161,15 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/onboarding'
     | '/about'
     | '/more'
+    | '/onboarding/finished'
     | '/onboarding/language'
     | '/onboarding/notifications'
     | '/onboarding/signin'
     | '/'
-    | '/onboarding'
+    | '/onboarding/'
     | '/app/$'
     | '/settings/language'
     | '/settings/notifications'
@@ -160,6 +179,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
+    | '/onboarding/finished'
     | '/onboarding/language'
     | '/onboarding/notifications'
     | '/onboarding/signin'
@@ -174,8 +194,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_app'
+    | '/onboarding'
     | '/_app/about'
     | '/_app/more'
+    | '/onboarding/finished'
     | '/onboarding/language'
     | '/onboarding/notifications'
     | '/onboarding/signin'
@@ -191,14 +213,18 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
-  OnboardingLanguageRoute: typeof OnboardingLanguageRoute
-  OnboardingNotificationsRoute: typeof OnboardingNotificationsRoute
-  OnboardingSigninRoute: typeof OnboardingSigninRoute
-  OnboardingIndexRoute: typeof OnboardingIndexRoute
+  OnboardingRoute: typeof OnboardingRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app': {
       id: '/_app'
       path: ''
@@ -208,10 +234,10 @@ declare module '@tanstack/react-router' {
     }
     '/onboarding/': {
       id: '/onboarding/'
-      path: '/onboarding'
-      fullPath: '/onboarding'
+      path: '/'
+      fullPath: '/onboarding/'
       preLoaderRoute: typeof OnboardingIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/_app/': {
       id: '/_app/'
@@ -222,24 +248,31 @@ declare module '@tanstack/react-router' {
     }
     '/onboarding/signin': {
       id: '/onboarding/signin'
-      path: '/onboarding/signin'
+      path: '/signin'
       fullPath: '/onboarding/signin'
       preLoaderRoute: typeof OnboardingSigninRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/onboarding/notifications': {
       id: '/onboarding/notifications'
-      path: '/onboarding/notifications'
+      path: '/notifications'
       fullPath: '/onboarding/notifications'
       preLoaderRoute: typeof OnboardingNotificationsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/onboarding/language': {
       id: '/onboarding/language'
-      path: '/onboarding/language'
+      path: '/language'
       fullPath: '/onboarding/language'
       preLoaderRoute: typeof OnboardingLanguageRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
+    '/onboarding/finished': {
+      id: '/onboarding/finished'
+      path: '/finished'
+      fullPath: '/onboarding/finished'
+      preLoaderRoute: typeof OnboardingFinishedRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/_app/more': {
       id: '/_app/more'
@@ -335,12 +368,29 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
-const rootRouteChildren: RootRouteChildren = {
-  AppRoute: AppRouteWithChildren,
+interface OnboardingRouteChildren {
+  OnboardingFinishedRoute: typeof OnboardingFinishedRoute
+  OnboardingLanguageRoute: typeof OnboardingLanguageRoute
+  OnboardingNotificationsRoute: typeof OnboardingNotificationsRoute
+  OnboardingSigninRoute: typeof OnboardingSigninRoute
+  OnboardingIndexRoute: typeof OnboardingIndexRoute
+}
+
+const OnboardingRouteChildren: OnboardingRouteChildren = {
+  OnboardingFinishedRoute: OnboardingFinishedRoute,
   OnboardingLanguageRoute: OnboardingLanguageRoute,
   OnboardingNotificationsRoute: OnboardingNotificationsRoute,
   OnboardingSigninRoute: OnboardingSigninRoute,
   OnboardingIndexRoute: OnboardingIndexRoute,
+}
+
+const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
+  OnboardingRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  AppRoute: AppRouteWithChildren,
+  OnboardingRoute: OnboardingRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,12 +2,17 @@ import type { ReactNode } from "react";
 
 export type Props = {
   children: ReactNode;
+  header?: ReactNode;
 };
 
-export function OnboardingLayout({ children }: Props) {
+export function OnboardingLayout({ children, header }: Props) {
   return (
-    <div className="w-dvw h-dvh flex flex-col gap-4 [view-transition-name:main-content]">
-      {children}
+    <div className="w-dvw h-dvh flex flex-col">
+      {header}
+
+      <div className="flex-1 flex flex-col gap-4 [view-transition-name:main-content]">
+        {children}
+      </div>
     </div>
   );
 }
