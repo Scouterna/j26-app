@@ -32,7 +32,7 @@ function RouteComponent() {
           <T keyName="onboarding.notifications.description" />
         </p>
 
-        <div className="flex flex-col items-center gap-4 mt-16">
+        <div className="flex flex-col items-center gap-4 mt-8">
           {status !== "default" ? (
             <ScoutCard className="text-body-lg">
               <div className="px-4 py-2">
