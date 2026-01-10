@@ -4,10 +4,10 @@ import LanguageIcon from "@tabler/icons/outline/language.svg?raw";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTolgee, useTranslate } from "@tolgee/react";
 import { use } from "react";
-import { ScoutListViewItemLink } from "../../components/links";
-import { languageNamesPromise } from "../../tolgee";
+import { ScoutListViewItemLink } from "../../../components/links";
+import { languageNamesPromise } from "../../../tolgee";
 
-export const Route = createFileRoute("/settings/")({
+export const Route = createFileRoute("/_app/settings/")({
   component: RouteComponent,
   staticData: {
     pageName: "page.settings.title",

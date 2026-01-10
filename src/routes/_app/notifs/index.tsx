@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { formatDistanceToNow } from "date-fns";
-import type { components } from "../../generated/notification-api";
-import { useDateFnsLocale } from "../../language/language";
-import { getNotificationHistory } from "../../notifications/api";
+import type { components } from "../../../generated/notification-api";
+import { useDateFnsLocale } from "../../../language/language";
+import { getNotificationHistory } from "../../../notifications/api";
 
-export const Route = createFileRoute("/notifs/")({
+export const Route = createFileRoute("/_app/notifs/")({
   component: RouteComponent,
   staticData: {
     pageName: "page.notifications.title",

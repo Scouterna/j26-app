@@ -28,9 +28,9 @@ const createTolgee = async () => {
     // .use(FormatIcu())
     .use(LanguageDetector())
     .init({
-      language: "sv",
       ns: ["app", "navigation"],
       availableLanguages: ["sv", "en", "uk"],
+      defaultLanguage: "sv",
 
       // for development
       apiUrl: config.tolgeeApiUrl,

@@ -5,10 +5,10 @@ import {
 } from "@scouterna/ui-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import type { components } from "../../generated/notification-api";
-import * as api from "../../notifications/api";
+import type { components } from "../../../generated/notification-api";
+import * as api from "../../../notifications/api";
 
-export const Route = createFileRoute("/settings/notifications")({
+export const Route = createFileRoute("/_app/settings/notifications")({
   component: RouteComponent,
   staticData: {
     pageName: "page.notification_settings.title",

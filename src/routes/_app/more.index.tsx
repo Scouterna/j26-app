@@ -9,17 +9,17 @@ import UserIcon from "@tabler/icons/outline/user.svg?raw";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { useAtomValue } from "jotai";
-import { userAtom } from "../auth/auth";
-import { ScoutListViewItemLink } from "../components/links";
-import type { appConfig } from "../dynamic-routes/app-config";
-import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
-import { useIcon } from "../icons/icons";
+import { userAtom } from "../../auth/auth";
+import { ScoutListViewItemLink } from "../../components/links";
+import type { appConfig } from "../../dynamic-routes/app-config";
+import { useDynamicRoutes } from "../../dynamic-routes/dynamic-routes-context";
+import { useIcon } from "../../icons/icons";
 
 type Page = typeof appConfig.Page.infer;
 type Group = typeof appConfig.Group.infer;
 type NavigationItem = typeof appConfig.NavigationItem.infer;
 
-export const Route = createFileRoute("/more/")({
+export const Route = createFileRoute("/_app/more/")({
   component: More,
   staticData: {
     pageName: "page.more.title",

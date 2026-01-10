@@ -13,7 +13,6 @@ tolgee.on("language", ({ value }) => {
 
 export const useDateFnsLocale = () => {
   const currentLanguage = useAtomValue(languageAtom);
-  console.log(currentLanguage);
 
   switch (currentLanguage) {
     case "en":

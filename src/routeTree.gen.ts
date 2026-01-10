@@ -9,101 +9,148 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MoreRouteImport } from './routes/more'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as SettingsIndexRouteImport } from './routes/settings/index'
-import { Route as NotifsIndexRouteImport } from './routes/notifs/index'
-import { Route as MoreIndexRouteImport } from './routes/more.index'
-import { Route as SettingsNotificationsRouteImport } from './routes/settings/notifications'
-import { Route as SettingsLanguageRouteImport } from './routes/settings/language'
-import { Route as AppSplatRouteImport } from './routes/app.$'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as OnboardingIndexRouteImport } from './routes/onboarding/index'
+import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as OnboardingSigninRouteImport } from './routes/onboarding/signin'
+import { Route as OnboardingNotificationsRouteImport } from './routes/onboarding/notifications'
+import { Route as OnboardingLanguageRouteImport } from './routes/onboarding/language'
+import { Route as AppMoreRouteImport } from './routes/_app/more'
+import { Route as AppAboutRouteImport } from './routes/_app/about'
+import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
+import { Route as AppNotifsIndexRouteImport } from './routes/_app/notifs/index'
+import { Route as AppMoreIndexRouteImport } from './routes/_app/more.index'
+import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/settings/notifications'
+import { Route as AppSettingsLanguageRouteImport } from './routes/_app/settings/language'
+import { Route as AppAppSplatRouteImport } from './routes/_app/app.$'
 
-const MoreRoute = MoreRouteImport.update({
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
+  id: '/onboarding/',
+  path: '/onboarding/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const OnboardingSigninRoute = OnboardingSigninRouteImport.update({
+  id: '/onboarding/signin',
+  path: '/onboarding/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingNotificationsRoute = OnboardingNotificationsRouteImport.update({
+  id: '/onboarding/notifications',
+  path: '/onboarding/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
+  id: '/onboarding/language',
+  path: '/onboarding/language',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppMoreRoute = AppMoreRouteImport.update({
   id: '/more',
   path: '/more',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const AboutRoute = AboutRouteImport.update({
+const AppAboutRoute = AppAboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsIndexRoute = SettingsIndexRouteImport.update({
+const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const NotifsIndexRoute = NotifsIndexRouteImport.update({
+const AppNotifsIndexRoute = AppNotifsIndexRouteImport.update({
   id: '/notifs/',
   path: '/notifs/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const MoreIndexRoute = MoreIndexRouteImport.update({
+const AppMoreIndexRoute = AppMoreIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => MoreRoute,
+  getParentRoute: () => AppMoreRoute,
 } as any)
-const SettingsNotificationsRoute = SettingsNotificationsRouteImport.update({
-  id: '/settings/notifications',
-  path: '/settings/notifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsLanguageRoute = SettingsLanguageRouteImport.update({
+const AppSettingsNotificationsRoute =
+  AppSettingsNotificationsRouteImport.update({
+    id: '/settings/notifications',
+    path: '/settings/notifications',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppSettingsLanguageRoute = AppSettingsLanguageRouteImport.update({
   id: '/settings/language',
   path: '/settings/language',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const AppSplatRoute = AppSplatRouteImport.update({
+const AppAppSplatRoute = AppAppSplatRouteImport.update({
   id: '/app/$',
   path: '/app/$',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/more': typeof MoreRouteWithChildren
-  '/app/$': typeof AppSplatRoute
-  '/settings/language': typeof SettingsLanguageRoute
-  '/settings/notifications': typeof SettingsNotificationsRoute
-  '/more/': typeof MoreIndexRoute
-  '/notifs': typeof NotifsIndexRoute
-  '/settings': typeof SettingsIndexRoute
+  '/about': typeof AppAboutRoute
+  '/more': typeof AppMoreRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/notifications': typeof OnboardingNotificationsRoute
+  '/onboarding/signin': typeof OnboardingSigninRoute
+  '/': typeof AppIndexRoute
+  '/onboarding': typeof OnboardingIndexRoute
+  '/app/$': typeof AppAppSplatRoute
+  '/settings/language': typeof AppSettingsLanguageRoute
+  '/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/more/': typeof AppMoreIndexRoute
+  '/notifs': typeof AppNotifsIndexRoute
+  '/settings': typeof AppSettingsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/app/$': typeof AppSplatRoute
-  '/settings/language': typeof SettingsLanguageRoute
-  '/settings/notifications': typeof SettingsNotificationsRoute
-  '/more': typeof MoreIndexRoute
-  '/notifs': typeof NotifsIndexRoute
-  '/settings': typeof SettingsIndexRoute
+  '/about': typeof AppAboutRoute
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/notifications': typeof OnboardingNotificationsRoute
+  '/onboarding/signin': typeof OnboardingSigninRoute
+  '/': typeof AppIndexRoute
+  '/onboarding': typeof OnboardingIndexRoute
+  '/app/$': typeof AppAppSplatRoute
+  '/settings/language': typeof AppSettingsLanguageRoute
+  '/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/more': typeof AppMoreIndexRoute
+  '/notifs': typeof AppNotifsIndexRoute
+  '/settings': typeof AppSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/more': typeof MoreRouteWithChildren
-  '/app/$': typeof AppSplatRoute
-  '/settings/language': typeof SettingsLanguageRoute
-  '/settings/notifications': typeof SettingsNotificationsRoute
-  '/more/': typeof MoreIndexRoute
-  '/notifs/': typeof NotifsIndexRoute
-  '/settings/': typeof SettingsIndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/about': typeof AppAboutRoute
+  '/_app/more': typeof AppMoreRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/notifications': typeof OnboardingNotificationsRoute
+  '/onboarding/signin': typeof OnboardingSigninRoute
+  '/_app/': typeof AppIndexRoute
+  '/onboarding/': typeof OnboardingIndexRoute
+  '/_app/app/$': typeof AppAppSplatRoute
+  '/_app/settings/language': typeof AppSettingsLanguageRoute
+  '/_app/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/_app/more/': typeof AppMoreIndexRoute
+  '/_app/notifs/': typeof AppNotifsIndexRoute
+  '/_app/settings/': typeof AppSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/about'
     | '/more'
+    | '/onboarding/language'
+    | '/onboarding/notifications'
+    | '/onboarding/signin'
+    | '/'
+    | '/onboarding'
     | '/app/$'
     | '/settings/language'
     | '/settings/notifications'
@@ -112,8 +159,12 @@ export interface FileRouteTypes {
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/about'
+    | '/onboarding/language'
+    | '/onboarding/notifications'
+    | '/onboarding/signin'
+    | '/'
+    | '/onboarding'
     | '/app/$'
     | '/settings/language'
     | '/settings/notifications'
@@ -122,115 +173,174 @@ export interface FileRouteTypes {
     | '/settings'
   id:
     | '__root__'
-    | '/'
-    | '/about'
-    | '/more'
-    | '/app/$'
-    | '/settings/language'
-    | '/settings/notifications'
-    | '/more/'
-    | '/notifs/'
-    | '/settings/'
+    | '/_app'
+    | '/_app/about'
+    | '/_app/more'
+    | '/onboarding/language'
+    | '/onboarding/notifications'
+    | '/onboarding/signin'
+    | '/_app/'
+    | '/onboarding/'
+    | '/_app/app/$'
+    | '/_app/settings/language'
+    | '/_app/settings/notifications'
+    | '/_app/more/'
+    | '/_app/notifs/'
+    | '/_app/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  MoreRoute: typeof MoreRouteWithChildren
-  AppSplatRoute: typeof AppSplatRoute
-  SettingsLanguageRoute: typeof SettingsLanguageRoute
-  SettingsNotificationsRoute: typeof SettingsNotificationsRoute
-  NotifsIndexRoute: typeof NotifsIndexRoute
-  SettingsIndexRoute: typeof SettingsIndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  OnboardingLanguageRoute: typeof OnboardingLanguageRoute
+  OnboardingNotificationsRoute: typeof OnboardingNotificationsRoute
+  OnboardingSigninRoute: typeof OnboardingSigninRoute
+  OnboardingIndexRoute: typeof OnboardingIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/more': {
-      id: '/more'
-      path: '/more'
-      fullPath: '/more'
-      preLoaderRoute: typeof MoreRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/onboarding/': {
+      id: '/onboarding/'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/onboarding/signin': {
+      id: '/onboarding/signin'
+      path: '/onboarding/signin'
+      fullPath: '/onboarding/signin'
+      preLoaderRoute: typeof OnboardingSigninRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/': {
-      id: '/settings/'
+    '/onboarding/notifications': {
+      id: '/onboarding/notifications'
+      path: '/onboarding/notifications'
+      fullPath: '/onboarding/notifications'
+      preLoaderRoute: typeof OnboardingNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/language': {
+      id: '/onboarding/language'
+      path: '/onboarding/language'
+      fullPath: '/onboarding/language'
+      preLoaderRoute: typeof OnboardingLanguageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/more': {
+      id: '/_app/more'
+      path: '/more'
+      fullPath: '/more'
+      preLoaderRoute: typeof AppMoreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/about': {
+      id: '/_app/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AppAboutRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings/': {
+      id: '/_app/settings/'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof SettingsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppSettingsIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/notifs/': {
-      id: '/notifs/'
+    '/_app/notifs/': {
+      id: '/_app/notifs/'
       path: '/notifs'
       fullPath: '/notifs'
-      preLoaderRoute: typeof NotifsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppNotifsIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/more/': {
-      id: '/more/'
+    '/_app/more/': {
+      id: '/_app/more/'
       path: '/'
       fullPath: '/more/'
-      preLoaderRoute: typeof MoreIndexRouteImport
-      parentRoute: typeof MoreRoute
+      preLoaderRoute: typeof AppMoreIndexRouteImport
+      parentRoute: typeof AppMoreRoute
     }
-    '/settings/notifications': {
-      id: '/settings/notifications'
+    '/_app/settings/notifications': {
+      id: '/_app/settings/notifications'
       path: '/settings/notifications'
       fullPath: '/settings/notifications'
-      preLoaderRoute: typeof SettingsNotificationsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppSettingsNotificationsRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/settings/language': {
-      id: '/settings/language'
+    '/_app/settings/language': {
+      id: '/_app/settings/language'
       path: '/settings/language'
       fullPath: '/settings/language'
-      preLoaderRoute: typeof SettingsLanguageRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppSettingsLanguageRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/app/$': {
-      id: '/app/$'
+    '/_app/app/$': {
+      id: '/_app/app/$'
       path: '/app/$'
       fullPath: '/app/$'
-      preLoaderRoute: typeof AppSplatRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppAppSplatRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
-interface MoreRouteChildren {
-  MoreIndexRoute: typeof MoreIndexRoute
+interface AppMoreRouteChildren {
+  AppMoreIndexRoute: typeof AppMoreIndexRoute
 }
 
-const MoreRouteChildren: MoreRouteChildren = {
-  MoreIndexRoute: MoreIndexRoute,
+const AppMoreRouteChildren: AppMoreRouteChildren = {
+  AppMoreIndexRoute: AppMoreIndexRoute,
 }
 
-const MoreRouteWithChildren = MoreRoute._addFileChildren(MoreRouteChildren)
+const AppMoreRouteWithChildren =
+  AppMoreRoute._addFileChildren(AppMoreRouteChildren)
+
+interface AppRouteChildren {
+  AppAboutRoute: typeof AppAboutRoute
+  AppMoreRoute: typeof AppMoreRouteWithChildren
+  AppIndexRoute: typeof AppIndexRoute
+  AppAppSplatRoute: typeof AppAppSplatRoute
+  AppSettingsLanguageRoute: typeof AppSettingsLanguageRoute
+  AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
+  AppNotifsIndexRoute: typeof AppNotifsIndexRoute
+  AppSettingsIndexRoute: typeof AppSettingsIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAboutRoute: AppAboutRoute,
+  AppMoreRoute: AppMoreRouteWithChildren,
+  AppIndexRoute: AppIndexRoute,
+  AppAppSplatRoute: AppAppSplatRoute,
+  AppSettingsLanguageRoute: AppSettingsLanguageRoute,
+  AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
+  AppNotifsIndexRoute: AppNotifsIndexRoute,
+  AppSettingsIndexRoute: AppSettingsIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  MoreRoute: MoreRouteWithChildren,
-  AppSplatRoute: AppSplatRoute,
-  SettingsLanguageRoute: SettingsLanguageRoute,
-  SettingsNotificationsRoute: SettingsNotificationsRoute,
-  NotifsIndexRoute: NotifsIndexRoute,
-  SettingsIndexRoute: SettingsIndexRoute,
+  AppRoute: AppRouteWithChildren,
+  OnboardingLanguageRoute: OnboardingLanguageRoute,
+  OnboardingNotificationsRoute: OnboardingNotificationsRoute,
+  OnboardingSigninRoute: OnboardingSigninRoute,
+  OnboardingIndexRoute: OnboardingIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,22 +1,7 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { AppBar } from "../components/AppBar";
-import { BottomNavigation } from "../components/BottomNavigation";
-import { InstallBanner } from "../components/InstallBanner";
 
 const RootLayout = () => {
-  return (
-    <div className="flex flex-col app-container">
-      <InstallBanner />
-
-      <AppBar />
-
-      <main className="flex-1">
-        <Outlet />
-      </main>
-
-      <BottomNavigation />
-    </div>
-  );
+  return <Outlet />;
 };
 
 export const Route = createRootRoute({ component: RootLayout });

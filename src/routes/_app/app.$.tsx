@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { IframeRouter } from "../components/microfrontends/IframeRouter";
+import { IframeRouter } from "../../components/microfrontends/IframeRouter";
 
-export const Route = createFileRoute("/app/$")({
+export const Route = createFileRoute("/_app/app/$")({
   component: RouteComponent,
 });
 
@@ -13,7 +13,8 @@ function RouteComponent() {
       route="/app/$"
       baseUrl="/_services/"
       path={`./${path ?? ""}`}
-      name="REPLACE ME LOL"
+      // TODO: Remove placeholder name
+      name="PAGE TITLE PLACEHOLDER"
     />
   );
 }
