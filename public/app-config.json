@@ -20,6 +20,13 @@
       "label": "app.settings.label",
       "icon": "settings",
       "path": "/settings"
+    },
+    {
+      "type": "page",
+      "id": "page_onboarding",
+      "label": "app.onboarding.label",
+      "icon": "heart",
+      "path": "/onboarding"
     }
   ]
 }
