@@ -11,7 +11,10 @@ export type Props = {
 export function IframeRouter({ route, baseUrl, path, name }: Props) {
   const navigate = useNavigate();
 
-  const url = new URL(path, new URL(baseUrl, window.location.href)).toString();
+  let url = new URL(path, new URL(baseUrl, window.location.href)).toString();
+
+  // Ensure trailing slash so that relative assets load correctly
+  url = url.replace(/\/*$/, "/");
 
   const onIframeLoad = (event: SyntheticEvent<HTMLIFrameElement>) => {
     const newUrl = event.currentTarget.contentWindow?.location.href;
