@@ -7,6 +7,7 @@ import { useTolgee, useTranslate } from "@tolgee/react";
 import { use } from "react";
 import { ScoutListViewItemLink } from "../../../components/links";
 import { languageNamesPromise } from "../../../tolgee";
+import { upperFirst } from "../../../utils";
 
 export const Route = createFileRoute("/_app/settings/")({
   component: RouteComponent,
@@ -24,7 +25,7 @@ function LanguageItem() {
   return (
     <ScoutListViewItemLink
       primary={t("language_selector.title")}
-      secondary={language ? languageNames[language] : undefined}
+      secondary={language ? upperFirst(languageNames[language]) : undefined}
       icon={LanguageIcon}
       to="/settings/language"
     />

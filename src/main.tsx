@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { TolgeeProvider } from "@tolgee/react";
 import { Provider as JotaiProvider } from "jotai";
-import { StrictMode, use } from "react";
+import { StrictMode, Suspense, use } from "react";
 import ReactDOM from "react-dom/client";
 import { UserLoader } from "./auth/auth";
 import { NotFound } from "./components/NotFound";
@@ -32,31 +32,26 @@ function App() {
   return (
     <JotaiProvider store={jotaiStore}>
       <QueryClientProvider client={queryClient}>
-        {/* FIXME: For now we rely on Tolgee's internal Suspense component. We don't want to do this: https://github.com/tolgee/tolgee-js/issues/3487 */}
-        {/* <Suspense
-        fallback={
-          <div className="flex items-center justify-center h-screen w-screen">
-            <ScoutLoader />
-          </div>
-        }
-      > */}
-        <UserLoader />
-
-        <TolgeeProvider
-          tolgee={use(tolgeePromise)}
+        <Suspense
           fallback={
             <div className="flex items-center justify-center h-screen w-screen">
               <ScoutLoader />
             </div>
           }
         >
-          <DynamicRoutesProvider>
-            <IconProvider>
-              <RouterProvider router={router} />
-            </IconProvider>
-          </DynamicRoutesProvider>
-        </TolgeeProvider>
-        {/* </Suspense> */}
+          <UserLoader />
+
+          <TolgeeProvider
+            tolgee={use(tolgeePromise)}
+            options={{ useSuspense: false }}
+          >
+            <DynamicRoutesProvider>
+              <IconProvider>
+                <RouterProvider router={router} />
+              </IconProvider>
+            </DynamicRoutesProvider>
+          </TolgeeProvider>
+        </Suspense>
       </QueryClientProvider>
     </JotaiProvider>
   );

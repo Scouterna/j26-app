@@ -15,7 +15,7 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       devOptions: {
-        enabled: true,
+        // enabled: true,
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,jpg,svg}"],
@@ -87,6 +87,10 @@ export default defineConfig({
         changeOrigin: true,
       },
       "/notifications/**": {
+        target: "https://app.dev.j26.se/",
+        changeOrigin: true,
+      },
+      "/_services/signupinfo/**": {
         target: "https://app.dev.j26.se/",
         changeOrigin: true,
       },

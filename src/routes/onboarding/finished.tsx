@@ -24,7 +24,7 @@ function RouteComponent() {
       </div>
 
       <OnboardingFooter
-        back="/onboarding/notifications"
+        back="/onboarding/location"
         next="/"
         lastPage
         onNextClick={() => setOnboarded(true)}

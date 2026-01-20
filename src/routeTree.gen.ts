@@ -15,6 +15,7 @@ import { Route as OnboardingIndexRouteImport } from './routes/onboarding/index'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as OnboardingSigninRouteImport } from './routes/onboarding/signin'
 import { Route as OnboardingNotificationsRouteImport } from './routes/onboarding/notifications'
+import { Route as OnboardingLocationRouteImport } from './routes/onboarding/location'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding/language'
 import { Route as OnboardingFinishedRouteImport } from './routes/onboarding/finished'
 import { Route as AppMoreRouteImport } from './routes/_app/more'
@@ -53,6 +54,11 @@ const OnboardingSigninRoute = OnboardingSigninRouteImport.update({
 const OnboardingNotificationsRoute = OnboardingNotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => OnboardingRoute,
+} as any)
+const OnboardingLocationRoute = OnboardingLocationRouteImport.update({
+  id: '/location',
+  path: '/location',
   getParentRoute: () => OnboardingRoute,
 } as any)
 const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/more': typeof AppMoreRouteWithChildren
   '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/location': typeof OnboardingLocationRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
   '/': typeof AppIndexRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/about': typeof AppAboutRoute
   '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/location': typeof OnboardingLocationRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
   '/': typeof AppIndexRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/_app/more': typeof AppMoreRouteWithChildren
   '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/location': typeof OnboardingLocationRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
   '/_app/': typeof AppIndexRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/more'
     | '/onboarding/finished'
     | '/onboarding/language'
+    | '/onboarding/location'
     | '/onboarding/notifications'
     | '/onboarding/signin'
     | '/'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/onboarding/finished'
     | '/onboarding/language'
+    | '/onboarding/location'
     | '/onboarding/notifications'
     | '/onboarding/signin'
     | '/'
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/_app/more'
     | '/onboarding/finished'
     | '/onboarding/language'
+    | '/onboarding/location'
     | '/onboarding/notifications'
     | '/onboarding/signin'
     | '/_app/'
@@ -258,6 +270,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/onboarding/notifications'
       preLoaderRoute: typeof OnboardingNotificationsRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
+    '/onboarding/location': {
+      id: '/onboarding/location'
+      path: '/location'
+      fullPath: '/onboarding/location'
+      preLoaderRoute: typeof OnboardingLocationRouteImport
       parentRoute: typeof OnboardingRoute
     }
     '/onboarding/language': {
@@ -371,6 +390,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 interface OnboardingRouteChildren {
   OnboardingFinishedRoute: typeof OnboardingFinishedRoute
   OnboardingLanguageRoute: typeof OnboardingLanguageRoute
+  OnboardingLocationRoute: typeof OnboardingLocationRoute
   OnboardingNotificationsRoute: typeof OnboardingNotificationsRoute
   OnboardingSigninRoute: typeof OnboardingSigninRoute
   OnboardingIndexRoute: typeof OnboardingIndexRoute
@@ -379,6 +399,7 @@ interface OnboardingRouteChildren {
 const OnboardingRouteChildren: OnboardingRouteChildren = {
   OnboardingFinishedRoute: OnboardingFinishedRoute,
   OnboardingLanguageRoute: OnboardingLanguageRoute,
+  OnboardingLocationRoute: OnboardingLocationRoute,
   OnboardingNotificationsRoute: OnboardingNotificationsRoute,
   OnboardingSigninRoute: OnboardingSigninRoute,
   OnboardingIndexRoute: OnboardingIndexRoute,

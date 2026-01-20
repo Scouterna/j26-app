@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 
 export type Props = {
   children: ReactNode;
@@ -11,7 +11,7 @@ export function OnboardingLayout({ children, header }: Props) {
       {header}
 
       <div className="flex-1 flex flex-col gap-4 [view-transition-name:main-content]">
-        {children}
+        <Suspense>{children}</Suspense>
       </div>
     </div>
   );

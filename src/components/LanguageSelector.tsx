@@ -4,8 +4,7 @@ import { useAtomValue } from "jotai";
 import { use, useMemo } from "react";
 import { languageAtom } from "../language/language";
 import { languageNamesPromise } from "../tolgee";
-
-const upperFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+import { upperFirst } from "../utils";
 
 export function LanguageSelector() {
   const tolgee = useTolgee();

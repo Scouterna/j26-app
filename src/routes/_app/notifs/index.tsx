@@ -7,6 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import type { components } from "../../../generated/notification-api";
 import { useDateFnsLocale } from "../../../language/language";
 import { getNotificationHistory } from "../../../notifications/api";
+import { upperFirst } from "../../../utils";
 
 export const Route = createFileRoute("/_app/notifs/")({
   component: RouteComponent,
@@ -21,8 +22,6 @@ export const Route = createFileRoute("/_app/notifs/")({
 });
 
 type Notification = components["schemas"]["NotificationRead"];
-
-const upperFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const NotificationItem = ({ notification }: { notification: Notification }) => {
   const { t } = useTranslate();
