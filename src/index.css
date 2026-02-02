@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@scouterna/tailwind-theme";
 
+@plugin "@tailwindcss/typography";
+
 @import "@fontsource-variable/source-sans-3";
 
 body {

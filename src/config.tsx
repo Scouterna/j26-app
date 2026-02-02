@@ -6,6 +6,9 @@ type Config = {
   appConfigs: string[];
   bottomNavItems: string[];
   notificationsTenant: string;
+  strapiApiUrl: string;
+  strapiApiKey: string;
+  strapiLocales: string[];
 };
 
 function parseConfigArray(configString: string): string[] {
@@ -23,6 +26,7 @@ async function loadConfig(): Promise<Config> {
     ...data,
     appConfigs: parseConfigArray(data.appConfigs),
     bottomNavItems: parseConfigArray(data.bottomNavItems),
+    strapiLocales: parseConfigArray(data.strapiLocales),
   };
 }
 

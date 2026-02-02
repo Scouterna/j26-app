@@ -23,6 +23,7 @@ import { Route as AppAboutRouteImport } from './routes/_app/about'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
 import { Route as AppNotifsIndexRouteImport } from './routes/_app/notifs/index'
 import { Route as AppMoreIndexRouteImport } from './routes/_app/more.index'
+import { Route as AppInfoIndexRouteImport } from './routes/_app/info/index'
 import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/settings/notifications'
 import { Route as AppSettingsLanguageRouteImport } from './routes/_app/settings/language'
 import { Route as AppAppSplatRouteImport } from './routes/_app/app.$'
@@ -96,6 +97,11 @@ const AppMoreIndexRoute = AppMoreIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppMoreRoute,
 } as any)
+const AppInfoIndexRoute = AppInfoIndexRouteImport.update({
+  id: '/info/',
+  path: '/info/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSettingsNotificationsRoute =
   AppSettingsNotificationsRouteImport.update({
     id: '/settings/notifications',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/app/$': typeof AppAppSplatRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/info': typeof AppInfoIndexRoute
   '/more/': typeof AppMoreIndexRoute
   '/notifs': typeof AppNotifsIndexRoute
   '/settings': typeof AppSettingsIndexRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/app/$': typeof AppAppSplatRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/info': typeof AppInfoIndexRoute
   '/more': typeof AppMoreIndexRoute
   '/notifs': typeof AppNotifsIndexRoute
   '/settings': typeof AppSettingsIndexRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/_app/app/$': typeof AppAppSplatRoute
   '/_app/settings/language': typeof AppSettingsLanguageRoute
   '/_app/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/_app/info/': typeof AppInfoIndexRoute
   '/_app/more/': typeof AppMoreIndexRoute
   '/_app/notifs/': typeof AppNotifsIndexRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/app/$'
     | '/settings/language'
     | '/settings/notifications'
+    | '/info'
     | '/more/'
     | '/notifs'
     | '/settings'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/app/$'
     | '/settings/language'
     | '/settings/notifications'
+    | '/info'
     | '/more'
     | '/notifs'
     | '/settings'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/_app/app/$'
     | '/_app/settings/language'
     | '/_app/settings/notifications'
+    | '/_app/info/'
     | '/_app/more/'
     | '/_app/notifs/'
     | '/_app/settings/'
@@ -328,6 +340,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMoreIndexRouteImport
       parentRoute: typeof AppMoreRoute
     }
+    '/_app/info/': {
+      id: '/_app/info/'
+      path: '/info'
+      fullPath: '/info'
+      preLoaderRoute: typeof AppInfoIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/settings/notifications': {
       id: '/_app/settings/notifications'
       path: '/settings/notifications'
@@ -370,6 +389,7 @@ interface AppRouteChildren {
   AppAppSplatRoute: typeof AppAppSplatRoute
   AppSettingsLanguageRoute: typeof AppSettingsLanguageRoute
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
+  AppInfoIndexRoute: typeof AppInfoIndexRoute
   AppNotifsIndexRoute: typeof AppNotifsIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
@@ -381,6 +401,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAppSplatRoute: AppAppSplatRoute,
   AppSettingsLanguageRoute: AppSettingsLanguageRoute,
   AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
+  AppInfoIndexRoute: AppInfoIndexRoute,
   AppNotifsIndexRoute: AppNotifsIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }

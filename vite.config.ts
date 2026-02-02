@@ -3,6 +3,7 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
+import { analyzer } from "vite-bundle-analyzer";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
@@ -11,6 +12,7 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
   },
   plugins: [
+    analyzer(),
     nitro(),
     VitePWA({
       registerType: "autoUpdate",
@@ -80,6 +82,9 @@ export default defineConfig({
       publicAppConfigs: "",
       publicBottomNavItems: "",
       publicNotificationsTenant: "",
+      publicStrapiApiUrl: "",
+      publicStrapiApiKey: "",
+      publicStrapiLocales: "",
     },
     devProxy: {
       "/auth/**": {
