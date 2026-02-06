@@ -56,9 +56,14 @@ export function AppBar() {
     .filter((match) => match !== undefined)
     .pop();
 
+  const treatAsRoot = matches
+    .map((match) => match.staticData?.treatAsRoot)
+    .filter((match) => match !== undefined)
+    .pop();
+
   return (
     <ScoutAppBar titleText={title ? t(title) : undefined}>
-      {!isOnRootPage && canGoBack && (
+      {!isOnRootPage && !treatAsRoot && canGoBack && (
         <ScoutButton
           slot="prefix"
           icon={ArrowLeftIcon}

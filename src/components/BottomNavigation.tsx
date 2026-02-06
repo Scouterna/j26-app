@@ -58,6 +58,7 @@ export function BottomNavigation() {
           active={
             !!reactiveMatchRoute({
               to: page.path,
+              fuzzy: true,
             })
           }
         />

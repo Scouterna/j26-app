@@ -16,8 +16,8 @@
   "dependencies": {
     "@fontsource-variable/source-sans-3": "^5.2.9",
     "@scouterna/design-tokens": "0.0.5",
-    "@scouterna/ui-react": "2.2.7",
-    "@scouterna/ui-webc": "2.2.7",
+    "@scouterna/ui-react": "3.1.0",
+    "@scouterna/ui-webc": "3.1.0",
     "@strapi/blocks-react-renderer": "^1.0.2",
     "@strapi/client": "^1.6.0",
     "@tabler/icons": "^3.35.0",
