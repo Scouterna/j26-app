@@ -76,13 +76,22 @@ function UserItem() {
 
   const user = useAtomValue(userAtom);
 
+  const loginRedirectUrl = new URL("/more", globalThis.location.href);
+
+  const loginUrl = new URL("/auth/login", globalThis.location.href);
+  loginUrl.searchParams.set("redirect_uri", loginRedirectUrl.href);
+  loginUrl.searchParams.set("silent", "false");
+
+  const logoutUrl = new URL("/auth/logout", globalThis.location.href);
+  logoutUrl.searchParams.set("redirect_uri", loginRedirectUrl.href);
+
   if (!user) {
     return (
       <ScoutListViewItem
         type="link"
         primary={t("current_user_item.sign_in")}
         icon={UserIcon}
-        href="https://app.dev.j26.se/auth/login?redirect_uri=https://app.dev.j26.se/more&silent=false"
+        href={loginUrl.href}
       />
     );
   }
@@ -94,7 +103,7 @@ function UserItem() {
         name: user.name,
       })}
       icon={LogoutIcon}
-      onScoutClick={() => alert("Not implemented yet")}
+      href={logoutUrl.href}
     />
   );
 }
