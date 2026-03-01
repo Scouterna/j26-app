@@ -98,6 +98,7 @@ function UserItem() {
 
   return (
     <ScoutListViewItem
+      type="link"
       primary={t("current_user_item.sign_out")}
       secondary={t("current_user_item.signed_in_as", {
         name: user.name,
