@@ -13,6 +13,7 @@ import { ScoutListViewItemLink } from "../../components/links";
 import type { appConfig } from "../../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../../dynamic-routes/dynamic-routes-context";
 import { useIcon } from "../../icons/icons";
+import { cn } from "../../utils";
 
 type Page = typeof appConfig.Page.infer;
 type Group = typeof appConfig.Group.infer;
@@ -99,10 +100,16 @@ function UserItem() {
 }
 
 export type Props = {
+  className?: string;
   includeBottomNavItems?: boolean;
+  useFullHeight?: boolean;
 };
 
-export function MoreList({ includeBottomNavItems = false }: Props) {
+export function MoreList({
+  className,
+  includeBottomNavItems,
+  useFullHeight,
+}: Props) {
   const { configs, bottomNavItems, allPages } = useDynamicRoutes();
   const routeEntries = Object.entries(configs);
 
@@ -128,33 +135,38 @@ export function MoreList({ includeBottomNavItems = false }: Props) {
   }
 
   return (
-    <>
-      {filteredRouteEntries.map(([url, config]) => (
-        <>
-          <ScoutListView key={`${url}_item`}>
-            {config.navigation.map((navItem) => {
-              if (navItem.type === "page") {
-                return (
-                  <DynamicPageItem
-                    key={`${navItem.label}_${navItem.path}`}
-                    page={navItem}
-                  />
-                );
-              } else if (navItem.type === "group") {
-                return <DynamicGroupItem key={navItem.label} group={navItem} />;
-              }
+    <div className={cn("flex flex-col", className)}>
+      <div className={cn(useFullHeight && "flex-1")}>
+        {filteredRouteEntries.map(([url, config]) => (
+          <>
+            <ScoutListView key={`${url}_item`}>
+              {config.navigation.map((navItem) => {
+                if (navItem.type === "page") {
+                  return (
+                    <DynamicPageItem
+                      key={`${navItem.label}_${navItem.path}`}
+                      page={navItem}
+                    />
+                  );
+                } else if (navItem.type === "group") {
+                  return (
+                    <DynamicGroupItem key={navItem.label} group={navItem} />
+                  );
+                }
 
-              return null;
-            })}
-          </ScoutListView>
+                return null;
+              })}
+            </ScoutListView>
 
-          <ScoutDivider key={`${url}_divider`} />
-        </>
-      ))}
+            <ScoutDivider key={`${url}_divider`} />
+          </>
+        ))}
+      </div>
 
       <ScoutListView>
+        {useFullHeight && <ScoutDivider />}
         <UserItem />
       </ScoutListView>
-    </>
+    </div>
   );
 }

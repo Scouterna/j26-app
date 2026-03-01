@@ -24,7 +24,7 @@ export function SideMenu() {
         >
           <div
             style={{ width }}
-            className="absolute h-full right-0 border-r border-gray-200"
+            className="absolute h-full flex flex-col right-0 border-r border-gray-200"
           >
             <ScoutAppBar>
               <ScoutButton
@@ -40,7 +40,7 @@ export function SideMenu() {
               </ScoutButton>
             </ScoutAppBar>
 
-            <MoreList includeBottomNavItems />
+            <MoreList className="flex-1" includeBottomNavItems useFullHeight />
           </div>
         </motion.div>
       )}
