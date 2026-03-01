@@ -1,5 +1,6 @@
 import { ScoutAppBar, ScoutButton } from "@scouterna/ui-react";
 import ArrowLeftIcon from "@tabler/icons/outline/arrow-left.svg?raw";
+import Menu2Icon from "@tabler/icons/outline/menu-2.svg?raw";
 import {
   useCanGoBack,
   useLocation,
@@ -7,10 +8,13 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { T, useTranslate } from "@tolgee/react";
+import { useAtom } from "jotai";
 import { useMemo } from "react";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
+import { useIsDesktop } from "../hooks/breakpoint";
 import type { AppBarAction } from "../route-types";
 import { ScoutButtonLink } from "./links";
+import { sideMenuOpenAtom } from "./menu/menuState";
 
 const Action = ({ action }: { action: AppBarAction }) => {
   const Tag = "to" in action ? ScoutButtonLink : ScoutButton;
@@ -37,6 +41,9 @@ export function AppBar() {
   const location = useLocation();
   const canGoBack = useCanGoBack();
   const { allPages, bottomNavItems } = useDynamicRoutes();
+  const [sideMenuOpen, setSideMenuOpen] = useAtom(sideMenuOpenAtom);
+  const isDesktop = useIsDesktop();
+  const showSideMenu = isDesktop && sideMenuOpen;
 
   const isOnRootPage = useMemo(() => {
     const bottomPages = allPages.filter((page) =>
@@ -58,7 +65,21 @@ export function AppBar() {
 
   return (
     <ScoutAppBar titleText={title ? t(title) : undefined}>
-      {!isOnRootPage && canGoBack && (
+      {isDesktop && !showSideMenu && (
+        <ScoutButton
+          slot="prefix"
+          icon={Menu2Icon}
+          iconOnly
+          variant="text"
+          onClick={() => {
+            setSideMenuOpen(true);
+          }}
+        >
+          <T ns="app" keyName="appBar.openMenu.label" />
+        </ScoutButton>
+      )}
+
+      {!isDesktop && !isOnRootPage && canGoBack && (
         <ScoutButton
           slot="prefix"
           icon={ArrowLeftIcon}

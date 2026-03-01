@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { AppBar } from "../components/AppBar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { InstallBanner } from "../components/InstallBanner";
+import { SideMenu } from "../components/menu/SideMenu";
 import { onboardedAtom } from "../onboarding";
 
 export const Route = createFileRoute("/_app")({
@@ -27,13 +28,19 @@ function RouteComponent() {
     <div className="flex flex-col app-container">
       <InstallBanner />
 
-      <AppBar />
+      <div className="flex-1 flex">
+        <SideMenu />
 
-      <main className="flex-1">
-        <Outlet />
-      </main>
+        <div className="flex-1 flex flex-col">
+          <AppBar />
 
-      <BottomNavigation />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+
+          <BottomNavigation />
+        </div>
+      </div>
     </div>
   );
 }

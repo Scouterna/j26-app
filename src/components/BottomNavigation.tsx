@@ -4,6 +4,7 @@ import { useTranslate } from "@tolgee/react";
 import { useCallback } from "react";
 import type { appConfig } from "../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
+import { useIsDesktop } from "../hooks/breakpoint";
 import { useIcon } from "../icons/icons";
 import { ScoutBottomBarItemLink } from "./links";
 
@@ -44,6 +45,12 @@ export function BottomNavigation() {
   );
 
   const { allPages } = useDynamicRoutes();
+
+  const isDesktop = useIsDesktop();
+
+  if (isDesktop) {
+    return null;
+  }
 
   const pages = bottomNavItems
     .map((pageId) => allPages.find((page) => page.id === pageId))
