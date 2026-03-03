@@ -10,7 +10,7 @@ export function DevBanner() {
   const { devBannerMessage } = use(configPromise);
 
   if (!devBannerMessage) {
-    return;
+    return null;
   }
 
   return (

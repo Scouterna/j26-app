@@ -1,6 +1,7 @@
 import { ScoutButton } from "@scouterna/ui-react";
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
+import { useIsDesktop } from "../hooks/breakpoint";
 import { cn } from "../utils";
 
 type BeforeInstallPromptEvent = Event & {
@@ -83,6 +84,11 @@ export function InstallBanner() {
       expiry.getTime().toString(),
     );
   }, []);
+
+  const isDesktop = useIsDesktop();
+  if (isDesktop) {
+    return null;
+  }
 
   return (
     <motion.div
