@@ -3,7 +3,7 @@ import { atom, useAtomValue } from "jotai";
 import { jotaiStore } from "../jotai";
 import { tolgeePromise } from "../tolgee";
 
-export const languageAtom = atom();
+export const languageAtom = atom<string>();
 
 const tolgee = await tolgeePromise;
 jotaiStore.set(languageAtom, tolgee.getLanguage());

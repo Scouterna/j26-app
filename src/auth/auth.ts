@@ -1,6 +1,7 @@
 import { type } from "arktype";
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { useEffect, useMemo } from "react";
+import { languageAtom } from "../language/language";
 
 const User = type({
   name: "string",
@@ -67,3 +68,43 @@ export const UserLoader = () => {
 
   return null;
 };
+
+export type GetAuthUrlsOptions = {
+  redirectUri: string;
+  silent?: boolean;
+  locale?: string;
+};
+export function getAuthUrls({
+  redirectUri,
+  silent,
+  locale,
+}: GetAuthUrlsOptions) {
+  const fullRedirectUri = new URL(redirectUri, globalThis.location.href);
+
+  const loginUrl = new URL("/auth/login", globalThis.location.href);
+  loginUrl.searchParams.set("redirect_uri", fullRedirectUri.href);
+  loginUrl.searchParams.set("silent", silent ? "true" : "false");
+  if (locale) {
+    loginUrl.searchParams.set("locale", locale);
+  }
+
+  const logoutUrl = new URL("/auth/logout", globalThis.location.href);
+  logoutUrl.searchParams.set("redirect_uri", fullRedirectUri.href);
+  logoutUrl.searchParams.set("silent", silent ? "true" : "false");
+  if (locale) {
+    logoutUrl.searchParams.set("locale", locale);
+  }
+
+  return {
+    loginUrl: loginUrl.href,
+    logoutUrl: logoutUrl.href,
+  };
+}
+
+export type UseAuthUrlsOptions = Omit<GetAuthUrlsOptions, "locale">;
+export function useAuthUrls({ redirectUri, silent }: UseAuthUrlsOptions) {
+  const currentLanguage = useAtomValue(languageAtom);
+  const locale = currentLanguage === "sv" ? "sv" : "en";
+
+  return getAuthUrls({ redirectUri, silent, locale });
+}

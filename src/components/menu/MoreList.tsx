@@ -8,7 +8,7 @@ import LogoutIcon from "@tabler/icons/outline/logout.svg?raw";
 import UserIcon from "@tabler/icons/outline/user.svg?raw";
 import { useTranslate } from "@tolgee/react";
 import { useAtomValue } from "jotai";
-import { userAtom } from "../../auth/auth";
+import { useAuthUrls, userAtom } from "../../auth/auth";
 import { ScoutListViewItemLink } from "../../components/links";
 import type { appConfig } from "../../dynamic-routes/app-config";
 import { useDynamicRoutes } from "../../dynamic-routes/dynamic-routes-context";
@@ -76,14 +76,9 @@ function UserItem() {
 
   const user = useAtomValue(userAtom);
 
-  const loginRedirectUrl = new URL("/more", globalThis.location.href);
-
-  const loginUrl = new URL("/auth/login", globalThis.location.href);
-  loginUrl.searchParams.set("redirect_uri", loginRedirectUrl.href);
-  loginUrl.searchParams.set("silent", "false");
-
-  const logoutUrl = new URL("/auth/logout", globalThis.location.href);
-  logoutUrl.searchParams.set("redirect_uri", loginRedirectUrl.href);
+  const { loginUrl, logoutUrl } = useAuthUrls({
+    redirectUri: "/more",
+  });
 
   if (!user) {
     return (
@@ -91,7 +86,7 @@ function UserItem() {
         type="link"
         primary={t("current_user_item.sign_in")}
         icon={UserIcon}
-        href={loginUrl.href}
+        href={loginUrl}
       />
     );
   }
@@ -104,7 +99,7 @@ function UserItem() {
         name: user.name,
       })}
       icon={LogoutIcon}
-      href={logoutUrl.href}
+      href={logoutUrl}
     />
   );
 }

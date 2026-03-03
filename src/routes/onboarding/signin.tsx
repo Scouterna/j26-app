@@ -2,7 +2,7 @@ import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
 import { useAtomValue } from "jotai";
-import { userAtom } from "../../auth/auth";
+import { useAuthUrls, userAtom } from "../../auth/auth";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 
 export const Route = createFileRoute("/onboarding/signin")({
@@ -11,6 +11,10 @@ export const Route = createFileRoute("/onboarding/signin")({
 
 function RouteComponent() {
   const user = useAtomValue(userAtom);
+
+  const { loginUrl } = useAuthUrls({
+    redirectUri: "/onboarding/signin",
+  });
 
   return (
     <>
@@ -38,7 +42,7 @@ function RouteComponent() {
               type="link"
               size="large"
               variant="primary"
-              href="https://app.dev.j26.se/auth/login?redirect_uri=https://app.dev.j26.se/onboarding/signin&silent=false"
+              href={loginUrl}
             >
               <T keyName="onboarding.signin.button.label" />
             </ScoutButton>
