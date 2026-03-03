@@ -56,12 +56,6 @@ importers:
       firebase:
         specifier: ^12.7.0
         version: 12.7.0
-      iconoir:
-        specifier: ^7.11.0
-        version: 7.11.0
-      iconoir-react:
-        specifier: ^7.11.0
-        version: 7.11.0(react@19.2.1)
       jotai:
         specifier: ^2.16.0
         version: 2.16.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.7)(react@19.2.1)
@@ -2448,11 +2442,6 @@ packages:
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
-
-  iconoir-react@7.11.0:
-    resolution: {integrity: sha512-uvTKtnHYwbbTsmQ6HCcliYd50WK0GbjP497RwdISxKzfS01x4cK1Mn/F2mT/t2roSaJQ0I+KnHxMcyvmNMXWsQ==}
-    peerDependencies:
-      react: 18 || 19
 
   iconoir@7.11.0:
     resolution: {integrity: sha512-F9T/E08aJBaQ+VOBjn+ChWKn3hFwsaK5VZ024OFMxdDaxKjLGDpU/OsU7MO9wXM+mDs4ZImypdXIn0fFZAXKmA==}
@@ -6225,10 +6214,6 @@ snapshots:
       debug: 4.4.3(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
-
-  iconoir-react@7.11.0(react@19.2.1):
-    dependencies:
-      react: 19.2.1
 
   iconoir@7.11.0: {}
 

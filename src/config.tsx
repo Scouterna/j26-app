@@ -6,6 +6,7 @@ type Config = {
   appConfigs: string[];
   bottomNavItems: string[];
   notificationsTenant: string;
+  devBannerMessage?: string | null;
 };
 
 function parseConfigArray(configString: string): string[] {
