@@ -39,22 +39,22 @@ export default defineConfig({
             type: "image/png",
           },
         ],
-        screenshots: [
-          {
-            src: "/screenshot-1.jpg",
-            sizes: "1024x1365",
-            type: "image/jpg",
-            form_factor: "narrow",
-            label: "Malcolm",
-          },
-          {
-            src: "/screenshot-2.jpg",
-            sizes: "1024x1365",
-            type: "image/jpg",
-            form_factor: "narrow",
-            label: "Malcolm, igen",
-          },
-        ],
+        // screenshots: [
+        //   {
+        //     src: "/screenshot-1.jpg",
+        //     sizes: "1024x1365",
+        //     type: "image/jpg",
+        //     form_factor: "narrow",
+        //     label: "Malcolm",
+        //   },
+        //   {
+        //     src: "/screenshot-2.jpg",
+        //     sizes: "1024x1365",
+        //     type: "image/jpg",
+        //     form_factor: "narrow",
+        //     label: "Malcolm, igen",
+        //   },
+        // ],
         // TODO: Generate the manifest in the backend so that we can localize it
         description: "Jamboree26-appen",
       },
