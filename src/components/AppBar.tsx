@@ -8,11 +8,12 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { T, useTranslate } from "@tolgee/react";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIsDesktop } from "../hooks/breakpoint";
 import type { AppBarAction } from "../route-types";
+import { iframeAppBarAtom } from "./microfrontends/iframeAppBarAtom";
 import { ScoutButtonLink } from "./links";
 import { sideMenuOpenAtom } from "./menu/menuState";
 
@@ -34,6 +35,8 @@ const Action = ({ action }: { action: AppBarAction }) => {
     </Tag>
   );
 };
+
+
 export function AppBar() {
   const { t } = useTranslate("app");
   const router = useRouter();
@@ -44,6 +47,7 @@ export function AppBar() {
   const [sideMenuOpen, setSideMenuOpen] = useAtom(sideMenuOpenAtom);
   const isDesktop = useIsDesktop();
   const showSideMenu = isDesktop && sideMenuOpen;
+  const iframeAppBar = useAtomValue(iframeAppBarAtom);
 
   const isOnRootPage = useMemo(() => {
     const bottomPages = allPages.filter((page) =>
@@ -53,18 +57,22 @@ export function AppBar() {
     return bottomPaths.includes(location.pathname.replace(/\/$/, ""));
   }, [allPages, bottomNavItems, location]);
 
-  const title = matches
+  const routeTitle = matches
     .map((match) => match.staticData?.pageName)
     .filter((match) => match !== undefined)
     .pop();
 
-  const appBarAction = matches
+  const routeAction = matches
     .map((match) => match.staticData?.appBarAction)
     .filter((match) => match !== undefined)
     .pop();
 
+  const titleText = iframeAppBar !== null
+    ? iframeAppBar.title
+    : routeTitle ? t(routeTitle) : undefined;
+
   return (
-    <ScoutAppBar titleText={title ? t(title) : undefined}>
+    <ScoutAppBar titleText={titleText}>
       {isDesktop && !showSideMenu && (
         <ScoutButton
           slot="prefix"
@@ -93,7 +101,9 @@ export function AppBar() {
         </ScoutButton>
       )}
 
-      {appBarAction && <Action action={appBarAction} />}
+      {iframeAppBar === null && routeAction && (
+        <Action action={routeAction} />
+      )}
     </ScoutAppBar>
   );
 }
