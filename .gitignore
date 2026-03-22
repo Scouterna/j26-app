@@ -26,3 +26,7 @@ dev-dist
 *.sw?
 
 .tanstack/tmp
+
+.env
+.env.*
+!.env.example

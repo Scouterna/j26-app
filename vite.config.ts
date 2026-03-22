@@ -98,13 +98,7 @@ export default defineConfig({
     },
   },
   // dev server options
-  // server: {
-  //   allowedHosts: [".ngrok-free.app"],
-  //   proxy: {
-  //     // "/_services/booking": {
-  //     //   target: "http://localhost:8000",
-  //     //   rewrite: (path) => path.replace(/^\/_services\/booking/, ""),
-  //     // },
-  //   },
-  // },
+  server: {
+    allowedHosts: ["local.j26.se"],
+  },
 });
