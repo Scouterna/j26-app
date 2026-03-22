@@ -1,9 +1,9 @@
 import ArrowLeftIcon from "@tabler/icons/outline/arrow-left.svg?raw";
 import ArrowRightIcon from "@tabler/icons/outline/arrow-right.svg?raw";
-import { T } from "@tolgee/react";
-import { ScoutButtonLink } from "../links";
 import { useRouter } from "@tanstack/react-router";
+import { T } from "@tolgee/react";
 import { useEffect } from "react";
+import { ScoutButtonLink } from "../links";
 
 export type Props = {
   back?: string;

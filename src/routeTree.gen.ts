@@ -114,6 +114,7 @@ const AppAppSplatRoute = AppAppSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AppIndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
   '/about': typeof AppAboutRoute
   '/more': typeof AppMoreRouteWithChildren
@@ -122,14 +123,13 @@ export interface FileRoutesByFullPath {
   '/onboarding/location': typeof OnboardingLocationRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
-  '/': typeof AppIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/app/$': typeof AppAppSplatRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
   '/more/': typeof AppMoreIndexRoute
-  '/notifs': typeof AppNotifsIndexRoute
-  '/settings': typeof AppSettingsIndexRoute
+  '/notifs/': typeof AppNotifsIndexRoute
+  '/settings/': typeof AppSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AppAboutRoute
@@ -170,6 +170,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/onboarding'
     | '/about'
     | '/more'
@@ -178,14 +179,13 @@ export interface FileRouteTypes {
     | '/onboarding/location'
     | '/onboarding/notifications'
     | '/onboarding/signin'
-    | '/'
     | '/onboarding/'
     | '/app/$'
     | '/settings/language'
     | '/settings/notifications'
     | '/more/'
-    | '/notifs'
-    | '/settings'
+    | '/notifs/'
+    | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
@@ -240,7 +240,7 @@ declare module '@tanstack/react-router' {
     '/_app': {
       id: '/_app'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -310,14 +310,14 @@ declare module '@tanstack/react-router' {
     '/_app/settings/': {
       id: '/_app/settings/'
       path: '/settings'
-      fullPath: '/settings'
+      fullPath: '/settings/'
       preLoaderRoute: typeof AppSettingsIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/notifs/': {
       id: '/_app/notifs/'
       path: '/notifs'
-      fullPath: '/notifs'
+      fullPath: '/notifs/'
       preLoaderRoute: typeof AppNotifsIndexRouteImport
       parentRoute: typeof AppRoute
     }

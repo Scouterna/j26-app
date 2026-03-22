@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
-import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 import { useSetAtom } from "jotai";
+import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 import { onboardedAtom } from "../../onboarding";
 
 export const Route = createFileRoute("/onboarding/finished")({

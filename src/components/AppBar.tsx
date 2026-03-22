@@ -13,9 +13,9 @@ import { useMemo } from "react";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIsDesktop } from "../hooks/breakpoint";
 import type { AppBarAction } from "../route-types";
-import { iframeAppBarAtom } from "./microfrontends/iframeAppBarAtom";
 import { ScoutButtonLink } from "./links";
 import { sideMenuOpenAtom } from "./menu/menuState";
+import { iframeAppBarAtom } from "./microfrontends/iframeAppBarAtom";
 
 const Action = ({ action }: { action: AppBarAction }) => {
   const Tag = "to" in action ? ScoutButtonLink : ScoutButton;
@@ -35,7 +35,6 @@ const Action = ({ action }: { action: AppBarAction }) => {
     </Tag>
   );
 };
-
 
 export function AppBar() {
   const { t } = useTranslate("app");
@@ -67,9 +66,12 @@ export function AppBar() {
     .filter((match) => match !== undefined)
     .pop();
 
-  const titleText = iframeAppBar !== null
-    ? iframeAppBar.title
-    : routeTitle ? t(routeTitle) : undefined;
+  const titleText =
+    iframeAppBar !== null
+      ? iframeAppBar.title
+      : routeTitle
+        ? t(routeTitle)
+        : undefined;
 
   return (
     <ScoutAppBar titleText={titleText}>
@@ -101,9 +103,7 @@ export function AppBar() {
         </ScoutButton>
       )}
 
-      {iframeAppBar === null && routeAction && (
-        <Action action={routeAction} />
-      )}
+      {iframeAppBar === null && routeAction && <Action action={routeAction} />}
     </ScoutAppBar>
   );
 }
