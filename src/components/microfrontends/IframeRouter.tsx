@@ -21,6 +21,34 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
   // Ensure trailing slash so that relative assets load correctly
   url = url.replace(/\/*$/, "/");
 
+  // Keep a stable initial URL for the src prop so React never updates the DOM
+  // attribute (which would reload the iframe). External navigation is handled
+  // imperatively below.
+  const initialUrl = useRef(url);
+
+  // Tracks the URL that the iframe last reported via onLoad. When the shell URL
+  // changes to exactly this value, the change was iframe-initiated and we must
+  // not push it back (which would cause a double-load). Pre-populated with the
+  // initial URL so the mount-time effect run is treated as a no-op.
+  const iframeInitiatedUrl = useRef<string | null>(url);
+
+  // When the shell URL changes due to external navigation (e.g. browser back,
+  // shell nav link), push the new URL into the iframe. Skip when the change was
+  // triggered by the iframe itself to avoid the double-load feedback loop.
+  useEffect(() => {
+    if (iframeInitiatedUrl.current === url) {
+      iframeInitiatedUrl.current = null;
+      return;
+    }
+
+    if (
+      iframeRef.current &&
+      iframeRef.current.contentWindow?.location.href !== url
+    ) {
+      iframeRef.current.src = url;
+    }
+  }, [url]);
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.source !== iframeRef.current?.contentWindow) return;
@@ -53,6 +81,15 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
       "",
     );
 
+    // Compute the normalised URL that navigate() will produce so the effect
+    // can recognise the resulting shell URL change as iframe-initiated.
+    let expectedUrl = new URL(
+      `./${relativePath}`,
+      new URL(baseUrl, window.location.href),
+    ).toString();
+    expectedUrl = expectedUrl.replace(/\/*$/, "/");
+    iframeInitiatedUrl.current = expectedUrl;
+
     navigate({
       to: route,
       params: {
@@ -64,7 +101,7 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
   return (
     <iframe
       ref={iframeRef}
-      src={url}
+      src={initialUrl.current}
       title={name}
       style={{ width: "100%", height: "100%", border: "none" }}
       onLoad={onIframeLoad}
