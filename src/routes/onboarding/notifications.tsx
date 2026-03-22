@@ -1,7 +1,7 @@
 import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { ScoutButtonLink } from "../../components/links";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 
@@ -14,12 +14,12 @@ function RouteComponent() {
     "Notification" in window ? Notification.permission : "denied",
   );
 
-  const requestPermission = useCallback(async () => {
+  const requestPermission = async () => {
     if (!("Notification" in window)) return;
 
     const permission = await Notification.requestPermission();
     setStatus(permission);
-  }, []);
+  };
 
   return (
     <>

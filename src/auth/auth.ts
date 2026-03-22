@@ -1,6 +1,6 @@
 import { type } from "arktype";
 import { atom, useAtom, useAtomValue } from "jotai";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { languageAtom } from "../language/language";
 
 const User = type({
@@ -47,7 +47,7 @@ async function getUser() {
 export const userAtom = atom<User | null>(null);
 
 export const UserLoader = () => {
-  const hasExpiresAtCookie = useMemo(() => checkForExpiresAtCookie(), []);
+  const hasExpiresAtCookie = checkForExpiresAtCookie();
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(() => {

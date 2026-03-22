@@ -1,7 +1,7 @@
 import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScoutButtonLink } from "../../components/links";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 
@@ -24,7 +24,7 @@ function RouteComponent() {
     });
   }, []);
 
-  const requestPermission = useCallback(async () => {
+  const requestPermission = async () => {
     if (!("Notification" in window)) return;
 
     navigator.geolocation.getCurrentPosition(
@@ -35,7 +35,7 @@ function RouteComponent() {
         setStatus("denied");
       },
     );
-  }, []);
+  };
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { ScoutButton } from "@scouterna/ui-react";
 import { motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useIsDesktop } from "../hooks/breakpoint";
 import { cn } from "../utils";
 
@@ -62,7 +62,7 @@ export function InstallBanner() {
     };
   }, []);
 
-  const onInstallClick = useCallback(async () => {
+  const onInstallClick = async () => {
     if (!deferredPrompt) return;
 
     deferredPrompt.prompt();
@@ -72,9 +72,9 @@ export function InstallBanner() {
         setDeferredPrompt(null);
       }
     });
-  }, [deferredPrompt]);
+  };
 
-  const onCloseClick = useCallback(() => {
+  const onCloseClick = () => {
     // Set expiry time in localstorage to 1 day
     setDeferredPrompt(null);
     const expiry = new Date();
@@ -83,7 +83,7 @@ export function InstallBanner() {
       "j26-install-banner-expiry",
       expiry.getTime().toString(),
     );
-  }, []);
+  };
 
   const isDesktop = useIsDesktop();
   if (isDesktop) {

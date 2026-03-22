@@ -1,4 +1,4 @@
-import { createContext, use, useContext, useMemo } from "react";
+import { createContext, use, useContext } from "react";
 import { configPromise } from "../config";
 import { type AppConfig, loadAppConfigs, type Page } from "./dynamic-routes";
 
@@ -23,16 +23,14 @@ export function DynamicRoutesProvider({
   const configs = use(appConfigsPromise);
   const bottomNavItems = use(configPromise).bottomNavItems;
 
-  const allPages = useMemo(() => {
-    return Object.values(configs).flatMap((config) =>
-      config.navigation.flatMap((navItem) => {
-        if (navItem.type === "group") {
-          return navItem.children;
-        }
-        return navItem;
-      }),
-    );
-  }, [configs]);
+  const allPages = Object.values(configs).flatMap((config) =>
+    config.navigation.flatMap((navItem) => {
+      if (navItem.type === "group") {
+        return navItem.children;
+      }
+      return navItem;
+    }),
+  );
 
   return (
     <context.Provider

@@ -1,7 +1,7 @@
 import { ScoutListView, ScoutListViewItem } from "@scouterna/ui-react";
 import { useTolgee } from "@tolgee/react";
 import { useAtomValue } from "jotai";
-import { use, useMemo } from "react";
+import { use } from "react";
 import { languageAtom } from "../language/language";
 import { languageNamesPromise } from "../tolgee";
 import { upperFirst } from "../utils";
@@ -12,10 +12,7 @@ export function LanguageSelector() {
   const currentLanguage = useAtomValue(languageAtom);
   const languageNames = use(languageNamesPromise);
 
-  const { availableLanguages } = useMemo(
-    () => tolgee.getInitialOptions(),
-    [tolgee.getInitialOptions],
-  );
+  const { availableLanguages } = tolgee.getInitialOptions();
 
   if (!availableLanguages) {
     return <div>No available languages</div>;

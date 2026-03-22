@@ -9,7 +9,6 @@ import {
 } from "@tanstack/react-router";
 import { T, useTranslate } from "@tolgee/react";
 import { useAtom, useAtomValue } from "jotai";
-import { useMemo } from "react";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIsDesktop } from "../hooks/breakpoint";
 import type { AppBarAction } from "../route-types";
@@ -48,13 +47,11 @@ export function AppBar() {
   const showSideMenu = isDesktop && sideMenuOpen;
   const iframeAppBar = useAtomValue(iframeAppBarAtom);
 
-  const isOnRootPage = useMemo(() => {
-    const bottomPages = allPages.filter((page) =>
-      bottomNavItems.includes(page.id),
-    );
-    const bottomPaths = bottomPages.map((page) => page.path.replace(/\/$/, ""));
-    return bottomPaths.includes(location.pathname.replace(/\/$/, ""));
-  }, [allPages, bottomNavItems, location]);
+  const bottomPages = allPages.filter((page) =>
+    bottomNavItems.includes(page.id),
+  );
+  const bottomPaths = bottomPages.map((page) => page.path.replace(/\/$/, ""));
+  const isOnRootPage = bottomPaths.includes(location.pathname.replace(/\/$/, ""));
 
   const routeTitle = matches
     .map((match) => match.staticData?.pageName)
