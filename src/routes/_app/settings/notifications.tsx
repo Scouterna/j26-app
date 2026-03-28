@@ -11,7 +11,7 @@ import * as api from "../../../notifications/api";
 export const Route = createFileRoute("/_app/settings/notifications")({
   component: RouteComponent,
   staticData: {
-    pageName: "page.notification_settings.title",
+    pageName: "page.settings.notifications.label",
   },
 });
 
