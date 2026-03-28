@@ -1,4 +1,4 @@
-import { enGB, sv, uk } from "date-fns/locale";
+import { enGB, nl, sv, uk } from "date-fns/locale";
 import { atom, useAtomValue } from "jotai";
 import { jotaiStore } from "../jotai";
 import { tolgeePromise } from "../tolgee";
@@ -19,6 +19,8 @@ export const useDateFnsLocale = () => {
       return enGB;
     case "uk":
       return uk;
+    case "nl":
+      return nl;
     default:
       return sv;
   }

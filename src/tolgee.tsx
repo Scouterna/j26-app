@@ -31,7 +31,7 @@ const createTolgee = async () => {
     .use(LanguageStorage())
     .init({
       ns: ["app", "navigation"],
-      availableLanguages: ["sv", "en", "uk"],
+      availableLanguages: ["sv", "en", "uk", "nl"],
       defaultLanguage: "sv",
 
       // for development
