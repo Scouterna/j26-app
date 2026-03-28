@@ -1,7 +1,9 @@
 import { configPromise } from "../config";
 import { client } from "./client";
 
-export async function getChannels() {
+// TODO: The types from the API has changed. Fix that.
+
+export async function getChannels(): Promise<any> {
   const { notificationsTenant } = await configPromise;
 
   const res = await client.GET("/api/tenants/{tenant_id}/channels", {
@@ -20,7 +22,7 @@ export async function getChannels() {
   return res.data;
 }
 
-export async function getSubscriptions() {
+export async function getSubscriptions(): Promise<any> {
   const { notificationsTenant } = await configPromise;
 
   const res = await client.GET("/api/tenants/{tenant_id}/subscriptions/me", {
@@ -39,7 +41,7 @@ export async function getSubscriptions() {
   return res.data;
 }
 
-export async function subscribe(channel: string) {
+export async function subscribe(channel: string): Promise<any> {
   console.log("Hi!");
   const { notificationsTenant } = await configPromise;
 
@@ -63,7 +65,7 @@ export async function subscribe(channel: string) {
   return res.data;
 }
 
-export async function unsubscribe(channel: string) {
+export async function unsubscribe(channel: string): Promise<any> {
   const { notificationsTenant } = await configPromise;
 
   const res = await client.DELETE(
@@ -86,7 +88,7 @@ export async function unsubscribe(channel: string) {
   return res.data;
 }
 
-export async function getNotificationHistory() {
+export async function getNotificationHistory(): Promise<any> {
   const { notificationsTenant } = await configPromise;
 
   const res = await client.GET("/api/tenants/{tenant_id}/notifications", {

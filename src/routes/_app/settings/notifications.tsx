@@ -66,7 +66,8 @@ function RouteComponent() {
     queryKey: ["notifications", "subscriptions"],
   });
 
-  const subscribedIds = subscriptions.data?.map((sub) => sub.channel_id) || [];
+  const subscribedIds =
+    subscriptions.data?.map((sub: any) => sub.channel_id) || [];
 
   return (
     <>
@@ -87,7 +88,7 @@ function RouteComponent() {
           checked
         />
 
-        {channels.data?.map((channel) => {
+        {channels.data?.map((channel: any) => {
           const subscribed = subscribedIds.includes(channel.id);
 
           return (

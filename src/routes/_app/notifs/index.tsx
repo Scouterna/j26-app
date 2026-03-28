@@ -47,7 +47,7 @@ function RouteComponent() {
 
   return (
     <ScoutListView>
-      {notifications.data?.map((notification) => (
+      {notifications.data?.map((notification: any) => (
         <NotificationItem key={notification.id} notification={notification} />
       ))}
     </ScoutListView>
