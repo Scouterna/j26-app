@@ -46,7 +46,7 @@ function RouteComponent() {
     <ScoutListView>
       <LanguageItem />
       <ScoutListViewItemLink
-        primary="Notisinställningar"
+        primary={t("page.settings.notifications.label")}
         icon={BellIcon}
         to="/settings/notifications"
       />
