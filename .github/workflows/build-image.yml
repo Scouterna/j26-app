@@ -7,6 +7,10 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
+concurrency:
+  group: build-image
+  cancel-in-progress: true
+
 jobs:
   docker:
     runs-on: ubuntu-latest
