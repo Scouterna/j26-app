@@ -162,14 +162,11 @@ export function MoreList({
                 return null;
               })}
             </ScoutListView>
-
-            <ScoutDivider key={`${url}_divider`} />
           </>
         ))}
       </div>
 
       <ScoutListView>
-        {useFullHeight && <ScoutDivider />}
         <UserItem />
       </ScoutListView>
     </div>
