@@ -1,5 +1,4 @@
 import {
-  ScoutDivider,
   ScoutListView,
   ScoutListViewItem,
   ScoutListViewSubheader,
