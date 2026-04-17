@@ -79,8 +79,12 @@ export default defineConfig({
       publicTolgeeBackendFetchPrefix: "",
       publicAppConfigs: "",
       publicBottomNavItems: "",
+      publicAdditionalRootPaths: "",
       publicNotificationsTenant: "",
       publicDevBannerMessage: "",
+      publicStrapiApiUrl: "",
+      publicStrapiApiKey: "",
+      publicStrapiLocales: "",
     },
     devProxy: {
       "/auth/**": {

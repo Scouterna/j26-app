@@ -5,6 +5,7 @@ import { type AppConfig, loadAppConfigs, type Page } from "./dynamic-routes";
 type DynamicRoutesContext = {
   configs: Record<string, AppConfig>;
   bottomNavItems: string[];
+  additionalRootPaths: string[];
   allPages: Page[];
 };
 
@@ -22,6 +23,7 @@ export function DynamicRoutesProvider({
 }) {
   const configs = use(appConfigsPromise);
   const bottomNavItems = use(configPromise).bottomNavItems;
+  const additionalRootPaths = use(configPromise).additionalRootPaths;
 
   const allPages = Object.values(configs).flatMap((config) =>
     config.navigation.flatMap((navItem) => {
@@ -37,6 +39,7 @@ export function DynamicRoutesProvider({
       value={{
         configs,
         bottomNavItems,
+        additionalRootPaths,
         allPages,
       }}
     >

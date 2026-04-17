@@ -11,6 +11,7 @@ import { T, useTranslate } from "@tolgee/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useDynamicRoutes } from "../dynamic-routes/dynamic-routes-context";
 import { useIsDesktop } from "../hooks/breakpoint";
+import { pageTitleAtom } from "../pageState";
 import type { AppBarAction } from "../route-types";
 import { ScoutButtonLink } from "./links";
 import { sideMenuOpenAtom } from "./menu/menuState";
@@ -41,17 +42,23 @@ export function AppBar() {
   const matches = useMatches();
   const location = useLocation();
   const canGoBack = useCanGoBack();
-  const { allPages, bottomNavItems } = useDynamicRoutes();
+  const { allPages, bottomNavItems, additionalRootPaths } = useDynamicRoutes();
   const [sideMenuOpen, setSideMenuOpen] = useAtom(sideMenuOpenAtom);
   const isDesktop = useIsDesktop();
   const showSideMenu = isDesktop && sideMenuOpen;
   const iframeAppBar = useAtomValue(iframeAppBarAtom);
+  const pageTitle = useAtomValue(pageTitleAtom);
 
   const bottomPages = allPages.filter((page) =>
     bottomNavItems.includes(page.id),
   );
-  const bottomPaths = bottomPages.map((page) => page.path.replace(/\/$/, ""));
-  const isOnRootPage = bottomPaths.includes(location.pathname.replace(/\/$/, ""));
+  const bottomPaths = [
+    ...bottomPages.map((page) => page.path.replace(/\/$/, "")),
+    ...additionalRootPaths.map((path) => path.replace(/\/$/, "")),
+  ];
+  const isOnRootPage = bottomPaths.includes(
+    location.pathname.replace(/\/$/, ""),
+  );
 
   const routeTitle = matches
     .map((match) => match.staticData?.pageName)
@@ -66,9 +73,11 @@ export function AppBar() {
   const titleText =
     iframeAppBar !== null
       ? iframeAppBar.title
-      : routeTitle
-        ? t(routeTitle)
-        : undefined;
+      : pageTitle
+        ? t(pageTitle)
+        : routeTitle
+          ? t(routeTitle)
+          : undefined;
 
   return (
     <ScoutAppBar titleText={titleText}>

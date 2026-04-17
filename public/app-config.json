@@ -2,6 +2,13 @@
   "navigation": [
     {
       "type": "page",
+      "id": "page_info",
+      "label": "app.info.label",
+      "icon": "info-circle",
+      "path": "/info"
+    },
+    {
+      "type": "page",
       "id": "page_more",
       "label": "app.more.label",
       "icon": "dots",

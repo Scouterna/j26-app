@@ -1,24 +1,15 @@
 import { ScoutListView, ScoutListViewItem } from "@scouterna/ui-react";
-import SettingsIcon from "@tabler/icons/outline/settings.svg?raw";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { formatDistanceToNow } from "date-fns";
-import type { components } from "../../../generated/notification-api";
-import { useDateFnsLocale } from "../../../language/language";
-import { getNotificationHistory } from "../../../notifications/api";
-import { upperFirst } from "../../../utils";
+import type { components } from "../../../../generated/notification-api";
+import { useDateFnsLocale } from "../../../../language/language";
+import { getNotificationHistory } from "../../../../notifications/api";
+import { upperFirst } from "../../../../utils";
 
-export const Route = createFileRoute("/_app/notifs/")({
+export const Route = createFileRoute("/_app/_info-notifs/notifs/")({
   component: RouteComponent,
-  staticData: {
-    pageName: "page.notifications.title",
-    appBarAction: {
-      icon: SettingsIcon,
-      label: "appBar.notifications.settings.label",
-      to: "/settings/notifications",
-    },
-  },
 });
 
 type Notification = components["schemas"]["NotificationRead"];

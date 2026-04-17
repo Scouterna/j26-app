@@ -20,12 +20,15 @@ import { Route as OnboardingLanguageRouteImport } from './routes/onboarding/lang
 import { Route as OnboardingFinishedRouteImport } from './routes/onboarding/finished'
 import { Route as AppMoreRouteImport } from './routes/_app/more'
 import { Route as AppAboutRouteImport } from './routes/_app/about'
+import { Route as AppInfoNotifsRouteImport } from './routes/_app/_info-notifs'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
-import { Route as AppNotifsIndexRouteImport } from './routes/_app/notifs/index'
 import { Route as AppMoreIndexRouteImport } from './routes/_app/more.index'
 import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/settings/notifications'
 import { Route as AppSettingsLanguageRouteImport } from './routes/_app/settings/language'
+import { Route as AppInfoIdRouteImport } from './routes/_app/info.$id'
 import { Route as AppAppSplatRouteImport } from './routes/_app/app.$'
+import { Route as AppInfoNotifsNotifsIndexRouteImport } from './routes/_app/_info-notifs/notifs/index'
+import { Route as AppInfoNotifsInfoIndexRouteImport } from './routes/_app/_info-notifs/info/index'
 
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
@@ -81,14 +84,13 @@ const AppAboutRoute = AppAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => AppRoute,
 } as any)
+const AppInfoNotifsRoute = AppInfoNotifsRouteImport.update({
+  id: '/_info-notifs',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppNotifsIndexRoute = AppNotifsIndexRouteImport.update({
-  id: '/notifs/',
-  path: '/notifs/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMoreIndexRoute = AppMoreIndexRouteImport.update({
@@ -107,10 +109,26 @@ const AppSettingsLanguageRoute = AppSettingsLanguageRouteImport.update({
   path: '/settings/language',
   getParentRoute: () => AppRoute,
 } as any)
+const AppInfoIdRoute = AppInfoIdRouteImport.update({
+  id: '/info/$id',
+  path: '/info/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAppSplatRoute = AppAppSplatRouteImport.update({
   id: '/app/$',
   path: '/app/$',
   getParentRoute: () => AppRoute,
+} as any)
+const AppInfoNotifsNotifsIndexRoute =
+  AppInfoNotifsNotifsIndexRouteImport.update({
+    id: '/notifs/',
+    path: '/notifs/',
+    getParentRoute: () => AppInfoNotifsRoute,
+  } as any)
+const AppInfoNotifsInfoIndexRoute = AppInfoNotifsInfoIndexRouteImport.update({
+  id: '/info/',
+  path: '/info/',
+  getParentRoute: () => AppInfoNotifsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -125,32 +143,37 @@ export interface FileRoutesByFullPath {
   '/onboarding/signin': typeof OnboardingSigninRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/app/$': typeof AppAppSplatRoute
+  '/info/$id': typeof AppInfoIdRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
   '/more/': typeof AppMoreIndexRoute
-  '/notifs/': typeof AppNotifsIndexRoute
   '/settings/': typeof AppSettingsIndexRoute
+  '/info/': typeof AppInfoNotifsInfoIndexRoute
+  '/notifs/': typeof AppInfoNotifsNotifsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AppIndexRoute
   '/about': typeof AppAboutRoute
   '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/location': typeof OnboardingLocationRoute
   '/onboarding/notifications': typeof OnboardingNotificationsRoute
   '/onboarding/signin': typeof OnboardingSigninRoute
-  '/': typeof AppIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
   '/app/$': typeof AppAppSplatRoute
+  '/info/$id': typeof AppInfoIdRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
   '/more': typeof AppMoreIndexRoute
-  '/notifs': typeof AppNotifsIndexRoute
   '/settings': typeof AppSettingsIndexRoute
+  '/info': typeof AppInfoNotifsInfoIndexRoute
+  '/notifs': typeof AppInfoNotifsNotifsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRouteWithChildren
+  '/_app/_info-notifs': typeof AppInfoNotifsRouteWithChildren
   '/_app/about': typeof AppAboutRoute
   '/_app/more': typeof AppMoreRouteWithChildren
   '/onboarding/finished': typeof OnboardingFinishedRoute
@@ -161,11 +184,13 @@ export interface FileRoutesById {
   '/_app/': typeof AppIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/_app/app/$': typeof AppAppSplatRoute
+  '/_app/info/$id': typeof AppInfoIdRoute
   '/_app/settings/language': typeof AppSettingsLanguageRoute
   '/_app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/_app/more/': typeof AppMoreIndexRoute
-  '/_app/notifs/': typeof AppNotifsIndexRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
+  '/_app/_info-notifs/info/': typeof AppInfoNotifsInfoIndexRoute
+  '/_app/_info-notifs/notifs/': typeof AppInfoNotifsNotifsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,31 +206,36 @@ export interface FileRouteTypes {
     | '/onboarding/signin'
     | '/onboarding/'
     | '/app/$'
+    | '/info/$id'
     | '/settings/language'
     | '/settings/notifications'
     | '/more/'
-    | '/notifs/'
     | '/settings/'
+    | '/info/'
+    | '/notifs/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/about'
     | '/onboarding/finished'
     | '/onboarding/language'
     | '/onboarding/location'
     | '/onboarding/notifications'
     | '/onboarding/signin'
-    | '/'
     | '/onboarding'
     | '/app/$'
+    | '/info/$id'
     | '/settings/language'
     | '/settings/notifications'
     | '/more'
-    | '/notifs'
     | '/settings'
+    | '/info'
+    | '/notifs'
   id:
     | '__root__'
     | '/_app'
     | '/onboarding'
+    | '/_app/_info-notifs'
     | '/_app/about'
     | '/_app/more'
     | '/onboarding/finished'
@@ -216,11 +246,13 @@ export interface FileRouteTypes {
     | '/_app/'
     | '/onboarding/'
     | '/_app/app/$'
+    | '/_app/info/$id'
     | '/_app/settings/language'
     | '/_app/settings/notifications'
     | '/_app/more/'
-    | '/_app/notifs/'
     | '/_app/settings/'
+    | '/_app/_info-notifs/info/'
+    | '/_app/_info-notifs/notifs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -307,18 +339,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAboutRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_info-notifs': {
+      id: '/_app/_info-notifs'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppInfoNotifsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/settings/': {
       id: '/_app/settings/'
       path: '/settings'
       fullPath: '/settings/'
       preLoaderRoute: typeof AppSettingsIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/notifs/': {
-      id: '/_app/notifs/'
-      path: '/notifs'
-      fullPath: '/notifs/'
-      preLoaderRoute: typeof AppNotifsIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/more/': {
@@ -342,6 +374,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsLanguageRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/info/$id': {
+      id: '/_app/info/$id'
+      path: '/info/$id'
+      fullPath: '/info/$id'
+      preLoaderRoute: typeof AppInfoIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/app/$': {
       id: '/_app/app/$'
       path: '/app/$'
@@ -349,8 +388,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAppSplatRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_info-notifs/notifs/': {
+      id: '/_app/_info-notifs/notifs/'
+      path: '/notifs'
+      fullPath: '/notifs/'
+      preLoaderRoute: typeof AppInfoNotifsNotifsIndexRouteImport
+      parentRoute: typeof AppInfoNotifsRoute
+    }
+    '/_app/_info-notifs/info/': {
+      id: '/_app/_info-notifs/info/'
+      path: '/info'
+      fullPath: '/info/'
+      preLoaderRoute: typeof AppInfoNotifsInfoIndexRouteImport
+      parentRoute: typeof AppInfoNotifsRoute
+    }
   }
 }
+
+interface AppInfoNotifsRouteChildren {
+  AppInfoNotifsInfoIndexRoute: typeof AppInfoNotifsInfoIndexRoute
+  AppInfoNotifsNotifsIndexRoute: typeof AppInfoNotifsNotifsIndexRoute
+}
+
+const AppInfoNotifsRouteChildren: AppInfoNotifsRouteChildren = {
+  AppInfoNotifsInfoIndexRoute: AppInfoNotifsInfoIndexRoute,
+  AppInfoNotifsNotifsIndexRoute: AppInfoNotifsNotifsIndexRoute,
+}
+
+const AppInfoNotifsRouteWithChildren = AppInfoNotifsRoute._addFileChildren(
+  AppInfoNotifsRouteChildren,
+)
 
 interface AppMoreRouteChildren {
   AppMoreIndexRoute: typeof AppMoreIndexRoute
@@ -364,24 +431,26 @@ const AppMoreRouteWithChildren =
   AppMoreRoute._addFileChildren(AppMoreRouteChildren)
 
 interface AppRouteChildren {
+  AppInfoNotifsRoute: typeof AppInfoNotifsRouteWithChildren
   AppAboutRoute: typeof AppAboutRoute
   AppMoreRoute: typeof AppMoreRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
   AppAppSplatRoute: typeof AppAppSplatRoute
+  AppInfoIdRoute: typeof AppInfoIdRoute
   AppSettingsLanguageRoute: typeof AppSettingsLanguageRoute
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
-  AppNotifsIndexRoute: typeof AppNotifsIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppInfoNotifsRoute: AppInfoNotifsRouteWithChildren,
   AppAboutRoute: AppAboutRoute,
   AppMoreRoute: AppMoreRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
   AppAppSplatRoute: AppAppSplatRoute,
+  AppInfoIdRoute: AppInfoIdRoute,
   AppSettingsLanguageRoute: AppSettingsLanguageRoute,
   AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
-  AppNotifsIndexRoute: AppNotifsIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 

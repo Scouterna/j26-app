@@ -5,8 +5,12 @@ type Config = {
   tolgeeBackendFetchPrefix: string;
   appConfigs: string[];
   bottomNavItems: string[];
+  additionalRootPaths: string[];
   notificationsTenant: string;
   devBannerMessage?: string | null;
+  strapiApiUrl: string;
+  strapiApiKey: string;
+  strapiLocales: string[];
 };
 
 function parseConfigArray(configString: string): string[] {
@@ -24,6 +28,8 @@ async function loadConfig(): Promise<Config> {
     ...data,
     appConfigs: parseConfigArray(data.appConfigs),
     bottomNavItems: parseConfigArray(data.bottomNavItems),
+    additionalRootPaths: parseConfigArray(data.additionalRootPaths),
+    strapiLocales: parseConfigArray(data.strapiLocales),
   };
 }
 
