@@ -1,13 +1,11 @@
 import type {
   DefaultNodeTypes,
-  SerializedBlockNode,
   SerializedUploadNode,
 } from "@payloadcms/richtext-lexical";
 import {
   type JSXConvertersFunction,
   RichText,
 } from "@payloadcms/richtext-lexical/react";
-import { ScoutCard } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSetAtom } from "jotai";
 import { pageTitleAtom } from "../../pageState";
