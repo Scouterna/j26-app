@@ -17,13 +17,20 @@ type NodeTypes = DefaultNodeTypes;
 const CustomUploadComponent: React.FC<{
   node: SerializedUploadNode;
 }> = ({ node }) => {
-  console.log(node);
   if (node.relationTo === "media") {
     const uploadDoc = node.value;
     if (typeof uploadDoc !== "object") {
       return null;
     }
-    const { alt, caption, height, url, width } = uploadDoc;
+    const { alt, caption, height, url, width, sizes } = uploadDoc;
+    const srcSet = [
+      sizes?.sm?.url && `${sizes.sm.url} 480w`,
+      sizes?.md?.url && `${sizes.md.url} 768w`,
+      sizes?.lg?.url && `${sizes.lg.url} 1080w`,
+    ]
+      .filter(Boolean)
+      .join(", ");
+
     return (
       <figure>
         <img
@@ -31,9 +38,13 @@ const CustomUploadComponent: React.FC<{
           width={width}
           height={height}
           src={url}
+          srcSet={srcSet || undefined}
+          sizes="100vw"
+          loading="lazy"
+          decoding="async"
           className="test"
         />
-        {caption.trim() && <figcaption>{caption.trim()}</figcaption>}
+        {caption?.trim() && <figcaption>{caption.trim()}</figcaption>}
       </figure>
     );
   }

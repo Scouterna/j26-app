@@ -42,7 +42,6 @@ export async function getSubscriptions(): Promise<any> {
 }
 
 export async function subscribe(channel: string): Promise<any> {
-  console.log("Hi!");
   const { notificationsTenant } = await configPromise;
 
   const res = await client.POST(
