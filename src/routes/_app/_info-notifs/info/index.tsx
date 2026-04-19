@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_app/_info-notifs/info/")({
 });
 
 function Index() {
-  const { data, isLoading } = useCollectionList("info-pages");
+  const { data, isLoading } = useCollectionList("info-page");
 
   if (isLoading) {
     return <ScoutLoader className="mt-20" />;
@@ -16,15 +16,15 @@ function Index() {
 
   return (
     <ScoutListView>
-      {data?.data.map((item) => (
+      {data?.docs.map((item) => (
         <ScoutListViewItemLink
           key={item.id}
-          icon={`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">${item.icon?.iconData}</svg>`}
+          icon={item.icon}
           primary={item.title}
           secondary={item.summary}
           to="/info/$id"
           params={{
-            id: item.documentId,
+            id: String(item.id),
           }}
         />
       ))}

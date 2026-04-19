@@ -82,9 +82,8 @@ export default defineConfig({
       publicAdditionalRootPaths: "",
       publicNotificationsTenant: "",
       publicDevBannerMessage: "",
-      publicStrapiApiUrl: "",
-      publicStrapiApiKey: "",
-      publicStrapiLocales: "",
+      publicPayloadApiUrl: "",
+      publicPayloadLocales: "",
     },
     devProxy: {
       "/auth/**": {

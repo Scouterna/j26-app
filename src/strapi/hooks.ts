@@ -1,26 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
-import { useStrapi } from "./strapi";
+import { usePayload } from "./payload";
 
-export function useSingle(name: string) {
-  const { strapi, locale } = useStrapi();
+// export function useSingle(name: string) {
+//   const { payload: strapi, locale } = usePayload();
 
-  return useQuery({
-    queryKey: ["strapi", "single", name, locale],
-    queryFn: async () => {
-      return await strapi.single(name).find({
-        locale,
-      });
-    },
-  });
-}
+//   return useQuery({
+//     queryKey: ["strapi", "single", name, locale],
+//     queryFn: async () => {
+//       return await strapi.single(name).find({
+//         locale,
+//       });
+//     },
+//   });
+// }
 
 export function useCollectionList(name: string) {
-  const { strapi, locale } = useStrapi();
+  const { payload, locale } = usePayload();
 
   return useQuery({
-    queryKey: ["strapi", "collection", name, locale],
+    queryKey: ["payload", "collection", name, locale],
     queryFn: async () => {
-      return await strapi.collection(name).find({
+      return await payload.find({
+        collection: name,
+        limit: 100, // TODO: implement pagination if needed
         locale,
       });
     },
@@ -28,12 +30,15 @@ export function useCollectionList(name: string) {
 }
 
 export function useCollectionSingle(name: string, id: string) {
-  const { strapi, locale } = useStrapi();
+  const { payload, locale } = usePayload();
 
   return useQuery({
-    queryKey: ["strapi", "collection", name, id, locale],
+    queryKey: ["payload", "collection", name, id, locale],
     queryFn: async () => {
-      return await strapi.collection(name).findOne(id);
+      return await payload.findByID({
+        collection: name,
+        id,
+      });
     },
   });
 }

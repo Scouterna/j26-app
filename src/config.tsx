@@ -8,9 +8,8 @@ type Config = {
   additionalRootPaths: string[];
   notificationsTenant: string;
   devBannerMessage?: string | null;
-  strapiApiUrl: string;
-  strapiApiKey: string;
-  strapiLocales: string[];
+  payloadApiUrl: string;
+  payloadLocales: string[];
 };
 
 function parseConfigArray(configString: string): string[] {
@@ -29,7 +28,7 @@ async function loadConfig(): Promise<Config> {
     appConfigs: parseConfigArray(data.appConfigs),
     bottomNavItems: parseConfigArray(data.bottomNavItems),
     additionalRootPaths: parseConfigArray(data.additionalRootPaths),
-    strapiLocales: parseConfigArray(data.strapiLocales),
+    payloadLocales: parseConfigArray(data.payloadLocales),
   };
 }
 
