@@ -5,7 +5,7 @@
       "id": "page_info",
       "label": "app.info.label",
       "icon": "info-circle",
-      "path": "/info"
+      "path": "/home"
     },
     {
       "type": "page",
