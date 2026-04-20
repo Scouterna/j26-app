@@ -1,5 +1,5 @@
 import {
-  ScoutCard,
+  ScoutCallout,
   ScoutListView,
   ScoutListViewItem,
 } from "@scouterna/ui-react";
@@ -71,12 +71,12 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="px-2 pt-3 pb-2">
-        <ScoutCard className="text-body-sm">
+      <div className="p-4">
+        <ScoutCallout>
           Välj vilka notiser du vill ta emot från Jamboree-appen. "Viktiga
           meddelanden" är alltid påslaget för att Jamboreeledningen ska kunna nå
           ut med viktig information.
-        </ScoutCard>
+        </ScoutCallout>
       </div>
 
       <ScoutListView>

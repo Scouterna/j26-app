@@ -21,11 +21,11 @@ importers:
         specifier: 0.0.6
         version: 0.0.6
       '@scouterna/ui-react':
-        specifier: 4.0.2
-        version: 4.0.2(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: 4.1.0
+        version: 4.1.0(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@scouterna/ui-webc':
-        specifier: 4.0.2
-        version: 4.0.2(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: 4.1.0
+        version: 4.1.0(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@tabler/icons':
         specifier: ^3.40.0
         version: 3.40.0
@@ -2095,11 +2095,11 @@ packages:
   '@scouterna/tailwind-theme@0.0.5':
     resolution: {integrity: sha512-4zh2xpvNuAlBRv5SzIgbm9h4KyQ+QOtpbbLapLyWAMtCLIXM6dsGBvQeQ52s1Q6uzrqO25KLD43+L/FBV10Obw==}
 
-  '@scouterna/ui-react@4.0.2':
-    resolution: {integrity: sha512-g7FqaM2IusBiAeTEyarCiRh0f4WPkaCXkwDhl9ms5Dhr5lYF1vy/7Y46J9Avwoa8Moa0y/XiYWULhcBqG8s7Bw==}
+  '@scouterna/ui-react@4.1.0':
+    resolution: {integrity: sha512-9zA7sHevOd9udC/uDb0LgOQEjUatYRnhOscAlgQle5vPdmoVTH/pr4BilOzU3wTCOC2t7JKdesLUcB6UVGXpxA==}
 
-  '@scouterna/ui-webc@4.0.2':
-    resolution: {integrity: sha512-k4aG3M3OIJjFR/ekv533fpf0A427Zb+WtmrD72Gudnev14aqK3K3lnAhYkJjeyEfwg3m2tZNvQqjRPTO5QsmOg==}
+  '@scouterna/ui-webc@4.1.0':
+    resolution: {integrity: sha512-PiYIrYMW9v56FwEJaXYWnr49QH0NdBA/JleTzAZFKYhX2hfHZz/CIDYbXLo/0tOokWZnY2vPpT7wr8kH8fp8yQ==}
 
   '@stencil/core@4.43.4':
     resolution: {integrity: sha512-QWawMM1XIpSz4k+k+VyHZMr2YSxlCNAPWO/jTdJ+2kdgdN7ZQVEFZpc4WBm3E3mrDPTZ79lLcnIPa399bg4XOg==}
@@ -7093,9 +7093,9 @@ snapshots:
     dependencies:
       '@scouterna/design-tokens': 0.0.6
 
-  '@scouterna/ui-react@4.0.2(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@scouterna/ui-react@4.1.0(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      '@scouterna/ui-webc': 4.0.2(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@scouterna/ui-webc': 4.1.0(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@stencil/react-output-target': 1.5.0(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
     transitivePeerDependencies:
       - '@stencil/core'
@@ -7103,7 +7103,7 @@ snapshots:
       - react
       - react-dom
 
-  '@scouterna/ui-webc@4.0.2(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@scouterna/ui-webc@4.1.0(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@scouterna/design-tokens': 0.0.6
       '@stencil/react-output-target': 1.5.0(@stencil/core@4.43.4)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
