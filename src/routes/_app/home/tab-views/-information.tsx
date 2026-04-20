@@ -1,13 +1,9 @@
 import { ScoutListView, ScoutLoader } from "@scouterna/ui-react";
-import { createFileRoute } from "@tanstack/react-router";
+
 import { ScoutListViewItemLink } from "../../../../components/links";
 import { useCollectionList } from "../../../../strapi/hooks";
 
-export const Route = createFileRoute("/_app/_info-notifs/info/")({
-  component: Index,
-});
-
-function Index() {
+export function Information() {
   const { data, isLoading } = useCollectionList("info-page");
 
   if (isLoading) {
