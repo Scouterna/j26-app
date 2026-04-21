@@ -1,8 +1,7 @@
-import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
+import { ScoutButton, ScoutCallout } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { T } from "@tolgee/react";
-import { useAtomValue } from "jotai";
-import { useAuthUrls, userAtom } from "../../auth/auth";
+import { T, useTranslate } from "@tolgee/react";
+import { useAuthUrls } from "../../auth/auth";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 
 export const Route = createFileRoute("/onboarding/signin")({
@@ -10,7 +9,8 @@ export const Route = createFileRoute("/onboarding/signin")({
 });
 
 function RouteComponent() {
-  const user = useAtomValue(userAtom);
+  const { t } = useTranslate();
+  const user = { name: "Malcolm Nihlén" };
 
   const { loginUrl } = useAuthUrls({
     redirectUri: "/onboarding/signin",
@@ -29,14 +29,15 @@ function RouteComponent() {
 
         <div className="flex justify-center mt-8">
           {user ? (
-            <ScoutCard className="text-body-lg">
-              <div className="px-4 py-2">
-                <T
-                  keyName="onboarding.signin.signedIn"
-                  params={{ name: user.name }}
-                />
-              </div>
-            </ScoutCard>
+            <ScoutCallout
+              variant="success"
+              heading={t("onboarding.signin.signedIn.heading")}
+            >
+              <T
+                keyName="onboarding.signin.signedIn.description"
+                params={{ name: user.name }}
+              />
+            </ScoutCallout>
           ) : (
             <ScoutButton
               type="link"

@@ -1,6 +1,6 @@
-import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
+import { ScoutButton, ScoutCallout } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { T } from "@tolgee/react";
+import { T, useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
 import { ScoutButtonLink } from "../../components/links";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
@@ -9,19 +9,21 @@ export const Route = createFileRoute("/onboarding/location")({
   component: RouteComponent,
 });
 
-const geolocationPermissionPromise = navigator.permissions.query({
-  name: "geolocation",
-});
-
 function RouteComponent() {
+  const { t } = useTranslate();
+
   const [status, setStatus] = useState<"prompt" | "denied" | "granted">(
     "prompt",
   );
 
   useEffect(() => {
-    geolocationPermissionPromise.then((permissionStatus) => {
-      setStatus(permissionStatus.state as "prompt" | "denied" | "granted");
-    });
+    navigator.permissions
+      .query({
+        name: "geolocation",
+      })
+      .then((permissionStatus) => {
+        setStatus(permissionStatus.state as "prompt" | "denied" | "granted");
+      });
   }, []);
 
   const requestPermission = async () => {
@@ -29,9 +31,11 @@ function RouteComponent() {
 
     navigator.geolocation.getCurrentPosition(
       () => {
+        console.log("A");
         setStatus("granted");
       },
       () => {
+        console.log("B");
         setStatus("denied");
       },
     );
@@ -50,15 +54,21 @@ function RouteComponent() {
 
         <div className="flex flex-col items-center gap-4 mt-8">
           {status !== "prompt" ? (
-            <ScoutCard className="text-body-lg">
-              <div className="px-4 py-2">
-                {status === "granted" ? (
-                  <T keyName="onboarding.location.granted" />
-                ) : (
-                  <T keyName="onboarding.location.denied" />
-                )}
-              </div>
-            </ScoutCard>
+            status === "granted" ? (
+              <ScoutCallout
+                variant="success"
+                heading={t("onboarding.location.granted.heading")}
+              >
+                <T keyName="onboarding.location.granted.description" />
+              </ScoutCallout>
+            ) : (
+              <ScoutCallout
+                variant="error"
+                heading={t("onboarding.location.denied.heading")}
+              >
+                <T keyName="onboarding.location.denied.description" />
+              </ScoutCallout>
+            )
           ) : (
             <>
               <ScoutButton

@@ -1,0 +1,2 @@
+- [ ] Update PWA (service worker) when new release.
+- [ ] Make it work offline

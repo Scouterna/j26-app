@@ -1,6 +1,6 @@
-import { ScoutButton, ScoutCard } from "@scouterna/ui-react";
+import { ScoutButton, ScoutCallout } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { T } from "@tolgee/react";
+import { T, useTranslate } from "@tolgee/react";
 import { useState } from "react";
 import { ScoutButtonLink } from "../../components/links";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
@@ -10,6 +10,8 @@ export const Route = createFileRoute("/onboarding/notifications")({
 });
 
 function RouteComponent() {
+  const { t } = useTranslate();
+
   const [status, setStatus] = useState(
     "Notification" in window ? Notification.permission : "denied",
   );
@@ -34,15 +36,21 @@ function RouteComponent() {
 
         <div className="flex flex-col items-center gap-4 mt-8">
           {status !== "default" ? (
-            <ScoutCard className="text-body-lg">
-              <div className="px-4 py-2">
-                {status === "granted" ? (
-                  <T keyName="onboarding.notifications.granted" />
-                ) : (
-                  <T keyName="onboarding.notifications.denied" />
-                )}
-              </div>
-            </ScoutCard>
+            status === "granted" ? (
+              <ScoutCallout
+                variant="success"
+                heading={t("onboarding.notifications.granted.heading")}
+              >
+                <T keyName="onboarding.notifications.granted.description" />
+              </ScoutCallout>
+            ) : (
+              <ScoutCallout
+                variant="error"
+                heading={t("onboarding.notifications.denied.heading")}
+              >
+                <T keyName="onboarding.notifications.denied.description" />
+              </ScoutCallout>
+            )
           ) : (
             <>
               <ScoutButton
