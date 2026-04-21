@@ -5,6 +5,7 @@ import {
 } from "@scouterna/ui-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { PageContainer } from "../../../components/PageContainer";
 import type { components } from "../../../generated/notification-api";
 import * as api from "../../../notifications/api";
 
@@ -70,7 +71,7 @@ function RouteComponent() {
     subscriptions.data?.map((sub: any) => sub.channel_id) || [];
 
   return (
-    <>
+    <PageContainer>
       <div className="p-4">
         <ScoutCallout>
           Välj vilka notiser du vill ta emot från Jamboree-appen. "Viktiga
@@ -103,6 +104,6 @@ function RouteComponent() {
           );
         })}
       </ScoutListView>
-    </>
+    </PageContainer>
   );
 }

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LanguageSelector } from "../../../components/LanguageSelector";
+import { PageContainer } from "../../../components/PageContainer";
 
 export const Route = createFileRoute("/_app/settings/language")({
   component: RouteComponent,
@@ -9,5 +10,9 @@ export const Route = createFileRoute("/_app/settings/language")({
 });
 
 function RouteComponent() {
-  return <LanguageSelector />;
+  return (
+    <PageContainer>
+      <LanguageSelector />
+    </PageContainer>
+  );
 }

@@ -10,6 +10,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSetAtom } from "jotai";
 import { pageTitleAtom } from "../../pageState";
 import { useCollectionSingle } from "../../strapi/hooks";
+import { PageContainer } from "../../components/PageContainer";
 
 type NodeTypes = DefaultNodeTypes;
 
@@ -82,12 +83,12 @@ function RouteComponent() {
   }
 
   return (
-    <div className="h-full p-4 bg-white">
+    <PageContainer className="p-4" solid>
       <div className="prose prose-scoutblue pt-2">
         <h1>{data.title}</h1>
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         <RichText data={data.content} converters={jsxConverters} />
       </div>
-    </div>
+    </PageContainer>
   );
 }

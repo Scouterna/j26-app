@@ -43,13 +43,13 @@ function RouteComponent() {
       <DevBanner />
       <InstallBanner />
 
-      <div className="flex-1 flex">
+      <div className="flex-1 flex min-h-0">
         <SideMenu />
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0">
           <AppBar />
 
-          <main className="flex-1">
+          <main className="flex-1 overflow-y-hidden">
             <Outlet />
           </main>
 

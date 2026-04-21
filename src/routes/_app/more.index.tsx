@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MoreList } from "../../components/menu/MoreList";
+import { PageContainer } from "../../components/PageContainer";
 
 export const Route = createFileRoute("/_app/more/")({
   component: More,
@@ -8,5 +9,9 @@ export const Route = createFileRoute("/_app/more/")({
   },
 });
 function More() {
-  return <MoreList />;
+  return (
+    <PageContainer>
+      <MoreList />
+    </PageContainer>
+  );
 }

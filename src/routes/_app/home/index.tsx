@@ -8,6 +8,7 @@ import SettingsIcon from "@tabler/icons/outline/settings.svg?raw";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { useId, useState } from "react";
+import { PageContainer } from "../../../components/PageContainer";
 import { Information } from "./tab-views/-information";
 import { Notifications } from "./tab-views/-notifications";
 
@@ -36,7 +37,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className="h-full">
+    <PageContainer scrollable={false} className="flex flex-col">
       <div className="p-2">
         <ScoutTabs
           id={tabsId}
@@ -53,6 +54,7 @@ function RouteComponent() {
         onScoutChange={(e) => handleTabChange(e.detail.value)}
         onScoutSwipeProgress={(e) => setSwipeValue(e.detail.swipeValue)}
         tabsId={tabsId}
+        className="flex-1"
       >
         <ScoutTabbedViewPanel>
           <Notifications />
@@ -61,6 +63,6 @@ function RouteComponent() {
           <Information />
         </ScoutTabbedViewPanel>
       </ScoutTabbedView>
-    </div>
+    </PageContainer>
   );
 }

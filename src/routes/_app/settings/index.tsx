@@ -6,6 +6,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useTolgee, useTranslate } from "@tolgee/react";
 import { use } from "react";
 import { ScoutListViewItemLink } from "../../../components/links";
+import { PageContainer } from "../../../components/PageContainer";
 import { languageNamesPromise } from "../../../tolgee";
 import { upperFirst } from "../../../utils";
 
@@ -43,18 +44,20 @@ function RouteComponent() {
   };
 
   return (
-    <ScoutListView>
-      <LanguageItem />
-      <ScoutListViewItemLink
-        primary={t("page.settings.notifications.label")}
-        icon={BellIcon}
-        to="/settings/notifications"
-      />
-      <ScoutListViewItem
-        primary={t("page.settings.redoOnboarding.label")}
-        icon={RefreshIcon}
-        onScoutClick={redoOnboarding}
-      />
-    </ScoutListView>
+    <PageContainer>
+      <ScoutListView>
+        <LanguageItem />
+        <ScoutListViewItemLink
+          primary={t("page.settings.notifications.label")}
+          icon={BellIcon}
+          to="/settings/notifications"
+        />
+        <ScoutListViewItem
+          primary={t("page.settings.redoOnboarding.label")}
+          icon={RefreshIcon}
+          onScoutClick={redoOnboarding}
+        />
+      </ScoutListView>
+    </PageContainer>
   );
 }
