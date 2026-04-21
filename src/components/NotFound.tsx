@@ -13,7 +13,7 @@ export function NotFound() {
       </p>
 
       <ScoutButtonLink to="/" variant="primary">
-        <T keyName="not_found.go_to_map.label" ns="app" />
+        <T keyName="not_found.go_home.label" ns="app" />
       </ScoutButtonLink>
     </div>
   );
