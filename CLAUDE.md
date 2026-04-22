@@ -6,19 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Development
-bun dev              # Start dev server (Vite + Nitro)
+pnpm run dev          # Start dev server (Vite)
 
 # Build
-bun run build        # Full production build
+pnpm run build        # Full production build
 
 # Lint & Format (Biome)
-bun run lint         # Check linting
-bun run format       # Check formatting
-bun run biome check  # Lint + format check
-bun run biome check --write  # Auto-fix
+pnpm run lint         # Check linting
+pnpm run format       # Check formatting
+pnpm run biome check  # Lint + format check
+pnpm run biome check --write  # Auto-fix
 
 # Type checking
-bun run typecheck    # Run tsc --noEmit
+pnpm run typecheck    # Run tsc --noEmit
 ```
 
 There are no tests in this project.
@@ -33,11 +33,11 @@ Sub-apps are served at `/_services/<appname>` in production. The shell navigates
 
 ### Dynamic Route Configuration
 
-Navigation items are not hardcoded — they are loaded at runtime from URLs listed in the `NITRO_PUBLIC_APP_CONFIGS` env var. Each config URL returns a JSON object validated with ArkType schemas (`src/dynamic-routes/app-config.ts`). Configs are parsed and merged in `src/dynamic-routes/dynamic-routes.ts`, then provided via React context (`src/dynamic-routes/dynamic-routes-context.tsx`). Bottom nav items are filtered to the IDs listed in `NITRO_PUBLIC_BOTTOM_NAV_ITEMS`.
+Navigation items are not hardcoded — they are loaded at runtime from URLs listed in the `J26_PUBLIC_APP_CONFIGS` env var. Each config URL returns a JSON object validated with ArkType schemas (`src/dynamic-routes/app-config.ts`). Configs are parsed and merged in `src/dynamic-routes/dynamic-routes.ts`, then provided via React context (`src/dynamic-routes/dynamic-routes-context.tsx`). Bottom nav items are filtered to the IDs listed in `J26_PUBLIC_BOTTOM_NAV_ITEMS`.
 
 ### Runtime Config
 
-The Nitro server exposes a `/api/config` endpoint (`server/routes/api/config.ts`) that reads `NITRO_PUBLIC_*` environment variables and returns them as JSON. The frontend loads this on startup (`src/config.tsx`) and makes the config available globally.
+The frontend fetches `/config.json` on startup (`src/config.tsx`) and makes the config available globally. In dev, the `runtimeConfigPlugin` in `vite.config.ts` serves this from `J26_PUBLIC_*` env vars. In production, `docker/entrypoint.sh` generates the file before nginx starts.
 
 ### Authentication
 
@@ -64,17 +64,25 @@ Tolgee (`src/tolgee.tsx`) with backend fetch. Two namespaces: `app` (UI strings)
 | Icons | Tabler Icons (dynamically imported, `src/icons/icons.tsx`) |
 | Validation | ArkType |
 | HTTP | `openapi-fetch` |
-| Build | Vite + Rolldown + Nitro |
+| Build | Vite + Rolldown |
 | Lint/Format | Biome |
 
 ### Key Environment Variables
 
+All runtime config vars use the `J26_PUBLIC_` prefix (e.g. `J26_PUBLIC_APP_CONFIGS`). The prefix is stripped and the remainder converted to camelCase when served as `/config.json`.
+
 ```
-NITRO_PUBLIC_APP_CONFIGS               # Comma-separated URLs to app config JSONs
-NITRO_PUBLIC_BOTTOM_NAV_ITEMS          # Comma-separated page IDs for bottom nav
-NITRO_PUBLIC_TOLGEE_BACKEND_FETCH_PREFIX  # Translation CDN prefix
-NITRO_PUBLIC_NOTIFICATIONS_TENANT      # Notifications service tenant
-NITRO_PUBLIC_DEV_BANNER_MESSAGE        # Optional dev mode banner text
+J26_PUBLIC_APP_CONFIGS                    # Comma-separated URLs to app config JSONs
+J26_PUBLIC_BOTTOM_NAV_ITEMS               # Comma-separated page IDs for bottom nav
+J26_PUBLIC_TOLGEE_BACKEND_FETCH_PREFIX    # Translation CDN prefix
+J26_PUBLIC_NOTIFICATIONS_TENANT           # Notifications service tenant
+J26_PUBLIC_DEV_BANNER_MESSAGE             # Optional dev mode banner text
+J26_PUBLIC_TOLGEE_API_URL                 # Tolgee API URL (dev only)
+J26_PUBLIC_TOLGEE_API_KEY                 # Tolgee API key (dev only)
+J26_PUBLIC_TOLGEE_PROJECT_ID              # Tolgee project ID (dev only)
+J26_PUBLIC_ADDITIONAL_ROOT_PATHS          # Comma-separated extra root paths
+J26_PUBLIC_PAYLOAD_API_URL                # Payload CMS API URL
+J26_PUBLIC_PAYLOAD_LOCALES                # Comma-separated supported locales
 ```
 
-Dev proxies (defined in `vite.config.ts`) forward `/auth/**`, `/notifications/**`, and `/_services/signupinfo/**` to `https://app.dev.j26.se/`.
+In dev, these are read from `.env` by the `runtimeConfigPlugin` in `vite.config.ts` and served at `/config.json`. In production, `docker/entrypoint.sh` uses `jq` to write `/config.json` from the container environment before nginx starts.

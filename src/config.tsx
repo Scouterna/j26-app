@@ -20,7 +20,7 @@ function parseConfigArray(configString: string): string[] {
 }
 
 async function loadConfig(): Promise<Config> {
-  const res = await fetch("/api/config");
+  const res = await fetch("/config.json");
   const data = await res.json();
 
   return {

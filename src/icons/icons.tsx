@@ -1,6 +1,8 @@
 import HelpSquareIcon from "@tabler/icons/outline/help-square.svg?raw";
 import { createContext, use } from "react";
 
+const TABLER_ICONS_VERSION = "3.41.1";
+
 type IconMap = Map<string, Promise<string>>;
 
 const context = createContext<IconMap | null>(null);
@@ -23,12 +25,19 @@ export function useIcon(
   }
 
   if (!iconMap.has(iconName)) {
-    const promise = import(
-      `../../node_modules/@tabler/icons/icons/${variant}/${iconName}.svg?raw`
-    )
-      .then((module) => module.default)
-      .catch(() => {
-        console.warn(`Failed to load icon: ${iconName}`);
+    const url = `https://cdn.jsdelivr.net/npm/@tabler/icons@${TABLER_ICONS_VERSION}/icons/${variant}/${iconName}.svg`;
+    const promise = fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          console.warn(
+            `Failed to load icon "${iconName}": ${response.statusText}`,
+          );
+          return HelpSquareIcon;
+        }
+        return response.text();
+      })
+      .catch((e) => {
+        console.warn(`Failed to load icon "${iconName}":`, e);
         return HelpSquareIcon;
       });
 

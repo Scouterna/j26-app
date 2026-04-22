@@ -12,7 +12,6 @@ dist
 dist-ssr
 dev-dist
 *.local
-.output
 
 # Editor directories and files
 .vscode/*
@@ -30,6 +29,3 @@ dev-dist
 .env
 .env.*
 !.env.example
-
-public/workbox-*.js
-public/sw.js
