@@ -14,12 +14,14 @@ export default defineConfig({
   plugins: [
     nitro(),
     VitePWA({
-      registerType: "autoUpdate",
+      registerType: "prompt",
+      injectRegister: "script",
       devOptions: {
         // enabled: true,
       },
+      outDir: "public",
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,jpg,svg}"],
+        globPatterns: ["**/*.{js,css,html,ico,png,jpg,svg}", "index.html"],
       },
       manifest: {
         name: "Jamboree26",
