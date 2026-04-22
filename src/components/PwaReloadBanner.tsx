@@ -19,7 +19,7 @@ export function PwaReloadBanner() {
 
   return (
     <motion.div
-      className="flexz flex-col overflow-hidden"
+      className="flex flex-col overflow-hidden"
       initial={{ height: 0 }}
       animate={{
         height: visible ? "auto" : 0,
