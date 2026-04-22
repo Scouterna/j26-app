@@ -5,8 +5,8 @@ import {
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
+import { Suspense, useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect } from "react";
 import { AppBar } from "../components/AppBar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { DevBanner } from "../components/DevBanner";
@@ -78,7 +78,9 @@ function RouteComponent() {
           <AppBar />
 
           <main className="flex-1 overflow-y-hidden">
-            <Outlet />
+            <Suspense>
+              <Outlet />
+            </Suspense>
           </main>
 
           <BottomNavigation />

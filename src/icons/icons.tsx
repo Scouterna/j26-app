@@ -1,5 +1,5 @@
 import HelpSquareIcon from "@tabler/icons/outline/help-square.svg?raw";
-import { createContext, use } from "react";
+import { createContext, use, useRef } from "react";
 
 const TABLER_ICONS_VERSION = "3.41.1";
 
@@ -8,7 +8,8 @@ type IconMap = Map<string, Promise<string>>;
 const context = createContext<IconMap | null>(null);
 
 export function IconProvider({ children }: { children: React.ReactNode }) {
-  return <context.Provider value={new Map()}>{children}</context.Provider>;
+  const iconMap = useRef(new Map<string, Promise<string>>());
+  return <context.Provider value={iconMap.current}>{children}</context.Provider>;
 }
 
 export function useIcon(
