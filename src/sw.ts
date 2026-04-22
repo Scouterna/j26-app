@@ -1,7 +1,7 @@
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { Route, registerRoute } from "workbox-routing";
-import { CacheFirst } from "workbox-strategies";
+import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from "workbox-strategies";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -17,6 +17,48 @@ self.addEventListener("message", (event) => {
     self.skipWaiting();
   }
 });
+
+// Cache /config.json with NetworkFirst so the app works offline with the last
+// known config, but always gets a fresh copy when online.
+registerRoute(
+  new Route(
+    ({ url }) => url.pathname === "/config.json",
+    new NetworkFirst({
+      cacheName: "runtime-config",
+      plugins: [
+        new CacheableResponsePlugin({ statuses: [200] }),
+      ],
+    }),
+  ),
+);
+
+// Cache sub-app config files with NetworkFirst — they are as dynamic as
+// /config.json and must be fresh when online.
+registerRoute(
+  new Route(
+    ({ url }) => /^\/_services\/[^/]+\/app-config\.json$/.test(url.pathname),
+    new NetworkFirst({
+      cacheName: "app-configs",
+      plugins: [
+        new CacheableResponsePlugin({ statuses: [200] }),
+      ],
+    }),
+  ),
+);
+
+// Cache translations with StaleWhileRevalidate: serve from cache immediately
+// for fast loads, refresh in the background so the next visit gets fresh strings.
+registerRoute(
+  new Route(
+    ({ url }) => url.hostname === "j26-translations.jamboree.se",
+    new StaleWhileRevalidate({
+      cacheName: "translations",
+      plugins: [
+        new CacheableResponsePlugin({ statuses: [200] }),
+      ],
+    }),
+  ),
+);
 
 // Aggressively cache all Tabler icons from jsDelivr, since they are versioned
 // and thus safe to cache for a long time. This is needed to make the icons work
