@@ -1,11 +1,17 @@
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { Route, registerRoute } from "workbox-routing";
-import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from "workbox-strategies";
+import {
+  CacheFirst,
+  NetworkFirst,
+  StaleWhileRevalidate,
+} from "workbox-strategies";
 
 declare let self: ServiceWorkerGlobalScope;
 
 import { ExpirationPlugin } from "workbox-expiration";
+
+import { osmTilesRoute } from "./sw-osm-tiles";
 
 cleanupOutdatedCaches();
 
@@ -25,9 +31,7 @@ registerRoute(
     ({ url }) => url.pathname === "/config.json",
     new NetworkFirst({
       cacheName: "runtime-config",
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [200] }),
-      ],
+      plugins: [new CacheableResponsePlugin({ statuses: [200] })],
     }),
   ),
 );
@@ -39,9 +43,7 @@ registerRoute(
     ({ url }) => /^\/_services\/[^/]+\/app-config\.json$/.test(url.pathname),
     new NetworkFirst({
       cacheName: "app-configs",
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [200] }),
-      ],
+      plugins: [new CacheableResponsePlugin({ statuses: [200] })],
     }),
   ),
 );
@@ -53,12 +55,13 @@ registerRoute(
     ({ url }) => url.hostname === "j26-translations.jamboree.se",
     new StaleWhileRevalidate({
       cacheName: "translations",
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [200] }),
-      ],
+      plugins: [new CacheableResponsePlugin({ statuses: [200] })],
     }),
   ),
 );
+
+// OSM tile blocking — see sw-osm-tiles.ts for the polygon and handler logic.
+registerRoute(osmTilesRoute);
 
 // Aggressively cache all Tabler icons from jsDelivr, since they are versioned
 // and thus safe to cache for a long time. This is needed to make the icons work

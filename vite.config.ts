@@ -63,7 +63,7 @@ export default defineConfig(() => {
         devOptions: {
           // enabled: true,
         },
-        srcDir: "src",
+        srcDir: "src/sw",
         filename: "sw.ts",
         injectManifest: {
           globDirectory: "dist",
