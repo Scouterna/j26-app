@@ -6,9 +6,12 @@ import { tolgeePromise } from "../tolgee";
 export const languageAtom = atom<string>();
 
 const tolgee = await tolgeePromise;
-jotaiStore.set(languageAtom, tolgee.getLanguage());
+const initialLang = tolgee.getLanguage();
+jotaiStore.set(languageAtom, initialLang);
+if (initialLang) document.documentElement.lang = initialLang;
 tolgee.on("language", ({ value }) => {
   jotaiStore.set(languageAtom, value);
+  document.documentElement.lang = value;
 });
 
 export const useDateFnsLocale = () => {
