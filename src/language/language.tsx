@@ -5,11 +5,18 @@ import { tolgeePromise } from "../tolgee";
 
 export const languageAtom = atom<string>();
 
+function setLanguage(language: string) {
+  jotaiStore.set(languageAtom, language);
+  document.documentElement.lang = language;
+}
+
 const tolgee = await tolgeePromise;
-jotaiStore.set(languageAtom, tolgee.getLanguage());
-tolgee.on("language", ({ value }) => {
-  jotaiStore.set(languageAtom, value);
-});
+const initialLanguage = tolgee.getLanguage();
+if (initialLanguage) {
+  setLanguage(initialLanguage)
+}
+
+tolgee.on("language", ({ value }) => setLanguage(value));
 
 export const useDateFnsLocale = () => {
   const currentLanguage = useAtomValue(languageAtom);
