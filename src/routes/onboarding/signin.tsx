@@ -1,7 +1,8 @@
 import { ScoutButton, ScoutCallout } from "@scouterna/ui-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { T, useTranslate } from "@tolgee/react";
-import { useAuthUrls } from "../../auth/auth";
+import { useAtomValue } from "jotai";
+import { useAuthUrls, userAtom } from "../../auth/auth";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 
 export const Route = createFileRoute("/onboarding/signin")({
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/onboarding/signin")({
 
 function RouteComponent() {
   const { t } = useTranslate();
-  const user = { name: "Malcolm Nihlén" };
+  const user = useAtomValue(userAtom);
 
   const { loginUrl } = useAuthUrls({
     redirectUri: "/onboarding/signin",
