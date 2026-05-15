@@ -13,7 +13,7 @@ function setLanguage(language: string) {
 const tolgee = await tolgeePromise;
 const initialLanguage = tolgee.getLanguage();
 if (initialLanguage) {
-  setLanguage(initialLanguage)
+  setLanguage(initialLanguage);
 }
 
 tolgee.on("language", ({ value }) => setLanguage(value));

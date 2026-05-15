@@ -9,7 +9,9 @@ const context = createContext<IconMap | null>(null);
 
 export function IconProvider({ children }: { children: React.ReactNode }) {
   const iconMap = useRef(new Map<string, Promise<string>>());
-  return <context.Provider value={iconMap.current}>{children}</context.Provider>;
+  return (
+    <context.Provider value={iconMap.current}>{children}</context.Provider>
+  );
 }
 
 export function useIcon(

@@ -4,7 +4,6 @@ import {
   ScoutTabs,
   ScoutTabsTab,
 } from "@scouterna/ui-react";
-import SettingsIcon from "@tabler/icons/outline/settings.svg?raw";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { useId, useState } from "react";
@@ -16,11 +15,6 @@ export const Route = createFileRoute("/_app/home/")({
   component: RouteComponent,
   staticData: {
     pageName: "page.info.title",
-    appBarAction: {
-      icon: SettingsIcon,
-      label: "appBar.notifications.settings.label",
-      to: "/settings/notifications",
-    },
   },
 });
 

@@ -8,9 +8,9 @@ import {
 } from "@payloadcms/richtext-lexical/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSetAtom } from "jotai";
+import { PageContainer } from "../../components/PageContainer";
 import { pageTitleAtom } from "../../pageState";
 import { useCollectionSingle } from "../../strapi/hooks";
-import { PageContainer } from "../../components/PageContainer";
 
 type NodeTypes = DefaultNodeTypes;
 

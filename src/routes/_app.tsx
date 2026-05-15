@@ -5,8 +5,8 @@ import {
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
-import { Suspense, useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
+import { Suspense, useEffect } from "react";
 import { AppBar } from "../components/AppBar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { DevBanner } from "../components/DevBanner";
