@@ -49,34 +49,9 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
     }
   }, [url]);
 
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.source !== iframeRef.current?.contentWindow) return;
-
-      const message = event.data as IframeToShellMessage;
-
-      if (message.type === "j26:appBar") {
-        setIframeAppBar({ title: message.title });
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, [setIframeAppBar]);
-
-  // Reset app bar state when this iframe unmounts (e.g. navigating away)
-  useEffect(() => {
-    return () => setIframeAppBar(null);
-  }, [setIframeAppBar]);
-
-  const onIframeLoad = (event: SyntheticEvent<HTMLIFrameElement>) => {
-    const newUrl = event.currentTarget.contentWindow?.location.href;
-    if (!newUrl) {
-      console.warn("Could not get iframe URL");
-      return;
-    }
-
-    const relativePath = newUrl.replace(
+  const syncIframeUrl = (newUrl: string) => {
+    const absoluteUrl = new URL(newUrl, window.location.origin).toString();
+    const relativePath = absoluteUrl.replace(
       new URL(baseUrl, window.location.origin).toString(),
       "",
     );
@@ -96,6 +71,43 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
         _splat: relativePath,
       },
     });
+  };
+
+  // Ref so the effect always calls the latest closure without re-registering.
+  const syncIframeUrlRef = useRef(syncIframeUrl);
+  syncIframeUrlRef.current = syncIframeUrl;
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow) return;
+
+      const message = event.data as IframeToShellMessage;
+
+      if (message.type === "j26:appBar") {
+        setIframeAppBar({ title: message.title });
+      }
+
+      if (message.type === "j26:navigate") {
+        syncIframeUrlRef.current(message.url);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [setIframeAppBar]);
+
+  // Reset app bar state when this iframe unmounts (e.g. navigating away)
+  useEffect(() => {
+    return () => setIframeAppBar(null);
+  }, [setIframeAppBar]);
+
+  const onIframeLoad = (event: SyntheticEvent<HTMLIFrameElement>) => {
+    const newUrl = event.currentTarget.contentWindow?.location.href;
+    if (!newUrl) {
+      console.warn("Could not get iframe URL");
+      return;
+    }
+    syncIframeUrl(newUrl);
   };
 
   return (

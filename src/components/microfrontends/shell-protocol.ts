@@ -18,5 +18,15 @@ export type AppBarMessage = {
   title?: string;
 };
 
+/**
+ * Notify the shell of a client-side navigation (pushState / replaceState / popstate).
+ * The sub-app should emit this whenever its URL changes without a full page load.
+ */
+export type NavigateMessage = {
+  type: "j26:navigate";
+  /** Absolute URL the sub-app navigated to. */
+  url: string;
+};
+
 /** All messages a sub-app can post to the shell. */
-export type IframeToShellMessage = AppBarMessage;
+export type IframeToShellMessage = AppBarMessage | NavigateMessage;
