@@ -29,3 +29,5 @@ dev-dist
 .env
 .env.*
 !.env.example
+
+.j26

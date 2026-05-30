@@ -61,7 +61,8 @@ export default defineConfig(() => {
         injectRegister: "script",
         strategies: "injectManifest",
         devOptions: {
-          // enabled: true,
+          enabled: true,
+          type: "module",
         },
         srcDir: "src/sw",
         filename: "sw.ts",

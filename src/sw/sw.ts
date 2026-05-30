@@ -1,3 +1,5 @@
+import { initializeApp } from "firebase/app";
+import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { Route, registerRoute } from "workbox-routing";
@@ -10,8 +12,27 @@ import {
 declare let self: ServiceWorkerGlobalScope;
 
 import { ExpirationPlugin } from "workbox-expiration";
-
 import { osmTilesRoute } from "./sw-osm-tiles";
+
+const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
+
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
+const messaging = getMessaging(firebaseApp);
+
+onBackgroundMessage(messaging, (payload) => {
+  console.log("Background message received:", payload);
+
+  self.registration
+    .showNotification(payload.notification?.title || "Notification", {
+      body: payload.notification?.body,
+    })
+    .then(() => {
+      console.log("Notification shown successfully");
+    })
+    .catch((e) => {
+      console.error("Failed to show notification:", e);
+    });
+});
 
 cleanupOutdatedCaches();
 

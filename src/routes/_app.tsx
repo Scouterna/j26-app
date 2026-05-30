@@ -5,6 +5,8 @@ import {
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Suspense, useEffect } from "react";
 import { AppBar } from "../components/AppBar";
@@ -13,8 +15,12 @@ import { DevBanner } from "../components/DevBanner";
 import { InstallBanner } from "../components/InstallBanner";
 import { SideMenu } from "../components/menu/SideMenu";
 import { PwaReloadBanner } from "../components/PwaReloadBanner";
+
 import { onboardedAtom } from "../onboarding";
 import { pageTitleAtom } from "../pageState";
+
+const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
+const FIREBASE_VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY;
 
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
@@ -50,6 +56,55 @@ function RouteComponent() {
       }, SW_UPDATE_INTERVAL);
     },
   });
+
+  useEffect(() => {
+    navigator.serviceWorker.ready.then((registration) => {
+      const firebaseApp = initializeApp(FIREBASE_CONFIG);
+      const messaging = getMessaging(firebaseApp);
+
+      getToken(messaging, {
+        vapidKey: FIREBASE_VAPID_KEY,
+        serviceWorkerRegistration: registration,
+      })
+        .then((token) => {
+          console.log("FCM token:", token);
+
+          onMessage(messaging, (payload) => {
+            console.log("Foreground message received:", payload);
+
+            registration.showNotification(
+              payload.notification?.title || "Notification",
+              {
+                body: payload.notification?.body,
+              },
+            );
+          });
+
+          fetch("/notifications/api/tenants/jamboree26/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ tokens: [token] }),
+          })
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error(
+                  `Failed to register FCM token: ${res.statusText}`,
+                );
+              }
+
+              console.log("FCM token registered with backend");
+            })
+            .catch((e) => {
+              console.error("Failed to register FCM token with backend:", e);
+            });
+        })
+        .catch((e) => {
+          console.error("Failed to get FCM token:", e);
+        });
+    });
+  }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We only want this to run on load
   useEffect(() => {
