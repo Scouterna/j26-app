@@ -1,13 +1,19 @@
 import {
+  ScoutButton,
   ScoutCallout,
   ScoutListView,
   ScoutListViewItem,
 } from "@scouterna/ui-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { PageContainer } from "../../../components/PageContainer";
 import type { components } from "../../../generated/notification-api";
 import * as api from "../../../notifications/api";
+import {
+  NOTIFICATION_BADGE,
+  NOTIFICATION_ICON,
+} from "../../../notifications/notification-defaults";
 
 export const Route = createFileRoute("/_app/settings/notifications")({
   component: RouteComponent,
@@ -56,6 +62,44 @@ const ChannelRow = ({
   );
 };
 
+async function sendTestNotification() {
+  if (Notification.permission !== "granted") return "denied";
+
+  const reg = await navigator.serviceWorker.ready;
+  await reg.showNotification("Testnotis", {
+    body: "Det här är en testnotis från Jamboree-appen.",
+    icon: NOTIFICATION_ICON,
+    badge: NOTIFICATION_BADGE,
+  });
+  return "sent";
+}
+
+function TestNotificationButton() {
+  const [status, setStatus] = useState<"idle" | "sent" | "denied">("idle");
+
+  const handleClick = async () => {
+    const result = await sendTestNotification();
+    setStatus(result);
+    if (result === "sent") setTimeout(() => setStatus("idle"), 3000);
+  };
+
+  return (
+    <div className="p-4 flex flex-col gap-3">
+      <ScoutButton variant="outlined" onScoutClick={handleClick}>
+        Skicka testnotis
+      </ScoutButton>
+      {status === "sent" && (
+        <ScoutCallout variant="success">Testnotis skickad!</ScoutCallout>
+      )}
+      {status === "denied" && (
+        <ScoutCallout variant="error">
+          Notiser är inte tillåtna. Aktivera dem i telefonens inställningar.
+        </ScoutCallout>
+      )}
+    </div>
+  );
+}
+
 function RouteComponent() {
   const channels = useQuery({
     queryFn: api.getChannels,
@@ -79,6 +123,8 @@ function RouteComponent() {
           ut med viktig information.
         </ScoutCallout>
       </div>
+
+      <TestNotificationButton />
 
       <ScoutListView>
         <ScoutListViewItem

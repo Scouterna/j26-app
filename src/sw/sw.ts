@@ -12,6 +12,10 @@ import {
 declare let self: ServiceWorkerGlobalScope;
 
 import { ExpirationPlugin } from "workbox-expiration";
+import {
+  NOTIFICATION_BADGE,
+  NOTIFICATION_ICON,
+} from "../notifications/notification-defaults";
 import { osmTilesRoute } from "./sw-osm-tiles";
 
 const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
@@ -25,6 +29,8 @@ onBackgroundMessage(messaging, (payload) => {
   self.registration
     .showNotification(payload.notification?.title || "Notification", {
       body: payload.notification?.body,
+      icon: NOTIFICATION_ICON,
+      badge: NOTIFICATION_BADGE,
     })
     .then(() => {
       console.log("Notification shown successfully");
