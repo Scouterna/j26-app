@@ -12,10 +12,7 @@ import {
 declare let self: ServiceWorkerGlobalScope;
 
 import { ExpirationPlugin } from "workbox-expiration";
-import {
-  NOTIFICATION_BADGE,
-  NOTIFICATION_ICON,
-} from "../notifications/notification-defaults";
+import { showLocalizedNotification } from "../notifications/show-notification";
 import { osmTilesRoute } from "./sw-osm-tiles";
 
 const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
@@ -23,21 +20,17 @@ const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
 const firebaseApp = initializeApp(FIREBASE_CONFIG);
 const messaging = getMessaging(firebaseApp);
 
-onBackgroundMessage(messaging, (payload) => {
+onBackgroundMessage(messaging, async (payload) => {
   console.log("Background message received:", payload);
+  const raw = payload.data?.payload;
+  if (!raw) {
+    console.error("Background message missing data.payload", payload);
+    return;
+  }
 
-  self.registration
-    .showNotification(payload.notification?.title || "Notification", {
-      body: payload.notification?.body,
-      icon: NOTIFICATION_ICON,
-      badge: NOTIFICATION_BADGE,
-    })
-    .then(() => {
-      console.log("Notification shown successfully");
-    })
-    .catch((e) => {
-      console.error("Failed to show notification:", e);
-    });
+  await showLocalizedNotification(self.registration, raw).catch((e) =>
+    console.error("Failed to show notification:", e),
+  );
 });
 
 cleanupOutdatedCaches();

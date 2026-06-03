@@ -1,6 +1,7 @@
 import { enGB, nl, sv, uk } from "date-fns/locale";
 import { atom, useAtomValue } from "jotai";
 import { jotaiStore } from "../jotai";
+import { saveLanguageForSW } from "../notifications/sw-language";
 import { tolgeePromise } from "../tolgee";
 
 export const languageAtom = atom<string>();
@@ -8,6 +9,7 @@ export const languageAtom = atom<string>();
 function setLanguage(language: string) {
   jotaiStore.set(languageAtom, language);
   document.documentElement.lang = language;
+  saveLanguageForSW(language);
 }
 
 const tolgee = await tolgeePromise;

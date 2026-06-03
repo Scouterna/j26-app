@@ -5,6 +5,7 @@ import {
   messaging,
   registerForPushNotifications,
 } from "../notifications/firebase";
+import { showLocalizedNotification } from "../notifications/show-notification";
 
 const RootLayout = () => {
   useEffect(() => {
@@ -18,9 +19,14 @@ const RootLayout = () => {
     navigator.serviceWorker.ready.then((registration) => {
       unsubscribeMessage = onMessage(messaging, (payload) => {
         console.log("Foreground message received:", payload);
-        registration.showNotification(
-          payload.notification?.title || "Notification",
-          { body: payload.notification?.body },
+        const raw = payload.data?.payload;
+        if (!raw) {
+          console.error("Foreground message missing data.payload", payload);
+          return;
+        }
+
+        showLocalizedNotification(registration, raw).catch((e) =>
+          console.error("Failed to show notification:", e),
         );
       });
     });
