@@ -14,6 +14,12 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ARG VITE_FIREBASE_CONFIG
+ARG VITE_FIREBASE_VAPID_KEY
+ENV VITE_FIREBASE_CONFIG=$VITE_FIREBASE_CONFIG
+ENV VITE_FIREBASE_VAPID_KEY=$VITE_FIREBASE_VAPID_KEY
+
 RUN pnpm run build
 
 FROM nginx:alpine AS runner
