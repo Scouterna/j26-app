@@ -6,16 +6,17 @@ import { tolgeePromise } from "../tolgee";
 
 export const languageAtom = atom<string>();
 
-function setLanguage(language: string) {
+async function setLanguage(language: string) {
   jotaiStore.set(languageAtom, language);
   document.documentElement.lang = language;
+  await cookieStore.set({ name: "j26-language", value: language, path: "/", sameSite: "lax" });
   saveLanguageForSW(language);
 }
 
 const tolgee = await tolgeePromise;
 const initialLanguage = tolgee.getLanguage();
 if (initialLanguage) {
-  setLanguage(initialLanguage);
+  await setLanguage(initialLanguage);
 }
 
 tolgee.on("language", ({ value }) => setLanguage(value));
