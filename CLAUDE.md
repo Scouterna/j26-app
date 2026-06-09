@@ -75,7 +75,6 @@ All runtime config vars use the `J26_PUBLIC_` prefix (e.g. `J26_PUBLIC_APP_CONFI
 J26_PUBLIC_APP_CONFIGS                    # Comma-separated URLs to app config JSONs
 J26_PUBLIC_BOTTOM_NAV_ITEMS               # Comma-separated page IDs for bottom nav
 J26_PUBLIC_TOLGEE_BACKEND_FETCH_PREFIX    # Translation CDN prefix
-J26_PUBLIC_NOTIFICATIONS_TENANT           # Notifications service tenant
 J26_PUBLIC_DEV_BANNER_MESSAGE             # Optional dev mode banner text
 J26_PUBLIC_TOLGEE_API_URL                 # Tolgee API URL (dev only)
 J26_PUBLIC_TOLGEE_API_KEY                 # Tolgee API key (dev only)

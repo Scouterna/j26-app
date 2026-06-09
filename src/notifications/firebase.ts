@@ -32,21 +32,17 @@ export async function registerForPushNotifications(): Promise<void> {
     rejectAfter(GET_TOKEN_TIMEOUT_MS, "getToken timed out"),
   ]);
 
-  const { notificationsTenant } = await configPromise;
-
-  const res = await fetch(
-    `/notifications/api/tenants/${notificationsTenant}/register`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ tokens: [token] }),
-      signal: AbortSignal.timeout(REGISTER_TIMEOUT_MS),
-    },
-  );
+  const res = await fetch("/notifications/api/tenants/jamboree26/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ tokens: [token] }),
+    signal: AbortSignal.timeout(REGISTER_TIMEOUT_MS),
+  });
 
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
 
   const subscription = await registration.pushManager.getSubscription();
-  if (!subscription) throw new Error("Push subscription missing after registration");
+  if (!subscription)
+    throw new Error("Push subscription missing after registration");
 }

@@ -24,71 +24,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/api/tenants": {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path?: never;
-            readonly cookie?: never;
-        };
-        /**
-         * List Tenants
-         * @description Return all list of all available tenants.
-         */
-        readonly get: operations["list_tenants_api_tenants_get"];
-        readonly put?: never;
-        readonly post?: never;
-        readonly delete?: never;
-        readonly options?: never;
-        readonly head?: never;
-        readonly patch?: never;
-        readonly trace?: never;
-    };
-    readonly "/api/tenants/{tenant_id}": {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path?: never;
-            readonly cookie?: never;
-        };
-        /**
-         * Get Tenant
-         * @description Return information about a specific tenant.
-         */
-        readonly get: operations["get_tenant_api_tenants__tenant_id__get"];
-        readonly put?: never;
-        readonly post?: never;
-        readonly delete?: never;
-        readonly options?: never;
-        readonly head?: never;
-        readonly patch?: never;
-        readonly trace?: never;
-    };
-    readonly "/api/tenants/{tenant_id}/channels": {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path?: never;
-            readonly cookie?: never;
-        };
-        /**
-         * List Channels
-         * @description Get all channels for a tenant
-         */
-        readonly get: operations["list_channels_api_tenants__tenant_id__channels_get"];
-        readonly put?: never;
-        /**
-         * Create Channel
-         * @description Create a new channel
-         */
-        readonly post: operations["create_channel_api_tenants__tenant_id__channels_post"];
-        readonly delete?: never;
-        readonly options?: never;
-        readonly head?: never;
-        readonly patch?: never;
-        readonly trace?: never;
-    };
-    readonly "/api/tenants/{tenant_id}/channels/{channel_id}": {
+    readonly "/api/tenants/jamboree26/register": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -97,82 +33,15 @@ export type paths = {
         };
         readonly get?: never;
         readonly put?: never;
-        readonly post?: never;
-        /**
-         * Delete Channel
-         * @description Delete channel
-         */
-        readonly delete: operations["delete_channel_api_tenants__tenant_id__channels__channel_id__delete"];
-        readonly options?: never;
-        readonly head?: never;
-        readonly patch?: never;
-        readonly trace?: never;
-    };
-    readonly "/api/tenants/{tenant_id}/tokens": {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path?: never;
-            readonly cookie?: never;
-        };
-        readonly get?: never;
-        readonly put?: never;
-        /**
-         * Save User Token
-         * @description Save notifications tokens
-         */
-        readonly post: operations["save_user_token_api_tenants__tenant_id__tokens_post"];
+        /** Register Users */
+        readonly post: operations["register_users_api_tenants_jamboree26_register_post"];
         readonly delete?: never;
         readonly options?: never;
         readonly head?: never;
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/api/tenants/{tenant_id}/subscriptions/me": {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path?: never;
-            readonly cookie?: never;
-        };
-        /**
-         * List Subscriptions
-         * @description Returns a list of subscribed notification channels for the current user
-         */
-        readonly get: operations["list_subscriptions_api_tenants__tenant_id__subscriptions_me_get"];
-        readonly put?: never;
-        readonly post?: never;
-        readonly delete?: never;
-        readonly options?: never;
-        readonly head?: never;
-        readonly patch?: never;
-        readonly trace?: never;
-    };
-    readonly "/api/tenants/{tenant_id}/channels/{channel_id}/subscriptions": {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path?: never;
-            readonly cookie?: never;
-        };
-        readonly get?: never;
-        readonly put?: never;
-        /**
-         * Subscribe To Channel
-         * @description Subscribe to a notification channel
-         */
-        readonly post: operations["subscribe_to_channel_api_tenants__tenant_id__channels__channel_id__subscriptions_post"];
-        /**
-         * Unsubscribe From Channel
-         * @description Leave a notification channel
-         */
-        readonly delete: operations["unsubscribe_from_channel_api_tenants__tenant_id__channels__channel_id__subscriptions_delete"];
-        readonly options?: never;
-        readonly head?: never;
-        readonly patch?: never;
-        readonly trace?: never;
-    };
-    readonly "/api/tenants/{tenant_id}/notifications": {
+    readonly "/api/tenants/jamboree26/notifications": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -180,27 +49,31 @@ export type paths = {
             readonly cookie?: never;
         };
         /** List Notifications */
-        readonly get: operations["list_notifications_api_tenants__tenant_id__notifications_get"];
+        readonly get: operations["list_notifications_api_tenants_jamboree26_notifications_get"];
         readonly put?: never;
-        /** Send Notifications */
-        readonly post: operations["send_notifications_api_tenants__tenant_id__notifications_post"];
+        /** Send Notification */
+        readonly post: operations["send_notification_api_tenants_jamboree26_notifications_post"];
         readonly delete?: never;
         readonly options?: never;
         readonly head?: never;
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/api/tenants/{tenant_id}/notifications/direct": {
+    readonly "/api/tenants/jamboree26/groups": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
             readonly path?: never;
             readonly cookie?: never;
         };
-        readonly get?: never;
+        /**
+         * List Groups
+         * @description Return all valid channel groups from Keycloak (paths stripped of the
+         *     /j26-scoutid-sync prefix). Public endpoint.
+         */
+        readonly get: operations["list_groups_api_tenants_jamboree26_groups_get"];
         readonly put?: never;
-        /** Send Direct Notifications */
-        readonly post: operations["send_direct_notifications_api_tenants__tenant_id__notifications_direct_post"];
+        readonly post?: never;
         readonly delete?: never;
         readonly options?: never;
         readonly head?: never;
@@ -211,72 +84,6 @@ export type paths = {
 export type webhooks = Record<string, never>;
 export type components = {
     schemas: {
-        /** ChannelCreate */
-        readonly ChannelCreate: {
-            /**
-             * Id
-             * @description Unique channel identifier.
-             */
-            readonly id: string;
-            /** Name */
-            readonly name: string;
-            /** Description */
-            readonly description?: string | null;
-            /**
-             * Is Open
-             * @default true
-             */
-            readonly is_open: boolean;
-            /**
-             * Is Private
-             * @default false
-             */
-            readonly is_private: boolean;
-            /** Parent Id */
-            readonly parent_id?: string | null;
-        };
-        /** ChannelRead */
-        readonly ChannelRead: {
-            /** Id */
-            readonly id: string;
-            /** Name */
-            readonly name: string;
-            /** Description */
-            readonly description?: string | null;
-            /**
-             * Is Open
-             * @default true
-             */
-            readonly is_open: boolean;
-            /**
-             * Is Private
-             * @default false
-             */
-            readonly is_private: boolean;
-            /** Parent Id */
-            readonly parent_id?: string | null;
-            /** Tenant Id */
-            readonly tenant_id: string;
-            /**
-             * Updated At
-             * @default
-             */
-            readonly updated_at: string;
-            /**
-             * Updated By
-             * @default
-             */
-            readonly updated_by: string;
-        };
-        /** DirectNotificationCreate */
-        readonly DirectNotificationCreate: {
-            /** User Id */
-            readonly user_id: string;
-            /** Title */
-            readonly title: string;
-            /** Body */
-            readonly body: string;
-        };
         /** HTTPValidationError */
         readonly HTTPValidationError: {
             /** Detail */
@@ -284,71 +91,59 @@ export type components = {
         };
         /** NotificationCreate */
         readonly NotificationCreate: {
-            /** Channel Ids */
-            readonly channel_ids?: readonly string[];
+            /** Channels */
+            readonly channels: readonly string[];
+            /** Notification */
+            readonly notification: {
+                readonly [key: string]: components["schemas"]["NotificationTranslation"];
+            };
+            /** Category */
+            readonly category?: string | null;
             /**
-             * Include Child Channels
-             * @default true
+             * Important
+             * @default false
              */
-            readonly include_child_channels: boolean;
-            /** Title */
-            readonly title: string;
-            /** Body */
-            readonly body: string;
+            readonly important: boolean;
+            /** Link */
+            readonly link?: string | null;
         };
         /** NotificationRead */
         readonly NotificationRead: {
             /** Id */
-            readonly id: string;
-            /** Tenant Id */
-            readonly tenant_id: string;
-            /** Channel Id */
-            readonly channel_id: string;
+            readonly id: number;
+            /** Channels */
+            readonly channels: readonly string[];
             /** Title */
             readonly title: string;
             /** Body */
             readonly body: string;
-            /** Sent By */
-            readonly sent_by?: string | null;
+            /** Message */
+            readonly message: string;
             /** Sent At */
             readonly sent_at: string;
+            /** Sender */
+            readonly sender: string;
+            /** Important */
+            readonly important: boolean;
         };
-        /** SubscriptionRead */
-        readonly SubscriptionRead: {
+        /** NotificationSent */
+        readonly NotificationSent: {
             /** Id */
-            readonly id: string;
-            /** Tenant Id */
-            readonly tenant_id: string;
-            /** Channel Id */
-            readonly channel_id: string;
-            /** User Id */
-            readonly user_id: string;
+            readonly id: number;
+            /** Status */
+            readonly status: string;
         };
-        /** TenantRead */
-        readonly TenantRead: {
-            /**
-             * Id
-             * @description Unique tenant identifier.
-             */
-            readonly id: string;
-            /** Name */
-            readonly name: string;
-            /** Description */
-            readonly description: string;
-            /** Default Locale */
-            readonly default_locale: string;
-            /** Admin Roles */
-            readonly admin_roles: readonly string[];
-            /**
-             * Created At
-             * Format: date-time
-             */
-            readonly created_at: string;
+        /** NotificationTranslation */
+        readonly NotificationTranslation: {
+            /** Title */
+            readonly title: string;
+            /** Body */
+            readonly body: string;
         };
         /** TokenCreate */
         readonly TokenCreate: {
-            /** Device Tokens */
-            readonly device_tokens: readonly string[];
+            /** Tokens */
+            readonly tokens: readonly string[];
         };
         /** ValidationError */
         readonly ValidationError: {
@@ -358,6 +153,10 @@ export type components = {
             readonly msg: string;
             /** Error Type */
             readonly type: string;
+            /** Input */
+            readonly input?: unknown;
+            /** Context */
+            readonly ctx?: Record<string, unknown>;
         };
     };
     responses: never;
@@ -388,163 +187,11 @@ export interface operations {
             };
         };
     };
-    readonly list_tenants_api_tenants_get: {
+    readonly register_users_api_tenants_jamboree26_register_post: {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
             readonly path?: never;
-            readonly cookie?: never;
-        };
-        readonly requestBody?: never;
-        readonly responses: {
-            /** @description Returns all available tenants */
-            readonly 200: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": readonly components["schemas"]["TenantRead"][];
-                };
-            };
-        };
-    };
-    readonly get_tenant_api_tenants__tenant_id__get: {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
-            readonly cookie?: never;
-        };
-        readonly requestBody?: never;
-        readonly responses: {
-            /** @description Returns requested tenant */
-            readonly 200: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["TenantRead"];
-                };
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    readonly list_channels_api_tenants__tenant_id__channels_get: {
-        readonly parameters: {
-            readonly query?: {
-                /** @description Also include private channels */
-                readonly include_private?: boolean;
-            };
-            readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
-            readonly cookie?: never;
-        };
-        readonly requestBody?: never;
-        readonly responses: {
-            /** @description Channel list */
-            readonly 200: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": readonly components["schemas"]["ChannelRead"][];
-                };
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    readonly create_channel_api_tenants__tenant_id__channels_post: {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
-            readonly cookie?: never;
-        };
-        readonly requestBody: {
-            readonly content: {
-                readonly "application/json": components["schemas"]["ChannelCreate"];
-            };
-        };
-        readonly responses: {
-            /** @description Channel created */
-            readonly 201: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["ChannelRead"];
-                };
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    readonly delete_channel_api_tenants__tenant_id__channels__channel_id__delete: {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path: {
-                readonly channel_id: string;
-                readonly tenant_id: string;
-            };
-            readonly cookie?: never;
-        };
-        readonly requestBody?: never;
-        readonly responses: {
-            /** @description Channel deleted */
-            readonly 204: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    readonly save_user_token_api_tenants__tenant_id__tokens_post: {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
             readonly cookie?: never;
         };
         readonly requestBody: {
@@ -554,7 +201,7 @@ export interface operations {
         };
         readonly responses: {
             /** @description Successful Response */
-            readonly 201: {
+            readonly 200: {
                 headers: {
                     readonly [name: string]: unknown;
                 };
@@ -573,114 +220,22 @@ export interface operations {
             };
         };
     };
-    readonly list_subscriptions_api_tenants__tenant_id__subscriptions_me_get: {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
-            readonly cookie?: never;
-        };
-        readonly requestBody?: never;
-        readonly responses: {
-            /** @description Subscription list */
-            readonly 200: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": readonly components["schemas"]["SubscriptionRead"][];
-                };
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    readonly subscribe_to_channel_api_tenants__tenant_id__channels__channel_id__subscriptions_post: {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-                readonly channel_id: string;
-            };
-            readonly cookie?: never;
-        };
-        readonly requestBody?: never;
-        readonly responses: {
-            /** @description Successful Response */
-            readonly 201: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["SubscriptionRead"];
-                };
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    readonly unsubscribe_from_channel_api_tenants__tenant_id__channels__channel_id__subscriptions_delete: {
-        readonly parameters: {
-            readonly query?: never;
-            readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-                readonly channel_id: string;
-            };
-            readonly cookie?: never;
-        };
-        readonly requestBody?: never;
-        readonly responses: {
-            /** @description Successful Response */
-            readonly 204: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    readonly list_notifications_api_tenants__tenant_id__notifications_get: {
+    readonly list_notifications_api_tenants_jamboree26_notifications_get: {
         readonly parameters: {
             readonly query?: {
+                readonly count?: number;
+                readonly not_before?: string | null;
+                readonly not_after?: string | null;
+                readonly important_prio?: boolean;
                 readonly channel?: readonly string[] | null;
-                readonly limit?: number;
             };
             readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
+            readonly path?: never;
             readonly cookie?: never;
         };
         readonly requestBody?: never;
         readonly responses: {
-            /** @description Notification list */
+            /** @description Successful Response */
             readonly 200: {
                 headers: {
                     readonly [name: string]: unknown;
@@ -700,13 +255,11 @@ export interface operations {
             };
         };
     };
-    readonly send_notifications_api_tenants__tenant_id__notifications_post: {
+    readonly send_notification_api_tenants_jamboree26_notifications_post: {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
+            readonly path?: never;
             readonly cookie?: never;
         };
         readonly requestBody: {
@@ -721,7 +274,7 @@ export interface operations {
                     readonly [name: string]: unknown;
                 };
                 content: {
-                    readonly "application/json": components["schemas"]["NotificationRead"];
+                    readonly "application/json": components["schemas"]["NotificationSent"];
                 };
             };
             /** @description Validation Error */
@@ -735,37 +288,22 @@ export interface operations {
             };
         };
     };
-    readonly send_direct_notifications_api_tenants__tenant_id__notifications_direct_post: {
+    readonly list_groups_api_tenants_jamboree26_groups_get: {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
-            readonly path: {
-                readonly tenant_id: string;
-            };
+            readonly path?: never;
             readonly cookie?: never;
         };
-        readonly requestBody: {
-            readonly content: {
-                readonly "application/json": components["schemas"]["DirectNotificationCreate"];
-            };
-        };
+        readonly requestBody?: never;
         readonly responses: {
             /** @description Successful Response */
-            readonly 202: {
+            readonly 200: {
                 headers: {
                     readonly [name: string]: unknown;
                 };
                 content: {
-                    readonly "application/json": components["schemas"]["NotificationRead"];
-                };
-            };
-            /** @description Validation Error */
-            readonly 422: {
-                headers: {
-                    readonly [name: string]: unknown;
-                };
-                content: {
-                    readonly "application/json": components["schemas"]["HTTPValidationError"];
+                    readonly "application/json": readonly string[];
                 };
             };
         };

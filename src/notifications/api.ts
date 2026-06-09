@@ -1,107 +1,18 @@
-import { configPromise } from "../config";
+import type { components } from "../generated/notification-api";
 import { client } from "./client";
 
-// TODO: The types from the API has changed. Fix that.
+export type NotificationRead = components["schemas"]["NotificationRead"];
 
-export async function getChannels(): Promise<any> {
-  const { notificationsTenant } = await configPromise;
-
-  const res = await client.GET("/api/tenants/{tenant_id}/channels", {
-    params: {
-      path: {
-        tenant_id: notificationsTenant,
-      },
-    },
-  });
-
-  if ("error" in res) {
-    console.error("Failed to fetch notification channels", res.error);
-    return null;
-  }
-
-  return res.data;
-}
-
-export async function getSubscriptions(): Promise<any> {
-  const { notificationsTenant } = await configPromise;
-
-  const res = await client.GET("/api/tenants/{tenant_id}/subscriptions/me", {
-    params: {
-      path: {
-        tenant_id: notificationsTenant,
-      },
-    },
-  });
-
-  if ("error" in res) {
-    console.error("Failed to fetch subscriptions", res.error);
-    return null;
-  }
-
-  return res.data;
-}
-
-export async function subscribe(channel: string): Promise<any> {
-  const { notificationsTenant } = await configPromise;
-
-  const res = await client.POST(
-    "/api/tenants/{tenant_id}/channels/{channel_id}/subscriptions",
-    {
-      params: {
-        path: {
-          tenant_id: notificationsTenant,
-          channel_id: channel,
-        },
-      },
-    },
-  );
-
-  if ("error" in res) {
-    console.error(`Failed to subscribe to channel ${channel}`, res.error);
-    return null;
-  }
-
-  return res.data;
-}
-
-export async function unsubscribe(channel: string): Promise<any> {
-  const { notificationsTenant } = await configPromise;
-
-  const res = await client.DELETE(
-    "/api/tenants/{tenant_id}/channels/{channel_id}/subscriptions",
-    {
-      params: {
-        path: {
-          tenant_id: notificationsTenant,
-          channel_id: channel,
-        },
-      },
-    },
-  );
-
-  if ("error" in res) {
-    console.error(`Failed to unsubscribe from channel ${channel}`, res.error);
-    return null;
-  }
-
-  return res.data;
-}
-
-export async function getNotificationHistory(): Promise<any> {
-  const { notificationsTenant } = await configPromise;
-
-  const res = await client.GET("/api/tenants/{tenant_id}/notifications", {
-    params: {
-      path: {
-        tenant_id: notificationsTenant,
-      },
-    },
-  });
+export async function getNotificationHistory(): Promise<
+  NotificationRead[] | null
+> {
+  const res = await client.GET("/api/tenants/jamboree26/notifications");
 
   if ("error" in res) {
     console.error(`Failed to fetch notification history`, res.error);
     return null;
   }
 
-  return res.data;
+  // The types seems a bit off, so we need to cast it to the correct type
+  return res.data ? (res.data as unknown as NotificationRead[]) : null;
 }

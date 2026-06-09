@@ -6,7 +6,6 @@ type Config = {
   appConfigs: string[];
   bottomNavItems: string[];
   additionalRootPaths: string[];
-  notificationsTenant: string;
   devBannerMessage?: string | null;
   payloadApiUrl: string;
   payloadLocales: string[];
