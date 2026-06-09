@@ -5,7 +5,7 @@ import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { useAuthUrls, userAtom } from "../../auth/auth";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
-import { registerForPushNotifications } from "../../notifications/firebase";
+import { requestAndRegisterForPushNotifications } from "../../notifications/firebase";
 
 export const Route = createFileRoute("/onboarding/notifications")({
   component: RouteComponent,
@@ -28,23 +28,10 @@ function RouteComponent() {
 
   const requestPermission = async () => {
     if (!("Notification" in window)) return;
-
     setLoading(true);
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission !== "granted") {
-        setStatus(permission);
-        return;
-      }
-
-      await registerForPushNotifications();
-      setStatus("granted");
-    } catch (e) {
-      console.error("Failed to register for push notifications:", e);
-      setStatus("error");
-    } finally {
-      setLoading(false);
-    }
+    const result = await requestAndRegisterForPushNotifications();
+    setStatus(result);
+    setLoading(false);
   };
 
   return (

@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
-import { configPromise } from "../config";
 
 const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
 const FIREBASE_VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY;
@@ -16,6 +15,38 @@ function rejectAfter(ms: number, message: string): Promise<never> {
   return new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error(message)), ms),
   );
+}
+
+export async function getFirebaseToken(): Promise<string> {
+  const registration = await Promise.race([
+    navigator.serviceWorker.ready,
+    rejectAfter(SW_READY_TIMEOUT_MS, "Service worker not ready"),
+  ]);
+
+  const token = await Promise.race([
+    getToken(messaging, {
+      vapidKey: FIREBASE_VAPID_KEY,
+      serviceWorkerRegistration: registration,
+    }),
+    rejectAfter(GET_TOKEN_TIMEOUT_MS, "getToken timed out"),
+  ]);
+
+  if (!token) throw new Error("No token returned from Firebase");
+  return token;
+}
+
+export async function requestAndRegisterForPushNotifications(): Promise<
+  NotificationPermission | "error"
+> {
+  const permission = await Notification.requestPermission();
+  if (permission !== "granted") return permission;
+  try {
+    await registerForPushNotifications();
+    return "granted";
+  } catch (e) {
+    console.error("Failed to register for push notifications:", e);
+    return "error";
+  }
 }
 
 export async function registerForPushNotifications(): Promise<void> {
