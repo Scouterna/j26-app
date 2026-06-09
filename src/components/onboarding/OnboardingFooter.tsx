@@ -9,6 +9,7 @@ export type Props = {
   back?: string;
   next?: string;
   nextSuppressed?: boolean;
+  nextLoading?: boolean;
   lastPage?: boolean;
   onNextClick?: () => void;
 };
@@ -16,6 +17,7 @@ export function OnboardingFooter({
   back,
   next,
   nextSuppressed,
+  nextLoading,
   lastPage,
   onNextClick,
 }: Props) {
@@ -59,10 +61,11 @@ export function OnboardingFooter({
         <ScoutButtonLink
           size="large"
           icon={ArrowRightIcon}
-          variant={nextSuppressed ? "outlined" : "primary"}
+          variant={nextSuppressed ? "text" : "primary"}
           to={next}
           viewTransition={{ types: ["slide-left"] }}
           onScoutClick={onNextClick}
+          loading={nextLoading}
         >
           {nextSuppressed ? (
             <T keyName="onboarding.button.skip.label" />

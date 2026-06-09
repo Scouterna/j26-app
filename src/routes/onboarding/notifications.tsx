@@ -4,7 +4,6 @@ import { T, useTranslate } from "@tolgee/react";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { useAuthUrls, userAtom } from "../../auth/auth";
-import { ScoutButtonLink } from "../../components/links";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 import { registerForPushNotifications } from "../../notifications/firebase";
 
@@ -16,12 +15,16 @@ function RouteComponent() {
   const { t } = useTranslate();
 
   const user = useAtomValue(userAtom);
-  const { loginUrl } = useAuthUrls({ redirectUri: "/onboarding/notifications" });
+  const { loginUrl } = useAuthUrls({
+    redirectUri: "/onboarding/notifications",
+  });
 
   const [status, setStatus] = useState<NotificationPermission | "error">(
     "Notification" in window ? Notification.permission : "denied",
   );
   const [loading, setLoading] = useState(false);
+
+  const nextSuppressed = status === "default" || !user;
 
   const requestPermission = async () => {
     if (!("Notification" in window)) return;
@@ -51,7 +54,7 @@ function RouteComponent() {
           <T keyName="onboarding.notifications.title" />
         </h1>
 
-        <p className="text-body-base">
+        <p className="text-body-base whitespace-pre-wrap">
           <T keyName="onboarding.notifications.description" />
         </p>
 
@@ -59,16 +62,17 @@ function RouteComponent() {
           {!user ? (
             <ScoutCallout variant="warning">
               <T keyName="onboarding.notifications.signInRequired" />
-              <br />
-              <ScoutButton
-                type="link"
-                variant="primary"
-                size="medium"
-                href={loginUrl}
-                className="mt-3"
-              >
-                <T keyName="onboarding.signin.button.label" />
-              </ScoutButton>
+
+              <div className="flex">
+                <ScoutButton
+                  type="link"
+                  variant="primary"
+                  href={loginUrl}
+                  className="mt-2 w-full"
+                >
+                  <T keyName="onboarding.signin.button.label" />
+                </ScoutButton>
+              </div>
             </ScoutCallout>
           ) : status === "granted" ? (
             <ScoutCallout
@@ -96,25 +100,30 @@ function RouteComponent() {
               <ScoutButton
                 size="large"
                 variant="primary"
-                disabled={loading}
+                loading={loading}
                 onScoutClick={requestPermission}
               >
                 <T keyName="onboarding.notifications.acceptButton.label" />
               </ScoutButton>
 
-              <ScoutButtonLink
+              {/* <ScoutButtonLink
                 variant="text"
                 to="/onboarding/location"
                 viewTransition={{ types: ["slide-left"] }}
               >
                 <T keyName="onboarding.notifications.declineButton.label" />
-              </ScoutButtonLink>
+              </ScoutButtonLink> */}
             </>
           )}
         </div>
       </div>
 
-      <OnboardingFooter back="/onboarding/signin" next="/onboarding/location" />
+      <OnboardingFooter
+        back="/onboarding/signin"
+        next="/onboarding/location"
+        nextSuppressed={nextSuppressed}
+        nextLoading={loading}
+      />
     </>
   );
 }

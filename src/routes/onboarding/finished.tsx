@@ -18,7 +18,7 @@ function RouteComponent() {
           <T keyName="onboarding.finished.title" />
         </h1>
 
-        <p className="text-body-base">
+        <p className="text-body-base whitespace-pre-wrap">
           <T keyName="onboarding.finished.description" />
         </p>
       </div>
