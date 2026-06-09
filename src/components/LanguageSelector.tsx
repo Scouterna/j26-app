@@ -37,7 +37,7 @@ export function LanguageSelector() {
             value={language}
             checked={language === currentLanguage}
             primary={upperFirst(languageNames[language] || language)}
-            onScoutClick={() => {
+            onScoutChecked={() => {
               tolgee.changeLanguage(language);
             }}
           />

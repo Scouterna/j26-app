@@ -51,7 +51,7 @@ const ChannelRow = ({
       primary={channel.name}
       secondary={channel.description ?? undefined}
       checked={subscribed}
-      onScoutClick={() => {
+      onScoutChecked={() => {
         if (subscribed) {
           unsubscribe.mutate(channel.id);
         } else {
