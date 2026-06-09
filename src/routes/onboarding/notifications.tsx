@@ -120,7 +120,8 @@ function RouteComponent() {
 
       <OnboardingFooter
         back="/onboarding/signin"
-        next="/onboarding/location"
+        next="/onboarding/finished"
+        // next="/onboarding/location"
         nextSuppressed={nextSuppressed}
         nextLoading={loading}
       />

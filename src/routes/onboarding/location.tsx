@@ -93,6 +93,7 @@ function RouteComponent() {
 
       <OnboardingFooter
         back="/onboarding/notifications"
+        // back="/onboarding/notifications"
         next="/onboarding/finished"
         nextSuppressed={status === "prompt"}
       />
