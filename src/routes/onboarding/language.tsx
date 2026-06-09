@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { T } from "@tolgee/react";
+import { T, useTolgee } from "@tolgee/react";
+import { useEffect, useState } from "react";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
 
@@ -8,6 +9,27 @@ export const Route = createFileRoute("/onboarding/language")({
 });
 
 function RouteComponent() {
+  const tolgee = useTolgee();
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const listener = tolgee.on("fetching", (e) => {
+      if (e.value) {
+        timer = setTimeout(() => setIsFetching(true), 100);
+      } else {
+        clearTimeout(timer);
+        setIsFetching(false);
+      }
+    });
+
+    return () => {
+      clearTimeout(timer);
+      listener.unsubscribe();
+    };
+  }, [tolgee]);
+
   return (
     <>
       <div className="px-4">
@@ -24,7 +46,7 @@ function RouteComponent() {
         <LanguageSelector />
       </div>
 
-      <OnboardingFooter next="/onboarding/signin" />
+      <OnboardingFooter next="/onboarding/signin" nextLoading={isFetching} />
     </>
   );
 }
