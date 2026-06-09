@@ -1,5 +1,6 @@
 import { type } from "arktype";
 import { NOTIFICATION_BADGE, NOTIFICATION_ICON } from "./notification-defaults";
+import { resolveLink } from "./resolve-link";
 import { loadLanguageFromSW } from "./sw-language";
 
 const NotificationPayload = type("string.json.parse").to({
@@ -33,9 +34,19 @@ export async function showLocalizedNotification(
     return;
   }
 
+  const link = resolveLink(result.link);
+
+  if (!link) {
+    console.warn(
+      "Notification link is invalid or external, ignoring:",
+      result.link,
+    );
+  }
+
   await registration.showNotification(t.title, {
     body: t.body,
     icon: NOTIFICATION_ICON,
     badge: NOTIFICATION_BADGE,
+    data: { link },
   });
 }

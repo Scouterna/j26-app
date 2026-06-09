@@ -10,10 +10,7 @@ import { useState } from "react";
 import { PageContainer } from "../../../components/PageContainer";
 import type { components } from "../../../generated/notification-api";
 import * as api from "../../../notifications/api";
-import {
-  NOTIFICATION_BADGE,
-  NOTIFICATION_ICON,
-} from "../../../notifications/notification-defaults";
+import { showLocalizedNotification } from "../../../notifications/show-notification";
 
 export const Route = createFileRoute("/_app/settings/notifications")({
   component: RouteComponent,
@@ -66,11 +63,20 @@ async function sendTestNotification() {
   if (Notification.permission !== "granted") return "denied";
 
   const reg = await navigator.serviceWorker.ready;
-  await reg.showNotification("Testnotis", {
-    body: "Det här är en testnotis från Jamboree-appen.",
-    icon: NOTIFICATION_ICON,
-    badge: NOTIFICATION_BADGE,
-  });
+  await showLocalizedNotification(
+    reg,
+    JSON.stringify({
+      notification: {
+        sv: {
+          title: "Testnotis",
+          body: "Det här är en testnotis som går till kartan.",
+        },
+      },
+      category: null,
+      important: false,
+      link: "/app/map",
+    }),
+  );
   return "sent";
 }
 

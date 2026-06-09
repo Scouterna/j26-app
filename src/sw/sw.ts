@@ -12,6 +12,7 @@ import {
 declare let self: ServiceWorkerGlobalScope;
 
 import { ExpirationPlugin } from "workbox-expiration";
+import { resolveLink } from "../notifications/resolve-link";
 import { showLocalizedNotification } from "../notifications/show-notification";
 import { osmTilesRoute } from "./sw-osm-tiles";
 
@@ -36,6 +37,30 @@ onBackgroundMessage(messaging, async (payload) => {
 cleanupOutdatedCaches();
 
 precacheAndRoute(self.__WB_MANIFEST);
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  let link = resolveLink(event.notification.data?.link ?? null);
+  if (!link) {
+    console.warn("Notification click with no valid link. Linking to homepage.");
+  }
+
+  link ??= "/";
+
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clients) => {
+        const existing = clients.find((c) => "focus" in c);
+        if (existing) {
+          existing.navigate(link);
+          return existing.focus();
+        }
+        return self.clients.openWindow(link);
+      }),
+  );
+});
 
 // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#prompt-for-update-behavior
 self.addEventListener("message", (event) => {
