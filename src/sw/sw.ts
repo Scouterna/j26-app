@@ -62,6 +62,16 @@ self.addEventListener("notificationclick", (event) => {
   );
 });
 
+// Clear the translations cache on activation so the first load after an update
+// always fetches fresh strings rather than serving a stale cached version.
+// clients.claim() makes the new SW take control of open pages immediately,
+// which fires controllerchange and lets vite-plugin-pwa trigger a page reload.
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.delete("translations").then(() => self.clients.claim()),
+  );
+});
+
 // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#prompt-for-update-behavior
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
