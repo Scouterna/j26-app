@@ -9,7 +9,12 @@ export const languageAtom = atom<string>();
 async function setLanguage(language: string) {
   jotaiStore.set(languageAtom, language);
   document.documentElement.lang = language;
-  await cookieStore.set({ name: "j26-language", value: language, path: "/", sameSite: "lax" });
+  await cookieStore.set({
+    name: "j26-language",
+    value: language,
+    path: "/",
+    sameSite: "lax",
+  });
   saveLanguageForSW(language);
 }
 

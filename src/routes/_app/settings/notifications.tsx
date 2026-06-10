@@ -36,10 +36,22 @@ const VARIANT: Record<CheckStatus, "success" | "warning" | "error" | "info"> = {
 async function checkPermission(): Promise<CheckResult> {
   const headingKey = "settings.notifications.status.permission.heading";
   if (Notification.permission === "granted")
-    return { status: "ok", headingKey, messageKey: "settings.notifications.status.permission.ok" };
+    return {
+      status: "ok",
+      headingKey,
+      messageKey: "settings.notifications.status.permission.ok",
+    };
   if (Notification.permission === "denied")
-    return { status: "error", headingKey, messageKey: "settings.notifications.status.permission.denied" };
-  return { status: "warning", headingKey, messageKey: "settings.notifications.status.permission.default" };
+    return {
+      status: "error",
+      headingKey,
+      messageKey: "settings.notifications.status.permission.denied",
+    };
+  return {
+    status: "warning",
+    headingKey,
+    messageKey: "settings.notifications.status.permission.default",
+  };
 }
 
 async function checkSubscription(): Promise<CheckResult> {
@@ -48,8 +60,16 @@ async function checkSubscription(): Promise<CheckResult> {
     const reg = await navigator.serviceWorker.ready;
     const sub = await reg.pushManager.getSubscription();
     if (sub)
-      return { status: "ok", headingKey, messageKey: "settings.notifications.status.subscription.ok" };
-    return { status: "warning", headingKey, messageKey: "settings.notifications.status.subscription.warning" };
+      return {
+        status: "ok",
+        headingKey,
+        messageKey: "settings.notifications.status.subscription.ok",
+      };
+    return {
+      status: "warning",
+      headingKey,
+      messageKey: "settings.notifications.status.subscription.warning",
+    };
   } catch (e) {
     return {
       status: "error",
@@ -65,7 +85,11 @@ async function checkFirebase(): Promise<CheckResult> {
   const headingKey = "settings.notifications.status.server.heading";
   try {
     await getFirebaseToken();
-    return { status: "ok", headingKey, messageKey: "settings.notifications.status.server.ok" };
+    return {
+      status: "ok",
+      headingKey,
+      messageKey: "settings.notifications.status.server.ok",
+    };
   } catch (e) {
     return {
       status: "error",
@@ -85,8 +109,14 @@ async function runStatusChecks(): Promise<CheckResult[]> {
   if (permission.status !== "ok")
     return [
       permission,
-      { ...SKIPPED, headingKey: "settings.notifications.status.subscription.heading" },
-      { ...SKIPPED, headingKey: "settings.notifications.status.server.heading" },
+      {
+        ...SKIPPED,
+        headingKey: "settings.notifications.status.subscription.heading",
+      },
+      {
+        ...SKIPPED,
+        headingKey: "settings.notifications.status.server.heading",
+      },
     ];
 
   const subscription = await checkSubscription();
@@ -94,7 +124,10 @@ async function runStatusChecks(): Promise<CheckResult[]> {
     return [
       permission,
       subscription,
-      { ...SKIPPED, headingKey: "settings.notifications.status.server.heading" },
+      {
+        ...SKIPPED,
+        headingKey: "settings.notifications.status.server.heading",
+      },
     ];
 
   const firebase = await checkFirebase();
@@ -165,7 +198,10 @@ function NotificationStatus() {
             onScoutClick={async () => {
               queryClient.resetQueries({ queryKey: STATUS_QUERY_KEY });
               await registerForPushNotifications().catch((e) =>
-                console.error("Failed to re-register for push notifications:", e),
+                console.error(
+                  "Failed to re-register for push notifications:",
+                  e,
+                ),
               );
               await refetch();
             }}
@@ -177,7 +213,6 @@ function NotificationStatus() {
     </div>
   );
 }
-
 
 function RouteComponent() {
   return (
