@@ -3,11 +3,7 @@ import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { Route, registerRoute } from "workbox-routing";
-import {
-  CacheFirst,
-  NetworkFirst,
-  StaleWhileRevalidate,
-} from "workbox-strategies";
+import { CacheFirst, NetworkFirst } from "workbox-strategies";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -62,14 +58,10 @@ self.addEventListener("notificationclick", (event) => {
   );
 });
 
-// Clear the translations cache on activation so the first load after an update
-// always fetches fresh strings rather than serving a stale cached version.
 // clients.claim() makes the new SW take control of open pages immediately,
 // which fires controllerchange and lets vite-plugin-pwa trigger a page reload.
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.delete("translations").then(() => self.clients.claim()),
-  );
+  event.waitUntil(self.clients.claim());
 });
 
 // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#prompt-for-update-behavior
@@ -103,13 +95,15 @@ registerRoute(
   ),
 );
 
-// Cache translations with StaleWhileRevalidate: serve from cache immediately
-// for fast loads, refresh in the background so the next visit gets fresh strings.
+// Cache translations with NetworkFirst so updates on the CDN are picked up on
+// the next load without requiring a SW update. Falls back to cache after 3s so
+// the app stays usable in low-reception environments.
 registerRoute(
   new Route(
     ({ url }) => url.hostname === "j26-translations.jamboree.se",
-    new StaleWhileRevalidate({
+    new NetworkFirst({
       cacheName: "translations",
+      networkTimeoutSeconds: 5,
       plugins: [new CacheableResponsePlugin({ statuses: [200] })],
     }),
   ),
