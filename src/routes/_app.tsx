@@ -75,7 +75,7 @@ function RouteComponent() {
       <div className="flex-1 flex min-h-0">
         <SideMenu />
 
-        <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex-1 flex flex-col min-w-0 min-h-0">
           <AppBar />
 
           <main className="flex-1 overflow-y-hidden">

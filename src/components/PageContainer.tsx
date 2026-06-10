@@ -17,7 +17,7 @@ export function PageContainer({
   return (
     <div
       className={cn(
-        "h-full",
+        "h-full overflow-x-hidden",
         scrollable ? "overflow-y-auto" : "overflow-y-hidden",
         solid && "bg-white",
         className,
