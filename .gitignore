@@ -31,3 +31,4 @@ dev-dist
 !.env.example
 
 .j26
+.j26.local.yaml
