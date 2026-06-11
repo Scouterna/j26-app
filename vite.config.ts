@@ -73,6 +73,15 @@ export default defineConfig(() => {
         manifest: {
           name: "Jamboree26",
           short_name: "J26",
+          id: "/",
+          start_url: "/",
+          orientation: "natural",
+          dir: "ltr",
+          scope_extensions: [
+            { type: "origin", origin: "dev.id.scouterna.se" },
+            { type: "origin", origin: "id.scouterna.se" },
+            { type: "origin", origin: "j26.scoutid.se" },
+          ],
           // theme_color: "#c61535",
           theme_color: "#ffffff",
           background_color: "#ffffff",
