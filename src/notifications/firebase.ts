@@ -38,6 +38,7 @@ export async function getFirebaseToken(): Promise<string> {
 export async function requestAndRegisterForPushNotifications(): Promise<
   NotificationPermission | "error"
 > {
+  if (!("Notification" in window)) return "denied";
   const permission = await Notification.requestPermission();
   if (permission !== "granted") return permission;
   try {

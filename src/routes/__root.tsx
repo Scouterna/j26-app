@@ -9,7 +9,7 @@ import { showLocalizedNotification } from "../notifications/show-notification";
 
 const RootLayout = () => {
   useEffect(() => {
-    if (Notification.permission === "granted") {
+    if ("Notification" in window && Notification.permission === "granted") {
       registerForPushNotifications().catch((e) => {
         console.error("Failed to register for push notifications:", e);
       });

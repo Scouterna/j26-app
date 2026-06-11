@@ -35,6 +35,12 @@ const VARIANT: Record<CheckStatus, "success" | "warning" | "error" | "info"> = {
 
 async function checkPermission(): Promise<CheckResult> {
   const headingKey = "settings.notifications.status.permission.heading";
+  if (!("Notification" in window))
+    return {
+      status: "skipped",
+      headingKey,
+      messageKey: "settings.notifications.status.permission.unsupported",
+    };
   if (Notification.permission === "granted")
     return {
       status: "ok",
