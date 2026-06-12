@@ -2,6 +2,8 @@ name: Build Docker Image
 
 on:
   push:
+  release:
+    types: [published]
 
 env:
   REGISTRY: ghcr.io
@@ -44,6 +46,7 @@ jobs:
           tags: |
             type=sha
             type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern={{version}}
 
       - name: Build and push
         id: push
