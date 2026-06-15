@@ -10,7 +10,7 @@
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "update-browser-mapping": "pnpm i -D baseline-browser-mapping@latest",
-    "generate:notification-api-types": "openapi-typescript https://app.dev.j26.se/notifications/api/openapi.json --output src/generated/notification-api.ts --export-type --immutable --empty-objects-unknown",
+    "generate:notification-api-types": "openapi-typescript https://app.dev.j26.se/_services/notifications/api/openapi.json --output src/generated/notification-api.ts --export-type --immutable --empty-objects-unknown",
     "update-ui": "ncu --filter '@scouterna/*' -u"
   },
   "dependencies": {

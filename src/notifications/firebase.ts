@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
+import { client } from "./client";
 
 const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
 const FIREBASE_VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY;
@@ -64,17 +65,18 @@ export async function registerForPushNotifications(): Promise<void> {
     rejectAfter(GET_TOKEN_TIMEOUT_MS, "getToken timed out"),
   ]);
 
-  const res = await fetch("/notifications/api/tenants/jamboree26/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const res = await client.POST("/api/tenants/jamboree26/register", {
     credentials: "include",
-    body: JSON.stringify({ tokens: [token] }),
     signal: AbortSignal.timeout(REGISTER_TIMEOUT_MS),
+    body: { tokens: [token] },
   });
 
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+  if ("error" in res) {
+    throw new Error(`Failed to register token with backend: ${res.error}`);
+  }
 
   const subscription = await registration.pushManager.getSubscription();
-  if (!subscription)
+  if (!subscription) {
     throw new Error("Push subscription missing after registration");
+  }
 }
