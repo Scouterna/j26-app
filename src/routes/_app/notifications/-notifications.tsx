@@ -12,15 +12,15 @@ import { useAtomValue } from "jotai";
 import {
   ScoutButtonLink,
   ScoutListViewItemLink,
-} from "../../../../components/links";
-import { languageAtom, useDateFnsLocale } from "../../../../language/language";
+} from "../../../components/links";
+import { languageAtom, useDateFnsLocale } from "../../../language/language";
 import {
   getNotificationHistory,
   type NotificationRead,
-} from "../../../../notifications/api";
-import { parseNotificationPayload } from "../../../../notifications/notification-payload";
-import { resolveLink } from "../../../../notifications/resolve-link";
-import { upperFirst } from "../../../../utils";
+} from "../../../notifications/api";
+import { parseNotificationPayload } from "../../../notifications/notification-payload";
+import { resolveLink } from "../../../notifications/resolve-link";
+import { upperFirst } from "../../../utils";
 
 function groupByHour(
   notifications: NotificationRead[],

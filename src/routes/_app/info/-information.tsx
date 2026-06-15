@@ -1,7 +1,7 @@
 import { ScoutListView, ScoutLoader } from "@scouterna/ui-react";
 
-import { ScoutListViewItemLink } from "../../../../components/links";
-import { useCollectionList } from "../../../../strapi/hooks";
+import { ScoutListViewItemLink } from "../../../components/links";
+import { useCollectionList } from "../../../strapi/hooks";
 
 export function Information() {
   const { data, isLoading } = useCollectionList("info-page");
