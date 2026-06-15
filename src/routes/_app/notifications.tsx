@@ -138,7 +138,7 @@ function RouteComponent() {
   const groups = groupByHour(regular);
 
   return (
-    <PageContainer scrollable={false} className="flex flex-col">
+    <PageContainer className="flex flex-col">
       <div className="flex flex-col">
         {important.length > 0 && (
           <div className="flex flex-col gap-2 p-4 pb-0">

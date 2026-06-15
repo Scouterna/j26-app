@@ -16,7 +16,7 @@ function RouteComponent() {
   const { data, isLoading } = useCollectionList("info-page");
 
   return (
-    <PageContainer scrollable={false} className="flex flex-col">
+    <PageContainer className="flex flex-col">
       {isLoading ? (
         <ScoutLoader className="mt-20" />
       ) : (
