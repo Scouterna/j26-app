@@ -18,15 +18,15 @@ import { Route as OnboardingNotificationsRouteImport } from './routes/onboarding
 import { Route as OnboardingLocationRouteImport } from './routes/onboarding/location'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding/language'
 import { Route as OnboardingFinishedRouteImport } from './routes/onboarding/finished'
+import { Route as AppNotificationsRouteImport } from './routes/_app/notifications'
 import { Route as AppMoreRouteImport } from './routes/_app/more'
 import { Route as AppAboutRouteImport } from './routes/_app/about'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
-import { Route as AppNotificationsIndexRouteImport } from './routes/_app/notifications/index'
 import { Route as AppMoreIndexRouteImport } from './routes/_app/more.index'
-import { Route as AppInfoIndexRouteImport } from './routes/_app/info/index'
+import { Route as AppInformationIndexRouteImport } from './routes/_app/information.index'
 import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/settings/notifications'
 import { Route as AppSettingsLanguageRouteImport } from './routes/_app/settings/language'
-import { Route as AppInfoIdRouteImport } from './routes/_app/info.$id'
+import { Route as AppInformationIdRouteImport } from './routes/_app/information.$id'
 import { Route as AppAppSplatRouteImport } from './routes/_app/app.$'
 
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -73,6 +73,11 @@ const OnboardingFinishedRoute = OnboardingFinishedRouteImport.update({
   path: '/finished',
   getParentRoute: () => OnboardingRoute,
 } as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMoreRoute = AppMoreRouteImport.update({
   id: '/more',
   path: '/more',
@@ -88,19 +93,14 @@ const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppNotificationsIndexRoute = AppNotificationsIndexRouteImport.update({
-  id: '/notifications/',
-  path: '/notifications/',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppMoreIndexRoute = AppMoreIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppMoreRoute,
 } as any)
-const AppInfoIndexRoute = AppInfoIndexRouteImport.update({
-  id: '/info/',
-  path: '/info/',
+const AppInformationIndexRoute = AppInformationIndexRouteImport.update({
+  id: '/information/',
+  path: '/information/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsNotificationsRoute =
@@ -114,9 +114,9 @@ const AppSettingsLanguageRoute = AppSettingsLanguageRouteImport.update({
   path: '/settings/language',
   getParentRoute: () => AppRoute,
 } as any)
-const AppInfoIdRoute = AppInfoIdRouteImport.update({
-  id: '/info/$id',
-  path: '/info/$id',
+const AppInformationIdRoute = AppInformationIdRouteImport.update({
+  id: '/information/$id',
+  path: '/information/$id',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAppSplatRoute = AppAppSplatRouteImport.update({
@@ -130,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRouteWithChildren
   '/about': typeof AppAboutRoute
   '/more': typeof AppMoreRouteWithChildren
+  '/notifications': typeof AppNotificationsRoute
   '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/location': typeof OnboardingLocationRoute
@@ -137,16 +138,16 @@ export interface FileRoutesByFullPath {
   '/onboarding/signin': typeof OnboardingSigninRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/app/$': typeof AppAppSplatRoute
-  '/info/$id': typeof AppInfoIdRoute
+  '/information/$id': typeof AppInformationIdRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
-  '/info/': typeof AppInfoIndexRoute
+  '/information/': typeof AppInformationIndexRoute
   '/more/': typeof AppMoreIndexRoute
-  '/notifications/': typeof AppNotificationsIndexRoute
   '/settings/': typeof AppSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AppAboutRoute
+  '/notifications': typeof AppNotificationsRoute
   '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/location': typeof OnboardingLocationRoute
@@ -155,12 +156,11 @@ export interface FileRoutesByTo {
   '/': typeof AppIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
   '/app/$': typeof AppAppSplatRoute
-  '/info/$id': typeof AppInfoIdRoute
+  '/information/$id': typeof AppInformationIdRoute
   '/settings/language': typeof AppSettingsLanguageRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
-  '/info': typeof AppInfoIndexRoute
+  '/information': typeof AppInformationIndexRoute
   '/more': typeof AppMoreIndexRoute
-  '/notifications': typeof AppNotificationsIndexRoute
   '/settings': typeof AppSettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -169,6 +169,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRouteWithChildren
   '/_app/about': typeof AppAboutRoute
   '/_app/more': typeof AppMoreRouteWithChildren
+  '/_app/notifications': typeof AppNotificationsRoute
   '/onboarding/finished': typeof OnboardingFinishedRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/location': typeof OnboardingLocationRoute
@@ -177,12 +178,11 @@ export interface FileRoutesById {
   '/_app/': typeof AppIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/_app/app/$': typeof AppAppSplatRoute
-  '/_app/info/$id': typeof AppInfoIdRoute
+  '/_app/information/$id': typeof AppInformationIdRoute
   '/_app/settings/language': typeof AppSettingsLanguageRoute
   '/_app/settings/notifications': typeof AppSettingsNotificationsRoute
-  '/_app/info/': typeof AppInfoIndexRoute
+  '/_app/information/': typeof AppInformationIndexRoute
   '/_app/more/': typeof AppMoreIndexRoute
-  '/_app/notifications/': typeof AppNotificationsIndexRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -192,6 +192,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/about'
     | '/more'
+    | '/notifications'
     | '/onboarding/finished'
     | '/onboarding/language'
     | '/onboarding/location'
@@ -199,16 +200,16 @@ export interface FileRouteTypes {
     | '/onboarding/signin'
     | '/onboarding/'
     | '/app/$'
-    | '/info/$id'
+    | '/information/$id'
     | '/settings/language'
     | '/settings/notifications'
-    | '/info/'
+    | '/information/'
     | '/more/'
-    | '/notifications/'
     | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
+    | '/notifications'
     | '/onboarding/finished'
     | '/onboarding/language'
     | '/onboarding/location'
@@ -217,12 +218,11 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/app/$'
-    | '/info/$id'
+    | '/information/$id'
     | '/settings/language'
     | '/settings/notifications'
-    | '/info'
+    | '/information'
     | '/more'
-    | '/notifications'
     | '/settings'
   id:
     | '__root__'
@@ -230,6 +230,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/_app/about'
     | '/_app/more'
+    | '/_app/notifications'
     | '/onboarding/finished'
     | '/onboarding/language'
     | '/onboarding/location'
@@ -238,12 +239,11 @@ export interface FileRouteTypes {
     | '/_app/'
     | '/onboarding/'
     | '/_app/app/$'
-    | '/_app/info/$id'
+    | '/_app/information/$id'
     | '/_app/settings/language'
     | '/_app/settings/notifications'
-    | '/_app/info/'
+    | '/_app/information/'
     | '/_app/more/'
-    | '/_app/notifications/'
     | '/_app/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -317,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingFinishedRouteImport
       parentRoute: typeof OnboardingRoute
     }
+    '/_app/notifications': {
+      id: '/_app/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/more': {
       id: '/_app/more'
       path: '/more'
@@ -338,13 +345,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/notifications/': {
-      id: '/_app/notifications/'
-      path: '/notifications'
-      fullPath: '/notifications/'
-      preLoaderRoute: typeof AppNotificationsIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/more/': {
       id: '/_app/more/'
       path: '/'
@@ -352,11 +352,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMoreIndexRouteImport
       parentRoute: typeof AppMoreRoute
     }
-    '/_app/info/': {
-      id: '/_app/info/'
-      path: '/info'
-      fullPath: '/info/'
-      preLoaderRoute: typeof AppInfoIndexRouteImport
+    '/_app/information/': {
+      id: '/_app/information/'
+      path: '/information'
+      fullPath: '/information/'
+      preLoaderRoute: typeof AppInformationIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/settings/notifications': {
@@ -373,11 +373,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsLanguageRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/info/$id': {
-      id: '/_app/info/$id'
-      path: '/info/$id'
-      fullPath: '/info/$id'
-      preLoaderRoute: typeof AppInfoIdRouteImport
+    '/_app/information/$id': {
+      id: '/_app/information/$id'
+      path: '/information/$id'
+      fullPath: '/information/$id'
+      preLoaderRoute: typeof AppInformationIdRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/app/$': {
@@ -404,26 +404,26 @@ const AppMoreRouteWithChildren =
 interface AppRouteChildren {
   AppAboutRoute: typeof AppAboutRoute
   AppMoreRoute: typeof AppMoreRouteWithChildren
+  AppNotificationsRoute: typeof AppNotificationsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppAppSplatRoute: typeof AppAppSplatRoute
-  AppInfoIdRoute: typeof AppInfoIdRoute
+  AppInformationIdRoute: typeof AppInformationIdRoute
   AppSettingsLanguageRoute: typeof AppSettingsLanguageRoute
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
-  AppInfoIndexRoute: typeof AppInfoIndexRoute
-  AppNotificationsIndexRoute: typeof AppNotificationsIndexRoute
+  AppInformationIndexRoute: typeof AppInformationIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAboutRoute: AppAboutRoute,
   AppMoreRoute: AppMoreRouteWithChildren,
+  AppNotificationsRoute: AppNotificationsRoute,
   AppIndexRoute: AppIndexRoute,
   AppAppSplatRoute: AppAppSplatRoute,
-  AppInfoIdRoute: AppInfoIdRoute,
+  AppInformationIdRoute: AppInformationIdRoute,
   AppSettingsLanguageRoute: AppSettingsLanguageRoute,
   AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
-  AppInfoIndexRoute: AppInfoIndexRoute,
-  AppNotificationsIndexRoute: AppNotificationsIndexRoute,
+  AppInformationIndexRoute: AppInformationIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 
