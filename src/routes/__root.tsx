@@ -1,3 +1,5 @@
+import "../native-app";
+
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
