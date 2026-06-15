@@ -6,21 +6,27 @@ import {
 } from "@scouterna/ui-react";
 import ChevronRightIcon from "@tabler/icons/outline/chevron-right.svg?raw";
 import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { formatDistance, startOfHour } from "date-fns";
 import { useAtomValue } from "jotai";
-import {
-  ScoutButtonLink,
-  ScoutListViewItemLink,
-} from "../../../../components/links";
-import { languageAtom, useDateFnsLocale } from "../../../../language/language";
+import { ScoutButtonLink, ScoutListViewItemLink } from "../../components/links";
+import { PageContainer } from "../../components/PageContainer";
+import { languageAtom, useDateFnsLocale } from "../../language/language";
 import {
   getNotificationHistory,
   type NotificationRead,
-} from "../../../../notifications/api";
-import { parseNotificationPayload } from "../../../../notifications/notification-payload";
-import { resolveLink } from "../../../../notifications/resolve-link";
-import { upperFirst } from "../../../../utils";
+} from "../../notifications/api";
+import { parseNotificationPayload } from "../../notifications/notification-payload";
+import { resolveLink } from "../../notifications/resolve-link";
+import { upperFirst } from "../../utils";
+
+export const Route = createFileRoute("/_app/notifications")({
+  component: RouteComponent,
+  staticData: {
+    pageName: "page.info.tabs.notifications.title",
+  },
+});
 
 function groupByHour(
   notifications: NotificationRead[],
@@ -117,7 +123,7 @@ function NotificationItem({
   );
 }
 
-export function Notifications() {
+function RouteComponent() {
   const locale = useDateFnsLocale();
   const lang = useAtomValue(languageAtom);
   const notifications = useQuery({
@@ -132,36 +138,41 @@ export function Notifications() {
   const groups = groupByHour(regular);
 
   return (
-    <div className="flex flex-col">
-      {important.length > 0 && (
-        <div className="flex flex-col gap-2 p-4 pb-0">
-          {important.map((notification) => (
-            <ImportantNotification
-              key={notification.id}
-              notification={notification}
-              lang={lang}
-              refTime={refTime}
-            />
-          ))}
-        </div>
-      )}
-      <ScoutListView>
-        {groups.flatMap(([bucketTime, items]) => {
-          const label = upperFirst(
-            formatDistance(bucketTime, refTime, { locale, addSuffix: true }),
-          );
-          return [
-            <ScoutListViewSubheader key={bucketTime.getTime()} text={label} />,
-            ...items.map((notification) => (
-              <NotificationItem
+    <PageContainer scrollable={false} className="flex flex-col">
+      <div className="flex flex-col">
+        {important.length > 0 && (
+          <div className="flex flex-col gap-2 p-4 pb-0">
+            {important.map((notification) => (
+              <ImportantNotification
                 key={notification.id}
                 notification={notification}
                 lang={lang}
+                refTime={refTime}
               />
-            )),
-          ];
-        })}
-      </ScoutListView>
-    </div>
+            ))}
+          </div>
+        )}
+        <ScoutListView>
+          {groups.flatMap(([bucketTime, items]) => {
+            const label = upperFirst(
+              formatDistance(bucketTime, refTime, { locale, addSuffix: true }),
+            );
+            return [
+              <ScoutListViewSubheader
+                key={bucketTime.getTime()}
+                text={label}
+              />,
+              ...items.map((notification) => (
+                <NotificationItem
+                  key={notification.id}
+                  notification={notification}
+                  lang={lang}
+                />
+              )),
+            ];
+          })}
+        </ScoutListView>
+      </div>
+    </PageContainer>
   );
 }

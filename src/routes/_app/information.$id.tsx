@@ -63,7 +63,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
   },
 });
 
-export const Route = createFileRoute("/_app/info/$id")({
+export const Route = createFileRoute("/_app/information/$id")({
   component: RouteComponent,
 });
 

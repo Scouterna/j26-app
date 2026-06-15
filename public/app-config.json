@@ -2,10 +2,17 @@
   "navigation": [
     {
       "type": "page",
+      "id": "page_notifications",
+      "label": "app.notifications.label",
+      "icon": "bell",
+      "path": "/notifications"
+    },
+    {
+      "type": "page",
       "id": "page_info",
       "label": "app.info.label",
       "icon": "info-circle",
-      "path": "/home"
+      "path": "/information"
     },
     {
       "type": "page",
