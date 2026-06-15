@@ -102,7 +102,9 @@ registerRoute(
 // /config.json and must be fresh when online.
 registerRoute(
   new Route(
-    ({ url }) => /^\/_services\/[^/]+\/app-config\.json$/.test(url.pathname),
+    ({ url }) =>
+      url.pathname === "/app-config.json" ||
+      /^\/_services\/[^/]+\/app-config\.json$/.test(url.pathname),
     new NetworkFirst({
       cacheName: "app-configs",
       fetchOptions: { cache: "no-store" },
