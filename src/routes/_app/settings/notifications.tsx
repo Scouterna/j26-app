@@ -17,6 +17,10 @@ export const Route = createFileRoute("/_app/settings/notifications")({
   },
 });
 
+// TODO: this page's checks (Push API subscription, Firebase getToken) assume
+// the Web Push flow and will misreport status on the iOS wrapper app, which
+// registers via the native push-token bridge instead (see notifications/ios-bridge.ts).
+
 type CheckStatus = "ok" | "warning" | "error" | "skipped";
 
 interface CheckResult {

@@ -1,4 +1,5 @@
 import "../native-app";
+import "../notifications/ios-bridge";
 
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { onMessage } from "firebase/messaging";

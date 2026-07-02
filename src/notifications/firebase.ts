@@ -51,6 +51,18 @@ export async function requestAndRegisterForPushNotifications(): Promise<
   }
 }
 
+export async function registerToken(token: string): Promise<void> {
+  const res = await client.POST("/api/tenants/jamboree26/register", {
+    credentials: "include",
+    signal: AbortSignal.timeout(REGISTER_TIMEOUT_MS),
+    body: { tokens: [token] },
+  });
+
+  if ("error" in res) {
+    throw new Error(`Failed to register token with backend: ${res.error}`);
+  }
+}
+
 export async function registerForPushNotifications(): Promise<void> {
   const registration = await Promise.race([
     navigator.serviceWorker.ready,
@@ -65,15 +77,7 @@ export async function registerForPushNotifications(): Promise<void> {
     rejectAfter(GET_TOKEN_TIMEOUT_MS, "getToken timed out"),
   ]);
 
-  const res = await client.POST("/api/tenants/jamboree26/register", {
-    credentials: "include",
-    signal: AbortSignal.timeout(REGISTER_TIMEOUT_MS),
-    body: { tokens: [token] },
-  });
-
-  if ("error" in res) {
-    throw new Error(`Failed to register token with backend: ${res.error}`);
-  }
+  await registerToken(token);
 
   const subscription = await registration.pushManager.getSubscription();
   if (!subscription) {
