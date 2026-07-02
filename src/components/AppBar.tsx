@@ -90,6 +90,7 @@ export function AppBar() {
           onClick={() => {
             setSideMenuOpen(true);
           }}
+          className="w-13.5"
         >
           <T ns="app" keyName="appBar.openMenu.label" />
         </ScoutButton>
@@ -104,6 +105,7 @@ export function AppBar() {
           onClick={() => {
             router.history.back();
           }}
+          className="w-13.5"
         >
           <T ns="app" keyName="appBar.back.label" />
         </ScoutButton>
