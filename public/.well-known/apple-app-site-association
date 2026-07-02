@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["UMLN9YB6PW.se.j26.app"],
+        "components": [
+          {
+            "/": "/auth/callback"
+          }
+        ]
+      }
+    ]
+  }
+}
