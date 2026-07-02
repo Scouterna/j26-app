@@ -4,6 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { T, useTranslate } from "@tolgee/react";
 import { useState } from "react";
 import { PageContainer } from "../../../components/PageContainer";
+import { isIosPwa } from "../../../native-app";
 import {
   getFirebaseToken,
   registerForPushNotifications,
@@ -16,10 +17,6 @@ export const Route = createFileRoute("/_app/settings/notifications")({
     pageName: "page.settings.notifications.label",
   },
 });
-
-// TODO: this page's checks (Push API subscription, Firebase getToken) assume
-// the Web Push flow and will misreport status on the iOS wrapper app, which
-// registers via the native push-token bridge instead (see notifications/ios-bridge.ts).
 
 type CheckStatus = "ok" | "warning" | "error" | "skipped";
 
@@ -224,10 +221,25 @@ function NotificationStatus() {
   );
 }
 
+function IosNotificationInfo() {
+  const { t } = useTranslate();
+
+  return (
+    <div className="p-4">
+      <ScoutCallout
+        variant="info"
+        heading={t("settings.notifications.ios.heading")}
+      >
+        {t("settings.notifications.ios.message")}
+      </ScoutCallout>
+    </div>
+  );
+}
+
 function RouteComponent() {
   return (
     <PageContainer>
-      <NotificationStatus />
+      {isIosPwa ? <IosNotificationInfo /> : <NotificationStatus />}
     </PageContainer>
   );
 }
