@@ -5,17 +5,8 @@
       "namespace": "android_app",
       "package_name": "se.jamboree.app",
       "sha256_cert_fingerprints": [
-        "A5:56:96:81:A6:AF:79:1F:F9:9E:69:2C:D0:6F:13:50:72:12:0D:FC:86:7E:7D:4B:97:85:0A:87:7F:A3:22:14"
-      ]
-    }
-  },
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "se.j26.dev.app.twa",
-      "sha256_cert_fingerprints": [
-        "49:80:98:85:2C:E3:11:FA:28:D9:AB:BE:1A:B8:67:6C:C9:E7:0D:FB:A4:4B:77:FC:E2:E6:55:A3:03:7B:62:B5"
+        "A5:56:96:81:A6:AF:79:1F:F9:9E:69:2C:D0:6F:13:50:72:12:0D:FC:86:7E:7D:4B:97:85:0A:87:7F:A3:22:14",
+        "42:67:78:35:D0:F3:76:8B:52:8E:20:D0:0B:28:7C:8D:34:85:A0:44:51:2B:E5:C1:9B:FF:13:88:43:8A:F5:9D"
       ]
     }
   }
