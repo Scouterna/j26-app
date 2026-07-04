@@ -4,6 +4,7 @@ import {
   ScoutListViewItem,
   ScoutListViewSubheader,
 } from "@scouterna/ui-react";
+import BellIcon from "@tabler/icons/outline/bell.svg?raw";
 import ChevronRightIcon from "@tabler/icons/outline/chevron-right.svg?raw";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -123,6 +124,21 @@ function NotificationItem({
   );
 }
 
+function EmptyState() {
+  const { t } = useTranslate();
+
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center text-gray-300">
+      <div
+        className="[&>svg]:h-24 [&>svg]:w-24"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: static bundled tabler icon, not user input
+        dangerouslySetInnerHTML={{ __html: BellIcon }}
+      />
+      <p className="text-gray-500">{t("app.notification.empty.title")}</p>
+    </div>
+  );
+}
+
 function RouteComponent() {
   const locale = useDateFnsLocale();
   const lang = useAtomValue(languageAtom);
@@ -136,6 +152,14 @@ function RouteComponent() {
 
   const refTime = new Date(notifications.dataUpdatedAt);
   const groups = groupByHour(regular);
+
+  if (notifications.data && important.length === 0 && regular.length === 0) {
+    return (
+      <PageContainer className="flex flex-col">
+        <EmptyState />
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer className="flex flex-col">
