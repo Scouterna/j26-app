@@ -78,6 +78,7 @@ registerRoute(
     ({ url }) => url.pathname === "/config.json",
     new NetworkFirst({
       cacheName: "runtime-config",
+      fetchOptions: { cache: "no-store" },
       plugins: [new CacheableResponsePlugin({ statuses: [200] })],
     }),
   ),
@@ -90,6 +91,7 @@ registerRoute(
     ({ url }) => /^\/_services\/[^/]+\/app-config\.json$/.test(url.pathname),
     new NetworkFirst({
       cacheName: "app-configs",
+      fetchOptions: { cache: "no-store" },
       plugins: [new CacheableResponsePlugin({ statuses: [200] })],
     }),
   ),
@@ -104,6 +106,7 @@ registerRoute(
     new NetworkFirst({
       cacheName: "translations",
       networkTimeoutSeconds: 5,
+      fetchOptions: { cache: "no-store" },
       plugins: [new CacheableResponsePlugin({ statuses: [200] })],
     }),
   ),
