@@ -72,7 +72,7 @@ export default defineConfig(() => {
         },
         manifest: {
           name: "Jamboree26",
-          short_name: "J26",
+          short_name: "Jamboree26",
           id: "/",
           start_url: "/",
           orientation: "natural",
