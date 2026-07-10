@@ -3,6 +3,7 @@ import { useSetAtom } from "jotai";
 import { type SyntheticEvent, useEffect, useRef } from "react";
 import { iframeAppBarAtom } from "./iframeAppBarAtom";
 import type { IframeToShellMessage } from "./shell-protocol";
+import { navStrategyFor, subAppIdFromUrl } from "./sub-apps";
 
 export type Props = {
   route: string;
@@ -33,11 +34,30 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
   const iframeInitiatedUrl = useRef<string | null>(url);
 
   // When the shell URL changes due to external navigation (e.g. browser back,
-  // shell nav link), push the new URL into the iframe. Skip when the change was
-  // triggered by the iframe itself to avoid the double-load feedback loop.
+  // shell nav link), reconcile the iframe. Skip when the change was triggered by
+  // the iframe itself to avoid the double-load feedback loop.
   useEffect(() => {
     if (iframeInitiatedUrl.current === url) {
       iframeInitiatedUrl.current = null;
+      return;
+    }
+
+    let sameSubApp = false;
+    try {
+      const win = iframeRef.current?.contentWindow;
+      sameSubApp =
+        !!win && subAppIdFromUrl(win.location.href) === subAppIdFromUrl(url);
+    } catch {
+      // Cross-origin iframe: can't inspect it, treat as a cold switch.
+      sameSubApp = false;
+    }
+
+    // A client-side sub-app (e.g. booking) mirrors its own route and handles
+    // popstate itself. A same-sub-app external navigation (back/forward/nav
+    // link) is already applied by the browser's native history traversal, which
+    // fires popstate inside the same-origin iframe and re-renders it with no
+    // reload. Reassigning src here would cold-reload the SPA and drop its state.
+    if (navStrategyFor(path) === "client-side" && sameSubApp) {
       return;
     }
 
@@ -47,7 +67,7 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
     ) {
       iframeRef.current.src = url;
     }
-  }, [url]);
+  }, [url, path]);
 
   const syncIframeUrl = (newUrl: string) => {
     const absoluteUrl = new URL(newUrl, window.location.origin).toString();
@@ -65,11 +85,17 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
     expectedUrl = expectedUrl.replace(/\/*$/, "/");
     iframeInitiatedUrl.current = expectedUrl;
 
+    // Mirror client-side sub-app navigation with `replace` so the shell reuses
+    // the single joint-history entry the iframe's own pushState already created,
+    // rather than pushing a second (which would make back need two presses and
+    // desync the shell URL from the iframe). Other sub-apps keep the default
+    // push.
     navigate({
       to: route,
       params: {
         _splat: relativePath,
       },
+      replace: navStrategyFor(path) === "client-side",
     });
   };
 

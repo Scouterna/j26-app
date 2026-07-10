@@ -60,6 +60,13 @@ export function AppBar() {
     location.pathname.replace(/\/$/, ""),
   );
 
+  // Iframe sub-apps (the /app/$ catch-all) mirror their client-side route to
+  // the shell with `replace`, so TanStack's history index never advances and
+  // `useCanGoBack()` stays false while inside them. Fall back to the browser's
+  // real history depth there; native shell routes keep TanStack's canGoBack.
+  const isIframeRoute = location.pathname.startsWith("/app/");
+  const canGoBackHere = isIframeRoute ? window.history.length > 1 : canGoBack;
+
   const routeTitle = matches
     .map((match) => match.staticData?.pageName)
     .filter((match) => match !== undefined)
@@ -96,7 +103,7 @@ export function AppBar() {
         </ScoutButton>
       )}
 
-      {!isDesktop && !isOnRootPage && canGoBack && (
+      {!isDesktop && !isOnRootPage && canGoBackHere && (
         <ScoutButton
           slot="prefix"
           icon={ArrowLeftIcon}
