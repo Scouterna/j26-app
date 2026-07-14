@@ -11,6 +11,20 @@ export type Props = {
   name: string;
 };
 
+/**
+ * Extract the sub-app segment from a URL living under `baseUrl`
+ * (e.g. "booking" from "/_services/booking/activities"). Returns null when the
+ * URL is not under the base path. Used to decide whether a shell-driven
+ * navigation stays within the same sub-app (client-side nav) or crosses into a
+ * different one (full reload).
+ */
+function subAppSegment(absoluteUrl: string, baseUrl: string): string | null {
+  const base = new URL(baseUrl, window.location.origin).pathname;
+  const { pathname } = new URL(absoluteUrl, window.location.origin);
+  if (!pathname.startsWith(base)) return null;
+  return pathname.slice(base.length).split("/")[0] || null;
+}
+
 export function IframeRouter({ route, baseUrl, path, name }: Props) {
   const navigate = useNavigate();
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -41,13 +55,52 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
       return;
     }
 
-    if (
-      iframeRef.current &&
-      iframeRef.current.contentWindow?.location.href !== url
-    ) {
-      iframeRef.current.src = url;
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    try {
+      const win = iframe.contentWindow;
+      // Reading location.href throws for cross-origin frames. Sub-apps are
+      // same-origin, so a throw means something unexpected — fall back to src.
+      const currentHref = win?.location.href;
+
+      if (!win || currentHref === undefined) {
+        iframe.src = url;
+        return;
+      }
+
+      // Already there (e.g. an iframe-initiated change that round-tripped).
+      if (currentHref === url) return;
+
+      // Navigate client-side only when staying within the same sub-app. A
+      // different sub-app is a different bundle, so a real load is correct.
+      const currentApp = subAppSegment(currentHref, baseUrl);
+      const targetApp = subAppSegment(url, baseUrl);
+
+      if (currentApp !== null && currentApp === targetApp) {
+        // Align the iframe's URL and dispatch a popstate. Sub-app routers
+        // already handle the browser back button, i.e. they listen for
+        // popstate and re-read location — so this drives a client-side
+        // navigation with no reload. The popstate carries the fresh history
+        // state for routers that inspect it.
+        //
+        // replaceState (not pushState): the shell owns the browser history via
+        // its own router; it has already created/moved the entry for this
+        // navigation. The iframe only mirrors that entry, so it must not add a
+        // parallel one — pushing here would double history entries and, when
+        // this runs in response to a back press, clobber the forward stack.
+        win.history.replaceState({}, "", url);
+        win.dispatchEvent(
+          new PopStateEvent("popstate", { state: win.history.state }),
+        );
+      } else {
+        iframe.src = url;
+      }
+    } catch {
+      // SecurityError (cross-origin) or any unexpected failure: reload.
+      iframe.src = url;
     }
-  }, [url]);
+  }, [url, baseUrl]);
 
   const syncIframeUrl = (newUrl: string) => {
     const absoluteUrl = new URL(newUrl, window.location.origin).toString();
