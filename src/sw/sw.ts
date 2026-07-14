@@ -97,17 +97,16 @@ registerRoute(
   ),
 );
 
-// Sub-app entry documents: any /_services/* path that is either extensionless
-// (e.g. /_services/map, or a client-side route) or an .html file (e.g.
-// /_services/map/preview.html) is a navigable entrypoint, never a hashed asset.
-// Serve these NetworkFirst with cache: "no-store" so a sub-app deploy is picked
-// up immediately, bypassing any stale browser-heuristic cache of the entry HTML.
+// Sub-app entry documents: navigation requests under /_services/* are the
+// navigable entrypoints (top-level and iframe document loads, e.g.
+// /_services/map), never hashed assets or subresource fetches. Serve these
+// NetworkFirst with cache: "no-store" so a sub-app deploy is picked up
+// immediately, bypassing any stale browser-heuristic cache of the entry HTML.
 // Falls back to cache when offline.
 registerRoute(
   new Route(
-    ({ url }) =>
-      url.pathname.startsWith("/_services/") &&
-      (!/\.[^/]+$/.test(url.pathname) || url.pathname.endsWith(".html")),
+    ({ url, request }) =>
+      request.mode === "navigate" && url.pathname.startsWith("/_services/"),
     new NetworkFirst({
       cacheName: "subapp-entrypoints",
       fetchOptions: { cache: "no-store" },
