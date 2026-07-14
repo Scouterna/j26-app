@@ -3,7 +3,11 @@ import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { Route, registerRoute } from "workbox-routing";
-import { CacheFirst, NetworkFirst } from "workbox-strategies";
+import {
+  CacheFirst,
+  NetworkFirst,
+  StaleWhileRevalidate,
+} from "workbox-strategies";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -146,6 +150,29 @@ registerRoute(
       plugins: [
         new ExpirationPlugin({
           maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days - the version is included in the URL so this is safe
+        }),
+        new CacheableResponsePlugin({
+          statuses: [0, 200],
+        }),
+      ],
+    }),
+  ),
+);
+
+// Cache the map sub-app's self-hosted Tabler marker icons
+// (/_services/<subapp>/tabler/<variant>/<name>.svg). Unlike the jsDelivr URLs
+// above, these paths are NOT versioned, so StaleWhileRevalidate is used instead
+// of CacheFirst: icons render instantly from cache (and work offline), while a
+// background revalidation picks up any change on the next load.
+registerRoute(
+  new Route(
+    ({ url }) => /^\/_services\/[^/]+\/tabler\//.test(url.pathname),
+    new StaleWhileRevalidate({
+      cacheName: "subapp-tabler-icons",
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 500,
+          maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
         }),
         new CacheableResponsePlugin({
           statuses: [0, 200],
