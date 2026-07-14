@@ -97,6 +97,25 @@ registerRoute(
   ),
 );
 
+// Sub-app entry documents: any /_services/* path that is either extensionless
+// (e.g. /_services/map, or a client-side route) or an .html file (e.g.
+// /_services/map/preview.html) is a navigable entrypoint, never a hashed asset.
+// Serve these NetworkFirst with cache: "no-store" so a sub-app deploy is picked
+// up immediately, bypassing any stale browser-heuristic cache of the entry HTML.
+// Falls back to cache when offline.
+registerRoute(
+  new Route(
+    ({ url }) =>
+      url.pathname.startsWith("/_services/") &&
+      (!/\.[^/]+$/.test(url.pathname) || url.pathname.endsWith(".html")),
+    new NetworkFirst({
+      cacheName: "subapp-entrypoints",
+      fetchOptions: { cache: "no-store" },
+      plugins: [new CacheableResponsePlugin({ statuses: [200] })],
+    }),
+  ),
+);
+
 // Cache translations with NetworkFirst so updates on the CDN are picked up on
 // the next load without requiring a SW update. Falls back to cache after 3s so
 // the app stays usable in low-reception environments.
