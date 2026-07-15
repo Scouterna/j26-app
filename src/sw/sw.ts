@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
+import { getMessaging } from "firebase/messaging/sw";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { Route, registerRoute } from "workbox-routing";
@@ -13,26 +13,23 @@ declare let self: ServiceWorkerGlobalScope;
 
 import { ExpirationPlugin } from "workbox-expiration";
 import { resolveLink } from "../notifications/resolve-link";
-import { showLocalizedNotification } from "../notifications/show-notification";
 import { osmTilesRoute } from "./sw-osm-tiles";
 
 const FIREBASE_CONFIG = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
 
 const firebaseApp = initializeApp(FIREBASE_CONFIG);
-const messaging = getMessaging(firebaseApp);
 
-onBackgroundMessage(messaging, async (payload) => {
-  console.log("Background message received:", payload);
-  const raw = payload.data?.payload;
-  if (!raw) {
-    console.error("Background message missing data.payload", payload);
-    return;
-  }
-
-  await showLocalizedNotification(self.registration, raw).catch((e) =>
-    console.error("Failed to show notification:", e),
-  );
-});
+// Calling getMessaging() registers Firebase's own push/notificationclick
+// listeners, which auto-display and auto-handle clicks for background
+// messages (using the FCM message's own notification/webpush/fcmOptions
+// fields) without us calling showNotification ourselves — doing so here too
+// would show every background notification twice. We only need our own
+// showNotification call for foreground messages (see __root.tsx), since FCM
+// deliberately never auto-displays while a tab is visible. Our
+// notificationclick listener below only fires for those foreground-shown
+// notifications: Firebase's own listener (registered first, right here)
+// stops propagation for the ones it auto-displayed.
+getMessaging(firebaseApp);
 
 cleanupOutdatedCaches();
 

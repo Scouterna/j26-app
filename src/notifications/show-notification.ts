@@ -1,40 +1,37 @@
-import { NOTIFICATION_ICON } from "./notification-defaults";
-import { parseNotificationPayload } from "./notification-payload";
+import { NOTIFICATION_BADGE, NOTIFICATION_ICON } from "./notification-defaults";
 import { resolveLink } from "./resolve-link";
-import { loadLanguageFromSW } from "./sw-language";
 
-export async function showLocalizedNotification(
+interface PushMessage {
+  notification?: { title?: string; body?: string };
+  fcmOptions?: { link?: string };
+}
+
+// Only used for foreground messages — FCM's Web SDK auto-displays and
+// auto-handles clicks for background messages itself (see sw.ts), using the
+// same notification/fcmOptions fields read here.
+export async function showPushNotification(
   registration: ServiceWorkerRegistration,
-  rawPayload: string,
+  message: PushMessage,
 ): Promise<void> {
-  const result = parseNotificationPayload(rawPayload);
-  if (!result) return;
-
-  const lang = await loadLanguageFromSW();
-  const t =
-    result.notification[lang] ??
-    result.notification.en ??
-    result.notification.sv ??
-    Object.values(result.notification)[0];
-
-  if (!t) {
-    console.error("Notification payload has no translations", result);
+  const { title, body } = message.notification ?? {};
+  if (!title || !body) {
+    console.error("Push message missing notification title/body", message);
     return;
   }
 
-  const link = resolveLink(result.link);
-
-  if (!link) {
+  const rawLink = message.fcmOptions?.link;
+  const link = resolveLink(rawLink ?? null);
+  if (rawLink && !link) {
     console.warn(
       "Notification link is invalid or external, ignoring:",
-      result.link,
+      rawLink,
     );
   }
 
-  await registration.showNotification(t.title, {
-    body: t.body,
+  await registration.showNotification(title, {
+    body,
     icon: NOTIFICATION_ICON,
-    // badge: NOTIFICATION_BADGE,
+    badge: NOTIFICATION_BADGE,
     data: { link },
   });
 }
