@@ -6,4 +6,3 @@ if (document.referrer.startsWith("android-app://")) {
 
 export const isAndroidTwa = sessionStorage.getItem("twa") === "1";
 export const isIosPwa = navigator.userAgent.includes("PWAShell");
-export const isNativeApp = isAndroidTwa || isIosPwa;

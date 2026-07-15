@@ -4,7 +4,7 @@ import { T, useTranslate } from "@tolgee/react";
 import { useAtomValue } from "jotai";
 import { useAuthUrls, userAtom } from "../../auth/auth";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
-import { isNativeApp } from "../../native-app";
+import { isIosPwa } from "../../native-app";
 
 export const Route = createFileRoute("/onboarding/signin")({
   component: RouteComponent,
@@ -55,7 +55,7 @@ function RouteComponent() {
 
       <OnboardingFooter
         back="/onboarding/language"
-        next={isNativeApp ? "/onboarding/finished" : "/onboarding/notifications"}
+        next={isIosPwa ? "/onboarding/finished" : "/onboarding/notifications"}
         nextSuppressed={!user}
       />
     </>

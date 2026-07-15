@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { T } from "@tolgee/react";
 import { useSetAtom } from "jotai";
 import { OnboardingFooter } from "../../components/onboarding/OnboardingFooter";
-import { isNativeApp } from "../../native-app";
+import { isIosPwa } from "../../native-app";
 import { onboardedAtom } from "../../onboarding";
 
 export const Route = createFileRoute("/onboarding/finished")({
@@ -25,7 +25,7 @@ function RouteComponent() {
       </div>
 
       <OnboardingFooter
-        back={isNativeApp ? "/onboarding/signin" : "/onboarding/notifications"}
+        back={isIosPwa ? "/onboarding/signin" : "/onboarding/notifications"}
         next="/"
         lastPage
         onNextClick={() => setOnboarded(true)}
