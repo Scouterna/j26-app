@@ -46,6 +46,46 @@ async function getUser() {
 
 export const userAtom = atom<User | null>(null);
 
+const LAST_USER_KEY = "j26-last-user";
+
+// Ask the service worker to drop per-user runtime caches (see the
+// CLEAR_USER_CACHES handler in src/sw/sw.ts).
+async function clearUserCaches() {
+  if (!("serviceWorker" in navigator)) {
+    return;
+  }
+
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    registration.active?.postMessage({ type: "CLEAR_USER_CACHES" });
+  } catch (e) {
+    console.error("Failed to request user cache clear:", e);
+  }
+}
+
+// Detect when the signed-in identity changes between page loads — login, logout,
+// or an account switch on a shared device — and clear cached per-user data so
+// one user never sees another's notifications/schedule offline. Account changes
+// always happen online (the auth flow needs the network), so the clear runs
+// during that transition, before the new user can go offline. `null` means
+// "not signed in". The identity is persisted in localStorage across loads.
+function reconcileUserCaches(currentUserId: string | null) {
+  const previous = localStorage.getItem(LAST_USER_KEY);
+  const current = currentUserId ?? "";
+
+  if (previous === current) {
+    return;
+  }
+
+  // Only clear when there was a previous identity to leave behind; the very
+  // first sign-in (no previous value) has nothing cached to leak.
+  if (previous !== null) {
+    void clearUserCaches();
+  }
+
+  localStorage.setItem(LAST_USER_KEY, current);
+}
+
 export const UserLoader = () => {
   const hasExpiresAtCookie = checkForExpiresAtCookie();
   const [user, setUser] = useAtom(userAtom);
@@ -65,6 +105,21 @@ export const UserLoader = () => {
         console.error("Failed to fetch user info:", e);
       });
   }, [hasExpiresAtCookie, user, setUser]);
+
+  // Reconcile the cached identity whenever auth state settles: signed out (no
+  // cookie) reconciles to null; signed in reconciles once the user resolves. A
+  // cookie present but user not yet loaded is left alone so a transient
+  // /auth/user failure isn't mistaken for a logout.
+  useEffect(() => {
+    if (!hasExpiresAtCookie) {
+      reconcileUserCaches(null);
+      return;
+    }
+
+    if (user) {
+      reconcileUserCaches(user.preferredUsername);
+    }
+  }, [hasExpiresAtCookie, user]);
 
   return null;
 };
