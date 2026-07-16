@@ -118,11 +118,19 @@ export function IframeRouter({ route, baseUrl, path, name }: Props) {
     expectedUrl = expectedUrl.replace(/\/*$/, "/");
     iframeInitiatedUrl.current = expectedUrl;
 
+    // replace (not push): the sub-app's own router already pushed a browser
+    // history entry for this navigation before posting j26:navigate. Pushing a
+    // second entry here would double every in-app navigation, leaving a dead
+    // entry where only the top-window URL matches — the browser back button
+    // would then need two presses to move one step. Mirroring with replace
+    // folds the shell URL into the sub-app's entry, so the iframe's history
+    // stays the single source of truth for back/forward.
     navigate({
       to: route,
       params: {
         _splat: relativePath,
       },
+      replace: true,
     });
   };
 
