@@ -41,7 +41,7 @@ export function SideMenu() {
             </ScoutAppBar>
 
             <MoreList
-              className="flex-1 border-r border-gray-100"
+              className="flex-1 border-r border-gray-100 min-h-0"
               includeBottomNavItems
               useFullHeight
             />

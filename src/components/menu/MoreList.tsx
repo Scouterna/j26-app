@@ -140,7 +140,11 @@ export function MoreList({
 
   return (
     <div className={cn("flex flex-col", className)}>
-      <div className={cn(useFullHeight && "flex-1")}>
+      <div
+        className={cn(
+          useFullHeight && "flex-1 min-h-0 overflow-y-auto overflow-x-hidden",
+        )}
+      >
         {filteredRouteEntries.map(([url, config]) => (
           <>
             <ScoutListView key={`${url}_item`}>
