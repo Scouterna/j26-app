@@ -117,10 +117,16 @@ registerRoute(
 // NetworkFirst with cache: "no-store" so a sub-app deploy is picked up
 // immediately, bypassing any stale browser-heuristic cache of the entry HTML.
 // Falls back to cache when offline.
+//
+// The CMS admin (/_services/cms) is deliberately excluded: it's an online-only
+// editing tool (it needs the DB), so its entry document must never be cached —
+// only its content API and uploads under /_services/cms/api are (see below).
 registerRoute(
   new Route(
     ({ url, request }) =>
-      request.mode === "navigate" && url.pathname.startsWith("/_services/"),
+      request.mode === "navigate" &&
+      url.pathname.startsWith("/_services/") &&
+      !/^\/_services\/cms(\/|$)/.test(url.pathname),
     new NetworkFirst({
       cacheName: "subapp-entrypoints",
       fetchOptions: { cache: "no-store" },
@@ -333,18 +339,21 @@ registerRoute(
   ),
 );
 
-// Payload CMS media (images/uploads) at /api/media/*. In production the CMS is
-// served same-origin under /api (dev points at a separate localhost port, which
-// this intentionally doesn't match). Filenames are derived from the upload name
-// (stable while the file exists, but not content-hashed), so StaleWhileRevalidate
-// rather than CacheFirst: instant offline render, background refresh if an image
-// is re-uploaded. Registered before the CMS content rule so media doesn't fall
-// through to NetworkFirst.
+// Payload CMS media (images/uploads) at /_services/cms/api/media/*. In production the
+// CMS is served same-origin under /_services/cms (Next.js basePath), so its API and
+// uploads live under /_services/cms/api (dev points at a separate localhost port,
+// which this intentionally doesn't match). NOTE: the admin UI itself lives under
+// /_services/cms (navigation + /_services/cms/_next/*) and is deliberately NOT matched by any
+// route here — it must stay network-only, never cached. Filenames are derived
+// from the upload name (stable while the file exists, but not content-hashed), so
+// StaleWhileRevalidate rather than CacheFirst: instant offline render, background
+// refresh if an image is re-uploaded. Registered before the CMS content rule so
+// media doesn't fall through to NetworkFirst.
 registerRoute(
   new Route(
     ({ url }) =>
       url.origin === self.location.origin &&
-      url.pathname.startsWith("/api/media/"),
+      url.pathname.startsWith("/_services/cms/api/media/"),
     new StaleWhileRevalidate({
       cacheName: "cms-media",
       plugins: [
@@ -359,14 +368,16 @@ registerRoute(
 );
 
 // Payload CMS content JSON (collections/globals the shell renders itself, e.g.
-// info pages and important-info) under /api/*. Responses vary by ?locale= — the
-// full URL (including query) is the cache key by default, so locales cache
-// separately. NetworkFirst: fresh online, last-known content offline. Media is
-// handled by the rule above (registered first).
+// info pages and important-info) under /_services/cms/api/*. Responses vary by
+// ?locale= — the full URL (including query) is the cache key by default, so
+// locales cache separately. NetworkFirst: fresh online, last-known content
+// offline. Media is handled by the rule above (registered first). This matches
+// only the CMS API subtree, not the admin app under /_services/cms itself.
 registerRoute(
   new Route(
     ({ url }) =>
-      url.origin === self.location.origin && url.pathname.startsWith("/api/"),
+      url.origin === self.location.origin &&
+      url.pathname.startsWith("/_services/cms/api/"),
     new NetworkFirst({
       cacheName: "cms-content",
       networkTimeoutSeconds: 5,
