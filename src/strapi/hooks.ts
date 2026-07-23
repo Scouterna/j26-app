@@ -38,6 +38,7 @@ export function useCollectionSingle(name: string, id: string) {
       return await payload.findByID({
         collection: name,
         id,
+        locale,
       });
     },
   });
