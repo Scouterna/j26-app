@@ -103,8 +103,7 @@ registerRoute(
 registerRoute(
   new Route(
     ({ url }) =>
-      url.pathname === "/app-config.json" ||
-      /^\/_services\/[^/]+\/app-config\.json$/.test(url.pathname),
+      /\/app-config(\.json)?$/.test(url.pathname),
     new NetworkFirst({
       cacheName: "app-configs",
       fetchOptions: { cache: "no-store" },
